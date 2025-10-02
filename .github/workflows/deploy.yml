@@ -5,6 +5,9 @@ on:
     branches:
       - main  # deploy when you push to main
 
+permissions:
+  contents: write   # <--- Add this line
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
