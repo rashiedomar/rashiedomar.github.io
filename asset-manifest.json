@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/rashiedomarr.github.io/static/css/main.62ee46fd.css",
-    "main.js": "/rashiedomarr.github.io/static/js/main.f0e2932d.js",
-    "static/js/453.b05d8aa5.chunk.js": "/rashiedomarr.github.io/static/js/453.b05d8aa5.chunk.js",
-    "static/media/profile.jpg": "/rashiedomarr.github.io/static/media/profile.92f69652315e4a9fd374.jpg",
-    "static/media/bg-light.png": "/rashiedomarr.github.io/static/media/bg-light.bac0efb485244a522981.png",
-    "static/media/kmu.svg.png": "/rashiedomarr.github.io/static/media/kmu.svg.10f2c3e31a635f41e3a4.png",
-    "static/media/bg-dark.png": "/rashiedomarr.github.io/static/media/bg-dark.f420c6b8458af72de935.png",
-    "static/media/preview.png": "/rashiedomarr.github.io/static/media/preview.5e04bdac0f2d4c1362ac.png",
-    "static/media/preview3.png": "/rashiedomarr.github.io/static/media/preview3.760ec9d05ab3cd13db2a.png",
-    "static/media/preview2.png": "/rashiedomarr.github.io/static/media/preview2.b2e36140fc857f6d5cb4.png",
-    "static/media/bosaso_logo.png": "/rashiedomarr.github.io/static/media/bosaso_logo.4affde165043530dd9f2.png",
-    "static/media/raagsan.png": "/rashiedomarr.github.io/static/media/raagsan.05109796fabe718667d8.png",
-    "index.html": "/rashiedomarr.github.io/index.html",
-    "main.62ee46fd.css.map": "/rashiedomarr.github.io/static/css/main.62ee46fd.css.map",
-    "main.f0e2932d.js.map": "/rashiedomarr.github.io/static/js/main.f0e2932d.js.map",
-    "453.b05d8aa5.chunk.js.map": "/rashiedomarr.github.io/static/js/453.b05d8aa5.chunk.js.map"
+    "main.css": "/static/css/main.a7b51022.css",
+    "main.js": "/static/js/main.05eec362.js",
+    "static/js/453.b05d8aa5.chunk.js": "/static/js/453.b05d8aa5.chunk.js",
+    "static/media/profile.jpg": "/static/media/profile.92f69652315e4a9fd374.jpg",
+    "static/media/bg-light.png": "/static/media/bg-light.bac0efb485244a522981.png",
+    "static/media/kmu.svg.png": "/static/media/kmu.svg.10f2c3e31a635f41e3a4.png",
+    "static/media/bg-dark.png": "/static/media/bg-dark.f420c6b8458af72de935.png",
+    "static/media/preview.png": "/static/media/preview.5e04bdac0f2d4c1362ac.png",
+    "static/media/preview3.png": "/static/media/preview3.760ec9d05ab3cd13db2a.png",
+    "static/media/preview2.png": "/static/media/preview2.b2e36140fc857f6d5cb4.png",
+    "static/media/bosaso_logo.png": "/static/media/bosaso_logo.4affde165043530dd9f2.png",
+    "static/media/raagsan.png": "/static/media/raagsan.05109796fabe718667d8.png",
+    "index.html": "/index.html",
+    "main.a7b51022.css.map": "/static/css/main.a7b51022.css.map",
+    "main.05eec362.js.map": "/static/js/main.05eec362.js.map",
+    "453.b05d8aa5.chunk.js.map": "/static/js/453.b05d8aa5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.62ee46fd.css",
-    "static/js/main.f0e2932d.js"
+    "static/css/main.a7b51022.css",
+    "static/js/main.05eec362.js"
   ]
 }
