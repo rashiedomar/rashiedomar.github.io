@@ -17,56 +17,55 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 
 const drawerWidth = 240;
-const navItems = [['Expertise', 'expertise'], ['History', 'history'], ['Projects', 'projects'], ['Contact', 'contact']];
 
-function Navigation({parentToChild, modeChange}: any) {
+// Section links (scroll) + one external link (Articles)
+const ARTICLES_URL = "https://simpleml.hashnode.dev/";
+const NAV_SECTIONS: { label: string; id?: string; href?: string }[] = [
+  { label: "Expertise", id: "expertise" },
+  { label: "History", id: "history" },
+  { label: "Projects", id: "projects" },
+  { label: "Articles", href: ARTICLES_URL }, // external
+  { label: "Contact", id: "contact" },
+];
 
-  const {mode} = parentToChild;
-
+function Navigation({ parentToChild, modeChange }: any) {
+  const { mode } = parentToChild;
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
+  const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
 
   useEffect(() => {
     const handleScroll = () => {
       const navbar = document.getElementById("navigation");
-      if (navbar) {
-        const scrolled = window.scrollY > navbar.clientHeight;
-        setScrolled(scrolled);
-      }
+      if (!navbar) return;
+      setScrolled(window.scrollY > navbar.clientHeight);
     };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (section: string) => {
-    console.log(section)
-    const expertiseElement = document.getElementById(section);
-    if (expertiseElement) {
-      expertiseElement.scrollIntoView({ behavior: 'smooth' });
-      console.log('Scrolling to:', expertiseElement);  // Debugging: Ensure the element is found
-    } else {
-      console.error('Element with id "expertise" not found');  // Debugging: Log error if element is not found
-    }
+  const scrollToSection = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const drawer = (
-    <Box className="navigation-bar-responsive" onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <p className="mobile-menu-top"><ListIcon/>Menu</p>
+    <Box className="navigation-bar-responsive" onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <p className="mobile-menu-top"><ListIcon />Menu</p>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item[0]} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }} onClick={() => scrollToSection(item[1])}>
-              <ListItemText primary={item[0]} />
-            </ListItemButton>
+        {NAV_SECTIONS.map((item) => (
+          <ListItem key={item.label} disablePadding>
+            {item.href ? (
+              <ListItemButton component="a" href={item.href} target="_blank" rel="noreferrer" sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            ) : (
+              <ListItemButton sx={{ textAlign: "center" }} onClick={() => item.id && scrollToSection(item.id)}>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            )}
           </ListItem>
         ))}
       </List>
@@ -74,44 +73,51 @@ function Navigation({parentToChild, modeChange}: any) {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" id="navigation" className={`navbar-fixed-top${scrolled ? ' scrolled' : ''}`}>
-        <Toolbar className='navigation-bar'>
+      <AppBar component="nav" id="navigation" className={`navbar-fixed-top${scrolled ? " scrolled" : ""}`}>
+        <Toolbar className="navigation-bar">
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          {mode === 'dark' ? (
-            <LightModeIcon onClick={() => modeChange()}/>
+
+          {mode === "dark" ? (
+            <LightModeIcon role="button" aria-label="Switch to light mode" onClick={() => modeChange()} />
           ) : (
-            <DarkModeIcon onClick={() => modeChange()}/>
+            <DarkModeIcon role="button" aria-label="Switch to dark mode" onClick={() => modeChange()} />
           )}
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item[0]} onClick={() => scrollToSection(item[1])} sx={{ color: '#fff' }}>
-                {item[0]}
-              </Button>
-            ))}
+
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            {NAV_SECTIONS.map((item) =>
+              item.href ? (
+                <Button key={item.label} component="a" href={item.href} target="_blank" rel="noreferrer" sx={{ color: "#fff" }}>
+                  {item.label}
+                </Button>
+              ) : (
+                <Button key={item.label} onClick={() => item.id && scrollToSection(item.id)} sx={{ color: "#fff" }}>
+                  {item.label}
+                </Button>
+              )
+            )}
           </Box>
         </Toolbar>
       </AppBar>
+
       <nav>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
           }}
         >
           {drawer}

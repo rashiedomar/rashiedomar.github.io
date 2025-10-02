@@ -6,86 +6,79 @@ import Chip from '@mui/material/Chip';
 import '../assets/styles/Expertise.scss';
 
 const labelsFirst = [
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "HTML5",
-    "CSS3",
-    "SASS",
-    "Flask",
-    "Python",
-    "SQL",
-    "PostgreSQL",
-    "Postman"
+  "Python", "PyTorch", "YOLOv8", "DeepSORT", "OpenCV",
+  "TensorBoard", "PyTorch Lightning", "scikit-learn", "NumPy", "Pandas"
 ];
 
 const labelsSecond = [
-    "Git",
-    "GitHub Actions",
-    "Docker",
-    "AWS",
-    "Azure",
-    "Linux",
-    "Snowflake",
-    "Pandas",
-    "Selenium",
+  "FastAPI", "Flask", "SQL", "PostgreSQL",
+  "Docker", "Git", "GitHub Actions", "Linux", "DVC", "Weights & Biases"
 ];
 
 const labelsThird = [
-    "OpenAI",
-    "Groq",
-    "LangChain",
-    "Qdrant",
-    "Hugging Face",
-    "LlamaIndex",
-    "Streamlit",
+  "Hugging Face", "Transformers", "SentencePiece",
+  "LangChain", "LlamaIndex", "Streamlit", "React", "TypeScript"
 ];
 
 function Expertise() {
-    return (
+  return (
     <div className="container" id="expertise">
-        <div className="skills-container">
-            <h1>Expertise</h1>
-            <div className="skills-grid">
-                <div className="skill">
-                    <FontAwesomeIcon icon={faReact} size="3x"/>
-                    <h3>Full Stack Web Development</h3>
-                    <p>I have built a diverse array of web applications from scratch using modern technologies such as React and Flask. I have a strong proficiency in the SDLC process and frontend + backend development.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsFirst.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
-                </div>
+      <div className="skills-container">
+        <h1>Expertise</h1>
 
-                <div className="skill">
-                    <FontAwesomeIcon icon={faDocker} size="3x"/>
-                    <h3>DevOps & Automation</h3>
-                    <p>Once the application is built, I help clients set up DevOps testing, CI/CD pipelines, and deployment automation to support the successful Go-Live.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsSecond.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
-                </div>
-
-                <div className="skill">
-                    <FontAwesomeIcon icon={faPython} size="3x"/>
-                    <h3>GenAI & LLM</h3>
-                    <p>Stay relevant in the market by leveraging the latest AI models in your projects. I have professional experience building enterprise grade GenAI-enabled solutions to empower intelligent decision making.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsThird.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
-                </div>
+        <div className="skills-grid">
+          {/* Computer Vision & Deep Learning */}
+          <div className="skill">
+            <FontAwesomeIcon icon={faPython} size="3x"/>
+            <h3>Computer Vision & Deep Learning</h3>
+            <p>
+              Modeling and analysis for images/video: object detection, multi-object
+              tracking, and remote-sensing workflows. Comfortable training, evaluation,
+              and visualization pipelines end-to-end.
+            </p>
+            <div className="flex-chips">
+              <span className="chip-title">Tools:</span>
+              {labelsFirst.map((label, i) => (
+                <Chip key={i} className="chip" label={label} />
+              ))}
             </div>
+          </div>
+
+          {/* Data & MLOps */}
+          <div className="skill">
+            <FontAwesomeIcon icon={faDocker} size="3x"/>
+            <h3>Data & MLOps</h3>
+            <p>
+              Clean data → version it → ship it. APIs, reproducible training,
+              experiment tracking, CI/CD, and containerized deployments on Linux.
+            </p>
+            <div className="flex-chips">
+              <span className="chip-title">Stack:</span>
+              {labelsSecond.map((label, i) => (
+                <Chip key={i} className="chip" label={label} />
+              ))}
+            </div>
+          </div>
+
+          {/* GenAI & NLP */}
+          <div className="skill">
+            <FontAwesomeIcon icon={faReact} size="3x"/>
+            <h3>GenAI & NLP</h3>
+            <p>
+              Building LLM-powered apps and Somali-centric NLP pipelines: tokenization,
+              retrieval, and lightweight app UIs for demos and analysis.
+            </p>
+            <div className="flex-chips">
+              <span className="chip-title">Ecosystem:</span>
+              {labelsThird.map((label, i) => (
+                <Chip key={i} className="chip" label={label} />
+              ))}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    );
+  );
 }
 
 export default Expertise;
