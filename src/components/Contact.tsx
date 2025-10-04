@@ -59,7 +59,7 @@ function Contact() {
           <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
             <IconButton
               component="a"
-              href="https://github.com/rashiedomar1-spec"
+              href="https://github.com/rashiedomar"
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
