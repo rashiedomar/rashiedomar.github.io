@@ -1,0 +1,28 @@
+_site/
+.bundle/
+vendor/
+_story_repos/
+DataAnalyst_CV/
+VisionAI_CV/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
+# Local source/reference files copied into proper site assets.
+/*.docx
+/*[[]데이콘[]]*.pdf
+/ChatGPT Image Jun 3, 2026, 09_30_46 PM.png
+/Cosa research Thumbnail.gif
+/GKS logo.webp
+/KMU logo.jpg
+/Listen_to the river thumbnail.png
+/Seoul_live.png
+/UrbanCDNet.png
+/WhatsApp Image *.jpeg
+/gagraphic.jpg
+/poster.pdf
+/reseachbg.png
+/raagsan-logo-CMSrccYc.png
+/t-hub logo.png
+/uob logo.jpeg
+/when-seoul-was-built.png

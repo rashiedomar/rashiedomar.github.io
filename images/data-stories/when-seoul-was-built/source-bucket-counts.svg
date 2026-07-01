@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 304">
+<rect width="100%" height="100%" fill="#fbfbfb"/>
+<text x="32" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#333">Source Buckets Used to Build the Layer</text>
+<text x="32" y="63" font-family="Arial, sans-serif" font-size="13" fill="#777">Each bucket fetched 1,312 z15 tiles with zero failed tiles in the recorded build.</text>
+<text x="32" y="108" font-family="Arial, sans-serif" font-size="14" fill="#444">pre-1960 source bucket</text>
+<rect x="170" y="91" width="630" height="22" fill="#eee"/>
+<rect x="170" y="91" width="25.8" height="22" fill="#b86d31"/>
+<text x="816" y="108" font-family="Arial, sans-serif" font-size="13" fill="#555">13,272 (1.8%)</text>
+<text x="32" y="152" font-family="Arial, sans-serif" font-size="14" fill="#444">1960s-1980s source bucket</text>
+<rect x="170" y="135" width="630" height="22" fill="#eee"/>
+<rect x="170" y="135" width="503.0" height="22" fill="#e6c56e"/>
+<text x="816" y="152" font-family="Arial, sans-serif" font-size="13" fill="#555">259,018 (34.7%)</text>
+<text x="32" y="196" font-family="Arial, sans-serif" font-size="14" fill="#444">1990s-2016 source bucket</text>
+<rect x="170" y="179" width="630" height="22" fill="#eee"/>
+<rect x="170" y="179" width="630.0" height="22" fill="#4f8fd7"/>
+<text x="816" y="196" font-family="Arial, sans-serif" font-size="13" fill="#555">324,400 (43.4%)</text>
+<text x="32" y="240" font-family="Arial, sans-serif" font-size="14" fill="#444">Unknown-year source bucket</text>
+<rect x="170" y="223" width="630" height="22" fill="#eee"/>
+<rect x="170" y="223" width="292.1" height="22" fill="#8a8fa5"/>
+<text x="816" y="240" font-family="Arial, sans-serif" font-size="13" fill="#555">150,405 (20.1%)</text>
+<text x="32" y="286" font-family="Arial, sans-serif" font-size="12" fill="#888">Generated from age_layer_summary.json. Total mapped features: 747,095.</text>
+</svg>

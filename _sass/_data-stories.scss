@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Data Stories page
+   ========================================================================== */
+
+/* Replace thumbnails, summaries, tags, and links in _pages/data-stories.md
+   as final data-story pages/assets become available. */
+
+.data-story-filter-row {
+  margin: 0.75em 0 1.25em;
+}
+
+.data-story-list {
+  margin-top: 1em;
+}
+
+.data-story-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.25em;
+}
+
+.data-story-item__thumb {
+  flex: 0 0 170px;
+  padding-right: 2%;
+
+  a {
+    border-bottom: 0 !important;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    border-style: outset;
+  }
+}
+
+.data-story-item__body {
+  flex: 1 1 auto;
+}
+
+.data-story-tags {
+  margin: 0.25em 0 0;
+
+  span {
+    margin: 0 0.3em 0.3em 0;
+    vertical-align: baseline;
+  }
+}
+
+.data-story-links {
+  margin: 0.1em 0 0;
+  font-size: $type-size-7;
+
+  a {
+    display: inline-block;
+    margin-right: 0.75em;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@include breakpoint($small) {
+  .data-story-item__thumb {
+    flex-basis: 190px;
+  }
+}
+
+@media (max-width: 520px) {
+  .data-story-filter-row {
+    line-height: 1.8;
+  }
+
+  .data-story-item {
+    display: block;
+    margin-bottom: 1.5em;
+  }
+
+  .data-story-item__thumb {
+    max-width: 220px;
+    padding-right: 0;
+    margin-bottom: 0.5em;
+  }
+}

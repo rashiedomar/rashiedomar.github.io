@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Projects page
+   ========================================================================== */
+
+/* Replace project thumbnails, summaries, tags, and links in
+   _pages/portfolio.html as final project pages/assets become available. */
+
+.project-filter-row {
+  margin: 0.75em 0 1.25em;
+}
+
+.project-index {
+  margin-top: 1em;
+}
+
+.project-index__item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.25em;
+}
+
+.project-index__thumb {
+  flex: 0 0 170px;
+  padding-right: 2%;
+
+  a {
+    border-bottom: 0 !important;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    border-style: outset;
+  }
+}
+
+.project-index__body {
+  flex: 1 1 auto;
+}
+
+.project-index__tags {
+  margin: 0.25em 0 0;
+
+  span {
+    margin: 0 0.3em 0.3em 0;
+    vertical-align: baseline;
+  }
+}
+
+.project-index__links {
+  margin: 0.1em 0 0;
+  font-size: $type-size-7;
+
+  a {
+    display: inline-block;
+    margin-right: 0.75em;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@include breakpoint($small) {
+  .project-index__thumb {
+    flex-basis: 190px;
+  }
+}
+
+@media (max-width: 520px) {
+  .project-filter-row {
+    line-height: 1.8;
+  }
+
+  .project-index__item {
+    display: block;
+    margin-bottom: 1.5em;
+  }
+
+  .project-index__thumb {
+    max-width: 220px;
+    padding-right: 0;
+    margin-bottom: 0.5em;
+  }
+}

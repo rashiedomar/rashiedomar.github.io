@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title id="title">When Seoul Was Built</title>
+<desc id="desc">A clean vector preview showing Seoul building approval-era counts and project statistics.</desc>
+<rect width="960" height="540" fill="#0d0a08"/>
+<path d="M0 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M48 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M96 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M144 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M192 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M240 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M288 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M336 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M384 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M432 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M480 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M528 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M576 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M624 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M672 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M720 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M768 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M816 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M864 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M912 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M960 0 V540" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 0 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 48 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 96 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 144 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 192 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 240 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 288 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 336 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 384 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 432 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 480 H960" stroke="#1e1812" stroke-width="1"/>
+<path d="M0 528 H960" stroke="#1e1812" stroke-width="1"/>
+<text x="42" y="64" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#eadfbe">When Seoul Was Built</text>
+<text x="42" y="94" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#c3b28c">Building approval-era data story from public Seoul age-tile geometry</text>
+<rect x="42" y="126" width="135" height="72" rx="4" fill="#17120d" stroke="#3a3126"/>
+<text x="56" y="155" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#eadfbe">747,095</text>
+<text x="56" y="178" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">Mapped features</text>
+<rect x="197" y="126" width="135" height="72" rx="4" fill="#17120d" stroke="#3a3126"/>
+<text x="211" y="155" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#eadfbe">1,312</text>
+<text x="211" y="178" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">Tiles per bucket</text>
+<rect x="352" y="126" width="135" height="72" rx="4" fill="#17120d" stroke="#3a3126"/>
+<text x="366" y="155" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#eadfbe">4</text>
+<text x="366" y="178" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">Source buckets</text>
+<text x="42" y="242" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#eadfbe">Approval-era distribution</text>
+<text x="42" y="276" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">Before 1960</text>
+<rect x="170" y="262" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="262" width="18.5" height="15" fill="#b86d31"/>
+<text x="462" y="275" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">13,197</text>
+<text x="42" y="304" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">1960s</text>
+<rect x="170" y="290" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="290" width="52.9" height="15" fill="#cf8435"/>
+<text x="462" y="303" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">37,658</text>
+<text x="42" y="332" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">1970s</text>
+<rect x="170" y="318" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="318" width="126.8" height="15" fill="#dba04a"/>
+<text x="462" y="331" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">90,216</text>
+<text x="42" y="360" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">1980s</text>
+<rect x="170" y="346" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="346" width="183.8" height="15" fill="#e6c56e"/>
+<text x="462" y="359" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">130,772</text>
+<text x="42" y="388" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">1990s</text>
+<rect x="170" y="374" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="374" width="280.0" height="15" fill="#7fc8ca"/>
+<text x="462" y="387" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">199,215</text>
+<text x="42" y="416" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">2000s</text>
+<rect x="170" y="402" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="402" width="128.4" height="15" fill="#4f8fd7"/>
+<text x="462" y="415" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">91,350</text>
+<text x="42" y="444" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">2010-2016</text>
+<rect x="170" y="430" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="430" width="47.5" height="15" fill="#294b97"/>
+<text x="462" y="443" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">33,771</text>
+<text x="42" y="472" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#d7caac">Unknown</text>
+<rect x="170" y="458" width="280" height="15" fill="#211a13"/>
+<rect x="170" y="458" width="212.1" height="15" fill="#8a8fa5"/>
+<text x="462" y="471" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#c3b28c">150,916</text>
+<rect x="610" y="126" width="250" height="330" rx="6" fill="#15100c" stroke="#3a3126"/>
+<text x="632" y="164" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#eadfbe">City blocks</text>
+<text x="632" y="188" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#c3b28c">Approval eras as a</text>
+<text x="632" y="206" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#c3b28c">readable urban pattern.</text>
+<clipPath id="panelClip"><rect x="632" y="228" width="206" height="182" rx="4"/></clipPath>
+<g clip-path="url(#panelClip)">
+<rect x="648" y="238" width="72" height="52" rx="3" fill="#e6c56e" opacity="0.9"/>
+<rect x="732" y="238" width="58" height="68" rx="3" fill="#8a8fa5" opacity="0.9"/>
+<rect x="798" y="238" width="40" height="52" rx="3" fill="#7fc8ca" opacity="0.9"/>
+<rect x="632" y="306" width="96" height="72" rx="3" fill="#dba04a" opacity="0.9"/>
+<rect x="742" y="322" width="70" height="56" rx="3" fill="#7fc8ca" opacity="0.9"/>
+<rect x="820" y="300" width="18" height="78" rx="3" fill="#4f8fd7" opacity="0.9"/>
+<rect x="650" y="392" width="76" height="50" rx="3" fill="#b86d31" opacity="0.9"/>
+<rect x="740" y="392" width="86" height="50" rx="3" fill="#e6c56e" opacity="0.9"/>
+<rect x="830" y="392" width="8" height="50" rx="3" fill="#294b97" opacity="0.9"/>
+</g>
+<rect x="632" y="430" width="10" height="10" fill="#cf8435"/>
+<text x="646" y="439" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#c3b28c">old</text>
+<rect x="682" y="430" width="10" height="10" fill="#e6c56e"/>
+<text x="696" y="439" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#c3b28c">mid</text>
+<rect x="732" y="430" width="10" height="10" fill="#4f8fd7"/>
+<text x="746" y="439" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#c3b28c">new</text>
+<rect x="782" y="430" width="10" height="10" fill="#8a8fa5"/>
+<text x="796" y="439" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#c3b28c">unknown</text>
+<text x="42" y="514" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#8f8265">Generated from age_layer_summary.json as a clean vector replacement for the repository preview.</text>
+</svg>
