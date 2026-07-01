@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://rashiedomar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rashiedomar.github.io/" rel="alternate" type="text/html" /><updated>2026-07-01T14:53:55+09:00</updated><id>https://rashiedomar.github.io/feed.xml</id><title type="html">Abdirashid Omar</title><subtitle>Vision AI Researcher and Data Analyst</subtitle><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><entry><title type="html">Building FINCPA: Turning Financial Law into Compliance Data</title><link href="https://rashiedomar.github.io/blog/fincpa-compliance-data/" rel="alternate" type="text/html" title="Building FINCPA: Turning Financial Law into Compliance Data" /><published>2026-06-04T00:00:00+09:00</published><updated>2026-06-04T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/fincpa-compliance-data</id><content type="html" xml:base="https://rashiedomar.github.io/blog/fincpa-compliance-data/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;FINCPA&lt;/a&gt; was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Can we help review financial advertising without letting a language model become the legal judge?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;That question matters because financial compliance is not only a text-generation problem. If an AI system says “this ad looks fine,” a reviewer needs to know why. Which rule was checked? Which legal clause supports it? Which disclosure was missing? Which field in the ad caused the finding? Could the decision be reproduced tomorrow?&lt;/p&gt;
+
+&lt;p&gt;The architecture we proposed answers those questions with a compiler-style workflow. The law is converted into structured compliance data first. The runtime input is converted into a structured representation second. A deterministic engine compares the two. Only after that does the LLM help with explanation and conservative rewrite suggestions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/fincpa-compliance-data/safeguard-ai-workflow.png&quot; alt=&quot;SafeGuard AI end-to-end workflow&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-main-design-choice&quot;&gt;The Main Design Choice&lt;/h2&gt;
+
+&lt;p&gt;A weaker design would be:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;user ad → LLM → compliance decision&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;That is easy to demo, but hard to trust. It makes the model responsible for interpreting law, applying rules, and explaining itself in one step.&lt;/p&gt;
+
+&lt;p&gt;FINCPA uses a different flow:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;law → structured rules&lt;br /&gt;
+ad → structured facts&lt;br /&gt;
+rules + facts → deterministic finding&lt;br /&gt;
+finding + evidence → LLM explanation&lt;br /&gt;
+reviewer → final approval&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This separation is the whole project. The LLM is useful, but it is not the first judge. The system first asks: what can we prove from structured legal data and structured input fields?&lt;/p&gt;
+
+&lt;h2 id=&quot;scope-one-legal-chapter-first&quot;&gt;Scope: One Legal Chapter First&lt;/h2&gt;
+
+&lt;p&gt;The prototype focuses on Chapter 4 of the Financial Consumer Protection Act, especially customer-facing conduct and financial-product advertising. Instead of trying to cover every regulation in Korea, the project builds one defensible legal core:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;one official law PDF,&lt;/li&gt;
+  &lt;li&gt;one chapter scope,&lt;/li&gt;
+  &lt;li&gt;clause-level parsing,&lt;/li&gt;
+  &lt;li&gt;obligation decomposition,&lt;/li&gt;
+  &lt;li&gt;rule candidate compilation,&lt;/li&gt;
+  &lt;li&gt;MVP rule freeze,&lt;/li&gt;
+  &lt;li&gt;runtime review examples.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That may sound narrow, but narrow is good for a hackathon prototype. A smaller scope lets the team show traceability. Every rule can point back to source text.&lt;/p&gt;
+
+&lt;h2 id=&quot;building-the-legal-dataset&quot;&gt;Building the Legal Dataset&lt;/h2&gt;
+
+&lt;p&gt;The first layer is deterministic parsing. The source PDF is trimmed to the Chapter 4 range, then segmented into article and paragraph-level records. The current parse produces &lt;strong&gt;60 clause records&lt;/strong&gt; across the Chapter 4 scope.&lt;/p&gt;
+
+&lt;p&gt;In abstract form, we can think of the source law as a sequence of clauses:&lt;/p&gt;
+
+\[C = \{c_1, c_2, \ldots, c_n\}\]
+
+&lt;p&gt;where each clause record contains metadata such as article reference, paragraph marker, source text, normalized text, and source path.&lt;/p&gt;
+
+&lt;p&gt;For FINCPA:&lt;/p&gt;
+
+\[n = 60\]
+
+&lt;p&gt;The important point is that this layer does not ask an LLM to make a compliance judgment. It only creates clean legal units.&lt;/p&gt;
+
+&lt;h2 id=&quot;from-clauses-to-obligations&quot;&gt;From Clauses to Obligations&lt;/h2&gt;
+
+&lt;p&gt;Legal clauses are often dense. One paragraph can contain several operational requirements, exceptions, or prohibited behaviors. So the next step decomposes clauses into smaller obligation units.&lt;/p&gt;
+
+&lt;p&gt;We can describe that as a mapping:&lt;/p&gt;
+
+\[g(c_i) = \{o_{i1}, o_{i2}, \ldots, o_{im}\}\]
+
+&lt;p&gt;where each $o_{ij}$ is an obligation or rule-relevant unit derived from clause $c_i$.&lt;/p&gt;
+
+&lt;p&gt;In the current FINCPA pipeline:&lt;/p&gt;
+
+\[|O| = 109\]
+
+&lt;p&gt;This is where the legal text starts becoming useful for computation. Instead of treating the law as paragraphs, the system treats it as operational units: required disclosure, prohibited expression, required process, required record, or required response.&lt;/p&gt;
+
+&lt;h2 id=&quot;compiling-candidate-rules&quot;&gt;Compiling Candidate Rules&lt;/h2&gt;
+
+&lt;p&gt;Once obligations exist, the system can compile rule candidates. Each candidate connects a legal obligation to things the runtime system can actually inspect.&lt;/p&gt;
+
+&lt;p&gt;A useful rule row needs at least:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;legal basis,&lt;/li&gt;
+  &lt;li&gt;product scope,&lt;/li&gt;
+  &lt;li&gt;channel scope,&lt;/li&gt;
+  &lt;li&gt;rule family,&lt;/li&gt;
+  &lt;li&gt;logic type,&lt;/li&gt;
+  &lt;li&gt;detection target,&lt;/li&gt;
+  &lt;li&gt;candidate SIR fields,&lt;/li&gt;
+  &lt;li&gt;evaluation hint.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At this point the project has &lt;strong&gt;109 Layer 3 rule/SIR candidates&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;But candidates are not enough. A product demo needs a frozen MVP. So Layer 4 applies a deterministic selection rule:&lt;/p&gt;
+
+\[R_{mvp} = \{r_k \in R_{candidate} \mid ready\_for\_v1(r_k)=yes\}\]
+
+&lt;p&gt;That produces:&lt;/p&gt;
+
+\[|R_{mvp}| = 76\]
+
+&lt;p&gt;and a frozen SIR schema with:&lt;/p&gt;
+
+\[|F_{sir}| = 29\]
+
+&lt;p&gt;This is the moment the project becomes a real data system. The rule pack is no longer just notes about the law. It is a machine-readable compliance artifact.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-sir&quot;&gt;What Is SIR?&lt;/h2&gt;
+
+&lt;p&gt;SIR means Structured Intermediate Representation. It is the normalized form of the user input.&lt;/p&gt;
+
+&lt;p&gt;A financial ad is messy text:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Fast personal loan. 3% guaranteed. Apply in seconds.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The runtime needs something more explicit:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;product_type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;loan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;seller_identity&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;present&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;loan_conditions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;present&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;loan_rate_basis&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;not_evidenced&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;loan_interest_timing&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;not_evidenced&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;prohibited_claim_signal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;present&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;SIR is the bridge between human language and legal rules. It lets the engine ask precise questions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Is the product type known?&lt;/li&gt;
+  &lt;li&gt;Is the seller identified?&lt;/li&gt;
+  &lt;li&gt;Are required cost disclosures present?&lt;/li&gt;
+  &lt;li&gt;Is a prohibited certainty phrase detected?&lt;/li&gt;
+  &lt;li&gt;Is the required warning missing?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;deterministic-review&quot;&gt;Deterministic Review&lt;/h2&gt;
+
+&lt;p&gt;Each rule can be evaluated against the SIR fields. A simple required-presence rule can be written as:&lt;/p&gt;
+
+\[fail(r_k, x) =
+\begin{cases}
+1, &amp;amp; \text{if required field } f_k \text{ is not evidenced in } x \\
+0, &amp;amp; \text{otherwise}
+\end{cases}\]
+
+&lt;p&gt;For prohibited-presence rules:&lt;/p&gt;
+
+\[fail(r_k, x) =
+\begin{cases}
+1, &amp;amp; \text{if prohibited signal } p_k \text{ is present in } x \\
+0, &amp;amp; \text{otherwise}
+\end{cases}\]
+
+&lt;p&gt;The final decision can be simplified as:&lt;/p&gt;
+
+\[d(x) =
+\begin{cases}
+\text{non-compliant}, &amp;amp; \sum_k fail(r_k, x) &amp;gt; 0 \\
+\text{review}, &amp;amp; \sum_k uncertain(r_k, x) &amp;gt; 0 \\
+\text{compliant}, &amp;amp; \text{otherwise}
+\end{cases}\]
+
+&lt;p&gt;The actual system keeps more detail than this, including applicable rule counts, missing SIR fields, triggered citations, failed rule IDs, escalation flags, and reviewer packets.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-guaranteed-investment-return&quot;&gt;Example: Guaranteed Investment Return&lt;/h2&gt;
+
+&lt;p&gt;One runtime example tests an investment ad with a guaranteed-return signal. The engine marks the case as non-compliant and escalates it. It triggers rules connected to advertising obligations, including missing investment-warning evidence and a prohibited claim signal.&lt;/p&gt;
+
+&lt;p&gt;The useful part is not only the label. The useful part is the evidence trail:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;final decision: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non_compliant&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;escalation: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;applicable rules: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;failed rules: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;2&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;missing SIR field: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;investment_warning&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;triggered citations: Financial Consumer Protection Act Article 22 paragraph 3 and 4&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is what makes the system reviewable. A compliance officer does not have to accept a black-box sentence. They can inspect which field was missing, which rule failed, and which legal citation was attached.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-dashboards-matter&quot;&gt;Why Dashboards Matter&lt;/h2&gt;
+
+&lt;p&gt;The repository includes two dashboard views.&lt;/p&gt;
+
+&lt;p&gt;The first dashboard is for the legal compilation pipeline. It shows how a clause moves through parsing, Layer 1 metadata, Layer 2 obligation decomposition, Layer 3 rule/SIR candidate design, and the Layer 4 freeze.&lt;/p&gt;
+
+&lt;p&gt;The second dashboard is for runtime review. It shows a new input moving through:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;prompt/input,&lt;/li&gt;
+  &lt;li&gt;runtime schema,&lt;/li&gt;
+  &lt;li&gt;SIR extraction,&lt;/li&gt;
+  &lt;li&gt;active rules,&lt;/li&gt;
+  &lt;li&gt;triggered law,&lt;/li&gt;
+  &lt;li&gt;final result.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This was important for the hackathon because the project has many JSON and JSONL artifacts. A dashboard makes the pipeline explainable to judges, teammates, and future reviewers.&lt;/p&gt;
+
+&lt;h2 id=&quot;where-the-llm-fits&quot;&gt;Where the LLM Fits&lt;/h2&gt;
+
+&lt;p&gt;The LLM is still useful. It can turn a technical review result into language a human can act on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;reviewer summary,&lt;/li&gt;
+  &lt;li&gt;plain-language rationale,&lt;/li&gt;
+  &lt;li&gt;remediation actions,&lt;/li&gt;
+  &lt;li&gt;conservative rewrite suggestion.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;But the LLM receives the structured finding after the deterministic engine has already created it. That makes the system safer:&lt;/p&gt;
+
+\[LLM\_input = \{original\_text, SIR, failed\_rules, citations, evidence\}\]
+
+&lt;p&gt;The model explains the decision. It does not invent the legal basis.&lt;/p&gt;
+
+&lt;h2 id=&quot;limitations&quot;&gt;Limitations&lt;/h2&gt;
+
+&lt;p&gt;FINCPA is a prototype, not a production compliance system. The current scope focuses on Chapter 4 and does not yet include the full stack of presidential decrees, supervisory regulations, enforcement cases, and product-specific advertising guidance.&lt;/p&gt;
+
+&lt;p&gt;The SIR extractor is also an MVP. Real deployment would need better entity extraction, stronger Korean financial-language coverage, more robust OCR/document input, reviewer feedback loops, and ongoing legal updates.&lt;/p&gt;
+
+&lt;p&gt;Still, the prototype shows the right shape: legal data should be traceable, rules should be auditable, and LLMs should be placed where they help without becoming the hidden judge.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;FINCPA is a data engineering story disguised as a compliance AI project.&lt;/p&gt;
+
+&lt;p&gt;The core work is not just building a dashboard or calling an API. The core work is turning law into structured data, turning ads into structured facts, comparing them deterministically, and packaging the result so a human reviewer can make the final decision with evidence.&lt;/p&gt;
+
+&lt;p&gt;That is the lesson I like most from this project: in high-stakes domains, good AI starts with good structure.&lt;/p&gt;
+
+&lt;p&gt;You can explore the code, dashboards, and artifacts here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;GitHub: rashiedomar/FinTech&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://rashiedomar.github.io/FinTech/dashboard/ch4_fincpa/&quot;&gt;Legal compilation dashboard&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://rashiedomar.github.io/FinTech/dashboard/ch4_runtime_flow/&quot;&gt;Runtime flow dashboard&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="DATA PIPELINE" /><category term="COMPLIANCE AI" /><category term="HACKATHON" /><category term="DASHBOARD" /><summary type="html">A technical note on building a hackathon compliance AI prototype by compiling financial law into structured rules, SIR fields, deterministic checks, and audit-ready outputs.</summary></entry><entry><title type="html">ArtStyleNet: Finding Similar Artworks with Deep Features</title><link href="https://rashiedomar.github.io/blog/artstylenet/" rel="alternate" type="text/html" title="ArtStyleNet: Finding Similar Artworks with Deep Features" /><published>2026-06-03T00:00:00+09:00</published><updated>2026-06-03T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/artstylenet</id><content type="html" xml:base="https://rashiedomar.github.io/blog/artstylenet/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;ArtStyleNet&lt;/a&gt; is a small computer vision project about a subjective question:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Can a model find paintings that feel stylistically similar?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Art recommendation is not the same as object classification. If we classify a painting only by artist name, we miss the softer visual signals that make artworks feel related: color palette, texture, brushstroke density, composition, contrast, and mood. ArtStyleNet explores that space using deep visual features.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/artstylenet/preview.png&quot; alt=&quot;ArtStyleNet preview&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-dataset&quot;&gt;The Dataset&lt;/h2&gt;
+
+&lt;p&gt;The project uses the Dacon Artist Classification dataset: &lt;strong&gt;5,910 paintings from 51 artists&lt;/strong&gt;. The metadata includes artist, genre, nationality, and years, but the main pipeline focuses on images.&lt;/p&gt;
+
+&lt;p&gt;That choice is important. The project asks whether visual appearance alone can reveal useful style groupings.&lt;/p&gt;
+
+&lt;p&gt;The input is an artwork image:&lt;/p&gt;
+
+\[X \in \mathbb{R}^{H \times W \times 3}\]
+
+&lt;p&gt;The goal is not only to predict an artist label, but to represent the image in a feature space where stylistic similarity can be compared.&lt;/p&gt;
+
+&lt;h2 id=&quot;feature-extraction&quot;&gt;Feature Extraction&lt;/h2&gt;
+
+&lt;p&gt;The first step uses a pretrained ResNet50 model as a feature extractor. Instead of training a full model from scratch, the project uses ImageNet-pretrained visual filters and removes the final classification layer.&lt;/p&gt;
+
+&lt;p&gt;In simple form:&lt;/p&gt;
+
+\[z = f_{\theta}(X)\]
+
+&lt;p&gt;where $X$ is the painting and $z$ is the extracted feature vector. This vector is not a human description, but it captures visual patterns learned by the CNN: edges, shapes, textures, color transitions, and higher-level image structure.&lt;/p&gt;
+
+&lt;p&gt;For style similarity, this is useful because we can compare two paintings by comparing their feature vectors:&lt;/p&gt;
+
+\[\text{sim}(i,j) =
+\frac{z_i^\top z_j}{\|z_i\|_2 \|z_j\|_2}\]
+
+&lt;p&gt;High similarity means the two images are close in the model's visual representation.&lt;/p&gt;
+
+&lt;h2 id=&quot;reducing-the-feature-space&quot;&gt;Reducing the Feature Space&lt;/h2&gt;
+
+&lt;p&gt;Deep features are high-dimensional, so the project applies PCA before clustering. PCA finds directions of maximum variance:&lt;/p&gt;
+
+\[Z_{\text{PCA}} = ZW_k\]
+
+&lt;p&gt;where $Z$ is the feature matrix and $W_k$ keeps the top $k$ principal components.&lt;/p&gt;
+
+&lt;p&gt;This step makes the feature space easier to model and visualize. It also removes some noise, which matters because artistic style is subtle: the system should not cluster paintings only because of small irrelevant pixel-level differences.&lt;/p&gt;
+
+&lt;h2 id=&quot;clustering-style&quot;&gt;Clustering Style&lt;/h2&gt;
+
+&lt;p&gt;After PCA, the project applies LDA-style topic modeling to group artworks into latent visual topics. In text analysis, LDA groups documents by word topics. Here, the same idea is used more creatively: artworks can be treated as having mixtures of latent style components.&lt;/p&gt;
+
+&lt;p&gt;For an artwork $i$, the model can assign a topic distribution:&lt;/p&gt;
+
+\[\theta_i = [p(t_1|i), p(t_2|i), \ldots, p(t_K|i)]\]
+
+&lt;p&gt;The dominant topic is:&lt;/p&gt;
+
+\[t_i^* = \arg\max_k p(t_k|i)\]
+
+&lt;p&gt;This makes it possible to count how many artworks belong strongly to each topic, inspect representative artworks, and see which artists have more stylistic variability.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-the-project-shows&quot;&gt;What the Project Shows&lt;/h2&gt;
+
+&lt;p&gt;The useful part of ArtStyleNet is the pipeline shape:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;load paintings,&lt;/li&gt;
+  &lt;li&gt;extract visual features with ResNet50,&lt;/li&gt;
+  &lt;li&gt;reduce dimensions with PCA,&lt;/li&gt;
+  &lt;li&gt;discover latent clusters,&lt;/li&gt;
+  &lt;li&gt;visualize topic distributions and representative artworks.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is a good foundation for content-based recommendation. A user may not know the artist or period they want, but they might know the kind of visual feeling they like. A feature-based recommender can start from one artwork and retrieve visually similar ones.&lt;/p&gt;
+
+&lt;h2 id=&quot;limitations&quot;&gt;Limitations&lt;/h2&gt;
+
+&lt;p&gt;The project is exploratory. ResNet50 was trained on natural images, not art history, so its features are useful but not perfect. PCA is linear, while artistic style may be nonlinear. LDA is also borrowed from topic modeling, so future work could compare it with t-SNE, UMAP, autoencoders, contrastive learning, or CLIP embeddings.&lt;/p&gt;
+
+&lt;p&gt;Metadata could also improve the system. Genre, nationality, artist period, and year may help separate true style similarity from accidental visual similarity.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;ArtStyleNet is a compact project, but it asks a good question: how can deep learning help people explore art visually?&lt;/p&gt;
+
+&lt;p&gt;The answer is not to replace human taste. The answer is to build a visual search layer: a model that maps paintings into a feature space, groups related works, and helps users discover artworks they may not have found by name or category alone.&lt;/p&gt;
+
+&lt;p&gt;You can read the code and fork the project here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;GitHub: rashiedomar/ArtStyleNET&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="DEEP LEARNING" /><category term="VISUALIZATION" /><summary type="html">A short project writeup on using ResNet features, PCA, and topic-style clustering to explore artistic style similarity across paintings.</summary></entry><entry><title type="html">From CCTV to Safer Crosswalk Timing</title><link href="https://rashiedomar.github.io/blog/crosswalk-cctv/" rel="alternate" type="text/html" title="From CCTV to Safer Crosswalk Timing" /><published>2026-06-02T00:00:00+09:00</published><updated>2026-06-02T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/crosswalk-cctv</id><content type="html" xml:base="https://rashiedomar.github.io/blog/crosswalk-cctv/">&lt;p&gt;Traffic signals are often designed around a simplified assumption: pedestrians cross at a standard walking speed. But that assumption is not equally safe for everyone.&lt;/p&gt;
+
+&lt;p&gt;In South Korea, elderly pedestrians can walk much slower than the timing used in many standard crossing calculations. The project in &lt;a href=&quot;https://github.com/rashiedomar/crosswalk-cctv&quot;&gt;rashiedomar/crosswalk-cctv&lt;/a&gt; starts from that public-safety problem and turns it into a computer vision system: detect the crosswalk region from overhead CCTV, use that region as the area of interest, and eventually estimate pedestrian crossing speed so signal timing can adapt to slower walkers.&lt;/p&gt;
+
+&lt;p&gt;The full research roadmap has four phases:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Crosswalk segmentation from CCTV.&lt;/li&gt;
+  &lt;li&gt;Pedestrian detection, tracking, and speed estimation.&lt;/li&gt;
+  &lt;li&gt;Adaptive timing control and safety validation.&lt;/li&gt;
+  &lt;li&gt;Edge deployment on Jetson-style hardware.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The result is strong: &lt;strong&gt;98.5% IoU on CCTV validation images&lt;/strong&gt;, using only &lt;strong&gt;241 manually labeled CCTV images&lt;/strong&gt; plus &lt;strong&gt;1,000 high-confidence pseudo-labels&lt;/strong&gt; selected from &lt;strong&gt;5,926 unlabeled AI-Hub CCTV images&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;That number matters, but the more interesting story is how the project got there.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-crosswalk-segmentation-comes-first&quot;&gt;Why Crosswalk Segmentation Comes First&lt;/h2&gt;
+
+&lt;p&gt;Adaptive signal timing needs a reliable definition of &lt;em&gt;where crossing happens&lt;/em&gt;. Before estimating pedestrian speed, the system must know the crosswalk region:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;where pedestrians enter,&lt;/li&gt;
+  &lt;li&gt;where they leave,&lt;/li&gt;
+  &lt;li&gt;which pixels belong to the legal crossing zone,&lt;/li&gt;
+  &lt;li&gt;and which moving objects should be ignored because they are outside the crosswalk.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If the crosswalk mask is wrong, every downstream step becomes fragile. A pedestrian tracker may detect people, but without a reliable region of interest it cannot tell whether a person is actually crossing, waiting, passing near the curb, or walking on the sidewalk.&lt;/p&gt;
+
+&lt;p&gt;So Phase 1 is a segmentation problem:&lt;/p&gt;
+
+&lt;p&gt;Given an image $X \in \mathbb{R}^{H \times W \times 3}$, predict a binary mask:&lt;/p&gt;
+
+\[\hat{Y} \in [0,1]^{H \times W}\]
+
+&lt;p&gt;where each pixel $\hat{Y}_{ij}$ estimates whether pixel $(i,j)$ belongs to the crosswalk.&lt;/p&gt;
+
+&lt;p&gt;The target mask is:&lt;/p&gt;
+
+\[Y_{ij} =
+\begin{cases}
+1, &amp;amp; \text{if pixel } (i,j) \text{ is crosswalk} \\
+0, &amp;amp; \text{otherwise}
+\end{cases}\]
+
+&lt;p&gt;Once the mask is reliable, the later pedestrian-speed pipeline can restrict analysis to the crosswalk area:&lt;/p&gt;
+
+\[\text{ROI}(X) = X \odot \hat{Y}\]
+
+&lt;p&gt;where $\odot$ means element-wise masking.&lt;/p&gt;
+
+&lt;p&gt;That sounds simple, but the camera viewpoint changes everything.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-domain-gap&quot;&gt;The Domain Gap&lt;/h2&gt;
+
+&lt;p&gt;The first model was trained on first-person-view crosswalk images. In that domain, crosswalks are usually seen from a driver or street-level perspective. The stripes are large, close, and often occupy a predictable region of the image.&lt;/p&gt;
+
+&lt;p&gt;The target domain is overhead CCTV. In CCTV footage, crosswalks are smaller, farther away, angled, partially occluded by cars or buses, affected by rain or night lighting, and often surrounded by road markings that look similar.&lt;/p&gt;
+
+&lt;p&gt;The FPV model performed well on its own domain, reaching about &lt;strong&gt;93.05% IoU&lt;/strong&gt; on the FPV test set. But when tested directly on CCTV, the confidence collapsed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/domain-gap-visualization.png&quot; alt=&quot;FPV to CCTV domain gap&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the classic domain adaptation problem. The model did not only learn “crosswalkness.” It also learned the appearance distribution of the training domain:&lt;/p&gt;
+
+\[P_{\text{train}}(X, Y) \neq P_{\text{test}}(X, Y)\]
+
+&lt;p&gt;In the source domain:&lt;/p&gt;
+
+\[(X_s, Y_s) \sim P_s\]
+
+&lt;p&gt;In the target CCTV domain:&lt;/p&gt;
+
+\[(X_t, Y_t) \sim P_t\]
+
+&lt;p&gt;The task is the same, but the data distribution changes:&lt;/p&gt;
+
+\[P_s(X) \neq P_t(X)\]
+
+&lt;p&gt;That mismatch is enough to make a high-performing source model fail. The project therefore uses the FPV model as a starting point, not as the final detector.&lt;/p&gt;
+
+&lt;h2 id=&quot;stage-1-fpv-baseline&quot;&gt;Stage 1: FPV Baseline&lt;/h2&gt;
+
+&lt;p&gt;The first stage trained a U-Net model with a ResNet34 encoder on &lt;strong&gt;3,300 FPV crosswalk images&lt;/strong&gt;. U-Net is a natural starting point because it combines encoder features with decoder upsampling and skip connections.&lt;/p&gt;
+
+&lt;p&gt;For segmentation, the model learns a function:&lt;/p&gt;
+
+\[f_\theta(X) = \hat{Y}\]
+
+&lt;p&gt;where $\theta$ are the model parameters.&lt;/p&gt;
+
+&lt;p&gt;The basic evaluation metric is Intersection over Union:&lt;/p&gt;
+
+\[\text{IoU}(Y,\hat{Y}) =
+\frac{|Y \cap \hat{Y}|}
+{|Y \cup \hat{Y}|}\]
+
+&lt;p&gt;For binary masks, this can be written as:&lt;/p&gt;
+
+\[\text{IoU} =
+\frac{TP}
+{TP + FP + FN}\]
+
+&lt;p&gt;where $TP$ is the number of correctly predicted crosswalk pixels, $FP$ is the number of false crosswalk pixels, and $FN$ is the number of missed crosswalk pixels.&lt;/p&gt;
+
+&lt;p&gt;The FPV baseline reached:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;best validation IoU: &lt;strong&gt;92.44%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;test IoU: &lt;strong&gt;93.05%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;training epochs: &lt;strong&gt;30&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/stage1-fpv-training-history.png&quot; alt=&quot;Stage 1 FPV training history&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is a strong result inside the FPV domain. But it does not solve the CCTV problem. A model can look excellent on a source domain while still being unreliable in the deployment domain.&lt;/p&gt;
+
+&lt;p&gt;That is why the next stage matters.&lt;/p&gt;
+
+&lt;h2 id=&quot;testing-the-source-model-on-cctv&quot;&gt;Testing the Source Model on CCTV&lt;/h2&gt;
+
+&lt;p&gt;When the FPV-trained model was tested on overhead CCTV frames, the model struggled. On one CCTV set of 175 frames, the mean confidence was only about &lt;strong&gt;0.044&lt;/strong&gt;. Night frames were especially weak, with an average confidence close to &lt;strong&gt;0.0016&lt;/strong&gt;, while day frames averaged about &lt;strong&gt;0.106&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The AI-Hub CCTV evaluation showed the same pattern. Across &lt;strong&gt;5,926 CCTV images&lt;/strong&gt;, mean confidence was only about &lt;strong&gt;0.0545&lt;/strong&gt;, with most images below 10% confidence.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/aihub-domain-gap-analysis.png&quot; alt=&quot;AI-Hub CCTV domain gap analysis&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This failure is useful. It proves that the deployment domain needs its own adaptation step.&lt;/p&gt;
+
+&lt;p&gt;The lesson is not “the FPV model is bad.” The lesson is that viewpoint matters. A first-person crosswalk and an overhead CCTV crosswalk are visually different objects from the perspective of the model.&lt;/p&gt;
+
+&lt;p&gt;The visual comparison makes the problem even clearer. FPV examples tend to show crosswalk stripes as near-field objects with strong perspective expansion. CCTV examples compress the same structure into a distant, oblique region of the frame. The lane markings, bus lanes, reflections, headlights, and road arrows become distractors.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/fpv-vs-aihub-cctv-comparison.png&quot; alt=&quot;FPV versus AI-Hub CCTV comparison&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is one reason crosswalk segmentation is a better first target than pedestrian speed estimation. If the system cannot first localize the crosswalk under viewpoint shift, any attempt to estimate speed inside the scene will mix true crossing motion with irrelevant road and sidewalk motion.&lt;/p&gt;
+
+&lt;h2 id=&quot;stage-2-cctv-adaptation&quot;&gt;Stage 2: CCTV Adaptation&lt;/h2&gt;
+
+&lt;p&gt;The second stage adapts the model to CCTV. The key difficulty is annotation cost. Manually labeling CCTV segmentation masks is slow, and the project starts with only &lt;strong&gt;241 labeled CCTV images&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;201 training samples&lt;/li&gt;
+  &lt;li&gt;40 validation samples&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The first CCTV adaptation pass fine-tuned a DeepLabV3 model with a ResNet50 backbone. DeepLabV3 is useful here because atrous convolution and multi-scale context help segmentation models capture structure across different receptive fields.&lt;/p&gt;
+
+&lt;p&gt;The loss combines binary cross-entropy and Dice-style overlap:&lt;/p&gt;
+
+\[\mathcal{L} =
+\lambda_{\text{BCE}}\mathcal{L}_{\text{BCE}}
++ \lambda_{\text{Dice}}\mathcal{L}_{\text{Dice}}\]
+
+&lt;p&gt;Binary cross-entropy handles pixel-wise classification:&lt;/p&gt;
+
+\[\mathcal{L}_{\text{BCE}} =
+- \frac{1}{N} \sum_{i=1}^{N}
+\left[
+y_i \log(\hat{y}_i) +
+(1-y_i)\log(1-\hat{y}_i)
+\right]\]
+
+&lt;p&gt;Dice loss focuses on region overlap:&lt;/p&gt;
+
+\[\mathcal{L}_{\text{Dice}} =
+1 -
+\frac{2\sum_i y_i\hat{y}_i + \epsilon}
+{\sum_i y_i + \sum_i \hat{y}_i + \epsilon}\]
+
+&lt;p&gt;The first CCTV fine-tuning pass reached:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;best validation IoU: &lt;strong&gt;88.9%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;final train IoU: &lt;strong&gt;97.0%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;epochs: &lt;strong&gt;30&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That is already usable, but the gap between train and validation suggests a familiar problem: the labeled dataset is small. The model can learn the 241 labeled images, but the target CCTV distribution is wider than those labels.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/stage2-training-history.png&quot; alt=&quot;Stage 2 CCTV fine-tuning history&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The project therefore uses semi-supervised learning.&lt;/p&gt;
+
+&lt;h2 id=&quot;data-preparation-matters&quot;&gt;Data Preparation Matters&lt;/h2&gt;
+
+&lt;p&gt;Before the model can learn anything useful, the project has to convert video and image sources into a consistent segmentation dataset.&lt;/p&gt;
+
+&lt;p&gt;That preparation step is not glamorous, but it is where many applied computer vision projects succeed or fail. Crosswalk segmentation needs image-mask pairs that agree spatially. If a frame is resized, cropped, padded, or augmented, the mask must receive the same transformation.&lt;/p&gt;
+
+&lt;p&gt;The dataset workflow in the repository is notebook-driven:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;extract frames from video sources,&lt;/li&gt;
+  &lt;li&gt;prepare FPV training images,&lt;/li&gt;
+  &lt;li&gt;visualize FPV and CCTV differences,&lt;/li&gt;
+  &lt;li&gt;train the FPV baseline,&lt;/li&gt;
+  &lt;li&gt;test the FPV model on CCTV,&lt;/li&gt;
+  &lt;li&gt;fine-tune and pseudo-label CCTV data.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The important design decision is keeping the experiment stages separate. The project does not hide everything inside one giant script. It preserves the story of the research:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Build a source-domain baseline.&lt;/li&gt;
+  &lt;li&gt;Measure how badly it transfers.&lt;/li&gt;
+  &lt;li&gt;Add limited labeled target data.&lt;/li&gt;
+  &lt;li&gt;Use target-domain unlabeled data.&lt;/li&gt;
+  &lt;li&gt;compare iteration 1 and iteration 2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That structure makes the result easier to trust. If someone only reports the final 98.5% IoU, we do not know how much was learned from source data, how much came from manual labels, and how much came from pseudo-labels. Here, each stage has its own artifacts.&lt;/p&gt;
+
+&lt;h2 id=&quot;architecture-choice&quot;&gt;Architecture Choice&lt;/h2&gt;
+
+&lt;p&gt;The final adaptation uses DeepLabV3 with a ResNet50 backbone. That is a reasonable choice for CCTV crosswalk segmentation because the object has both local and global structure.&lt;/p&gt;
+
+&lt;p&gt;The local structure is the stripe pattern. A model must identify repeated white bars, edges, and road-paint texture.&lt;/p&gt;
+
+&lt;p&gt;The global structure is the crosswalk polygon. A crosswalk is not just a set of stripes; it is a coherent region across the road. It has orientation, width, continuity, and geometric plausibility.&lt;/p&gt;
+
+&lt;p&gt;DeepLab-style models help because they can combine fine visual cues with broader context. In practice, the model needs to answer questions like:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Are these stripes part of a legal crosswalk or just lane markings?&lt;/li&gt;
+  &lt;li&gt;Does the predicted region form a plausible crossing zone?&lt;/li&gt;
+  &lt;li&gt;Does the mask remain stable under shadows, vehicles, and camera angle?&lt;/li&gt;
+  &lt;li&gt;Can the model see the full crosswalk even when part of it is occluded?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For this phase, a binary segmentation model is the right abstraction. The output is not a bounding box, because a crosswalk is not always rectangular in image coordinates. The output is not a classification label, because the exact region matters for later speed estimation. A dense mask is the useful representation.&lt;/p&gt;
+
+&lt;h2 id=&quot;pseudo-labeling&quot;&gt;Pseudo-Labeling&lt;/h2&gt;
+
+&lt;p&gt;Pseudo-labeling is the bridge between scarce manual labels and abundant unlabeled data.&lt;/p&gt;
+
+&lt;p&gt;Let the labeled set be:&lt;/p&gt;
+
+\[\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^{n}\]
+
+&lt;p&gt;and the unlabeled set be:&lt;/p&gt;
+
+\[\mathcal{D}_U = \{u_j\}_{j=1}^{m}\]
+
+&lt;p&gt;After training an initial model $f_{\theta_1}$ on $\mathcal{D}_L$, we generate predicted masks for the unlabeled images:&lt;/p&gt;
+
+\[\tilde{y}_j = f_{\theta_1}(u_j)\]
+
+&lt;p&gt;But we should not trust every prediction. The project filters pseudo-labels using a confidence score and geometric validation.&lt;/p&gt;
+
+&lt;p&gt;The idea is:&lt;/p&gt;
+
+\[q_j = \frac{c_j + g_j}{2}\]
+
+&lt;p&gt;where:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$c_j$ is prediction confidence,&lt;/li&gt;
+  &lt;li&gt;$g_j$ is geometric validity,&lt;/li&gt;
+  &lt;li&gt;and $q_j$ is the final pseudo-label quality score.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The geometric check is important because crosswalk masks have physical structure. They should not occupy almost none of the frame, and they should not cover almost the whole frame. The project uses a reasonable crosswalk-area constraint, roughly checking whether the predicted mask occupies a plausible percentage of the image.&lt;/p&gt;
+
+&lt;p&gt;In simplified form:&lt;/p&gt;
+
+\[g_j =
+\begin{cases}
+1, &amp;amp; r_{\min} \leq \frac{|\tilde{y}_j|}{H W} \leq r_{\max} \\
+0, &amp;amp; \text{otherwise}
+\end{cases}\]
+
+&lt;p&gt;The repository describes the accepted area ratio range as about &lt;strong&gt;5% to 40%&lt;/strong&gt; of the frame.&lt;/p&gt;
+
+&lt;p&gt;From &lt;strong&gt;5,926 unlabeled CCTV images&lt;/strong&gt;, the system selected the top &lt;strong&gt;1,000 high-confidence pseudo-labels&lt;/strong&gt; using a threshold of &lt;strong&gt;0.7&lt;/strong&gt;. The top pseudo-label scores were extremely high:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;top score: &lt;strong&gt;0.988&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;median score: &lt;strong&gt;0.988&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;confidence score around &lt;strong&gt;0.976&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;geometric validation: &lt;strong&gt;1.0&lt;/strong&gt; for the top samples&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/pseudo-labels-samples.png&quot; alt=&quot;Pseudo-label samples&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This step increases the effective training set from 241 CCTV images to 1,241 images:&lt;/p&gt;
+
+\[\mathcal{D}_{\text{train}} =
+\mathcal{D}_L \cup
+\{(u_j, \tilde{y}_j): q_j &amp;gt; \tau\}\]
+
+&lt;p&gt;The key is not just adding more data. It is adding more target-domain data: new lighting, roads, camera angles, vehicles, road widths, shadows, and crosswalk geometries.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-confidence-alone-is-not-enough&quot;&gt;Why Confidence Alone Is Not Enough&lt;/h2&gt;
+
+&lt;p&gt;One nice detail in this project is that pseudo-label selection is not based on raw model confidence alone.&lt;/p&gt;
+
+&lt;p&gt;Raw confidence can be misleading. A segmentation model can be confidently wrong, especially after domain shift. It may draw a large mask over a road area, produce a tiny blob near a bright lane marking, or hallucinate a crosswalk where none exists. If we accept those masks because the probabilities are high, pseudo-labeling becomes error amplification.&lt;/p&gt;
+
+&lt;p&gt;That is why geometric validation matters. Crosswalks have expected shape and scale. They usually occupy a meaningful but limited part of the frame. They are often elongated and road-aligned. A simple geometry rule will not solve all errors, but it can reject many obviously bad pseudo-labels.&lt;/p&gt;
+
+&lt;p&gt;This gives the pseudo-labeling step two checks:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Does the model believe the mask?&lt;/li&gt;
+  &lt;li&gt;Does the mask look physically plausible?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That is a strong pattern for applied AI. Confidence should be combined with domain knowledge whenever possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;iteration-2-training-with-pseudo-labels&quot;&gt;Iteration 2: Training with Pseudo-Labels&lt;/h2&gt;
+
+&lt;p&gt;The second iteration retrains on the combined dataset:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;241 manually labeled CCTV images&lt;/li&gt;
+  &lt;li&gt;1,000 pseudo-labeled CCTV images&lt;/li&gt;
+  &lt;li&gt;1,241 total target-domain examples&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The learning rate is reduced to stabilize adaptation. The model has already learned the rough CCTV crosswalk concept, so the next stage is refinement and generalization.&lt;/p&gt;
+
+&lt;p&gt;The result is the main achievement of Phase 1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Iteration 1 validation IoU: &lt;strong&gt;88.9%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Iteration 2 validation IoU: &lt;strong&gt;98.5%&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;improvement: &lt;strong&gt;+9.6 percentage points&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;inference time: &lt;strong&gt;12.98 ms&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;throughput: &lt;strong&gt;77.03 FPS&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/final-results.png&quot; alt=&quot;Final model performance&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The final visualization shows why the result is convincing. The predicted mask aligns closely with the manual ground-truth crosswalk region, even under overhead perspective and real CCTV conditions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/predictions-visualization.png&quot; alt=&quot;CCTV prediction visualization&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is exactly what a Phase 1 module should provide: a stable, fast crosswalk mask that later components can use as the spatial foundation for pedestrian tracking.&lt;/p&gt;
+
+&lt;h2 id=&quot;reading-the-result-carefully&quot;&gt;Reading the Result Carefully&lt;/h2&gt;
+
+&lt;p&gt;The final result figure is impressive, but it is worth reading it like a researcher instead of only like a scoreboard.&lt;/p&gt;
+
+&lt;p&gt;The top row shows an original CCTV image, a manual ground-truth mask, and a model prediction. The prediction nearly overlaps the target crosswalk region, and the figure reports an IoU around 0.99 for that example.&lt;/p&gt;
+
+&lt;p&gt;The bottom plots tell the training story. Iteration 1 improves quickly but plateaus below the final result. After pseudo-labeling is added, iteration 2 starts from a much stronger place and pushes validation IoU close to the training IoU. This means the additional target-domain data did not only help the model memorize. It helped it generalize better across the validation samples.&lt;/p&gt;
+
+&lt;p&gt;The result is also practical because the prediction is spatially clean. A noisy mask with many disconnected blobs would be hard to use for tracking. A clean crosswalk polygon can be post-processed into a stable region of interest.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-the-result-works&quot;&gt;Why the Result Works&lt;/h2&gt;
+
+&lt;p&gt;The performance jump is not magic. It comes from three design choices working together.&lt;/p&gt;
+
+&lt;p&gt;First, transfer learning gives the model a useful starting point. The FPV source task still teaches stripes, road texture, crosswalk shape, and segmentation boundaries. Even if the viewpoint is wrong, the learned representation is better than random initialization.&lt;/p&gt;
+
+&lt;p&gt;Second, small labeled CCTV fine-tuning anchors the model to the target viewpoint. The 241 manual masks teach the overhead camera geometry.&lt;/p&gt;
+
+&lt;p&gt;Third, pseudo-labeling expands the target domain. The extra 1,000 pseudo-labels expose the model to many more CCTV conditions without requiring full manual annotation.&lt;/p&gt;
+
+&lt;p&gt;The training process can be summarized as:&lt;/p&gt;
+
+\[\theta_s =
+\arg\min_{\theta}
+\sum_{(x,y)\in\mathcal{D}_s}
+\mathcal{L}(f_\theta(x), y)\]
+
+&lt;p&gt;for the source FPV model, then:&lt;/p&gt;
+
+\[\theta_1 =
+\arg\min_{\theta}
+\sum_{(x,y)\in\mathcal{D}_L}
+\mathcal{L}(f_\theta(x), y)\]
+
+&lt;p&gt;for the first CCTV adaptation, and finally:&lt;/p&gt;
+
+\[\theta_2 =
+\arg\min_{\theta}
+\left[
+\sum_{(x,y)\in\mathcal{D}_L}
+\mathcal{L}(f_\theta(x), y)
++
+\sum_{(u,\tilde{y})\in\mathcal{D}_P}
+w(u)\mathcal{L}(f_\theta(u), \tilde{y})
+\right]\]
+
+&lt;p&gt;where $\mathcal{D}_P$ is the pseudo-labeled set and $w(u)$ can be interpreted as a confidence weight. Even when the implementation uses selected pseudo-labels rather than explicit continuous weights, the idea is the same: high-confidence pseudo-labels are allowed to influence training.&lt;/p&gt;
+
+&lt;p&gt;This is data-efficient domain adaptation.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-time-requirement&quot;&gt;Real-Time Requirement&lt;/h2&gt;
+
+&lt;p&gt;A research model is not enough for an adaptive signal system. The system must run fast enough to support live CCTV.&lt;/p&gt;
+
+&lt;p&gt;At 512 by 512 resolution, the final model runs at about &lt;strong&gt;77 FPS&lt;/strong&gt;, corresponding to roughly &lt;strong&gt;12.98 ms per frame&lt;/strong&gt;. That exceeds a 30 FPS real-time target:&lt;/p&gt;
+
+\[\text{FPS} = \frac{1000}{t_{\text{ms}}}\]
+
+&lt;p&gt;With $t_{\text{ms}} = 12.98$:&lt;/p&gt;
+
+\[\text{FPS} \approx \frac{1000}{12.98} \approx 77.0\]
+
+&lt;p&gt;That speed matters because Phase 2 will add more computation: pedestrian detection, tracking, trajectory smoothing, and speed estimation. If segmentation already consumes the full time budget, the later system will fail. A fast segmentation module leaves room for the rest of the pipeline.&lt;/p&gt;
+
+&lt;p&gt;In deployment terms, this means the segmentation model can run as a front-end perception module. It does not need to recompute a brand-new crosswalk mask at every frame if the camera is fixed. A practical system could compute or update the mask periodically, stabilize it across time, and then use it as a fixed region for tracking. That would save compute for pedestrian detection and trajectory estimation.&lt;/p&gt;
+
+&lt;p&gt;For fixed CCTV, the crosswalk itself is mostly static. The hard part is not that the crosswalk moves; it is that lighting, shadows, weather, vehicles, and occlusions change. So the segmentation module can be used in two ways:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;as a one-time or periodic crosswalk locator,&lt;/li&gt;
+  &lt;li&gt;and as a robustness check when the scene changes significantly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is important for edge deployment. On a Jetson-like device, every millisecond matters.&lt;/p&gt;
+
+&lt;h2 id=&quot;toward-speed-estimation&quot;&gt;Toward Speed Estimation&lt;/h2&gt;
+
+&lt;p&gt;Once the crosswalk mask is stable, Phase 2 can estimate walking speed.&lt;/p&gt;
+
+&lt;p&gt;For a tracked pedestrian, suppose their position in image coordinates at time $t$ is:&lt;/p&gt;
+
+\[p_t = (x_t, y_t)\]
+
+&lt;p&gt;A tracker such as DeepSORT can maintain an identity across frames:&lt;/p&gt;
+
+\[\mathcal{T}_k =
+\{p_{t_1}, p_{t_2}, \ldots, p_{t_n}\}\]
+
+&lt;p&gt;To estimate physical speed, image movement must be converted into meters. With a calibration function $H$ or a pixel-to-meter scale, positions can be projected into ground-plane coordinates:&lt;/p&gt;
+
+\[P_t = H(p_t)\]
+
+&lt;p&gt;Then walking speed can be estimated as:&lt;/p&gt;
+
+\[v =
+\frac{\|P_{t_b} - P_{t_a}\|_2}
+{t_b - t_a}\]
+
+&lt;p&gt;The signal timing problem is then straightforward. If the crosswalk length is $L$ and a pedestrian walks at speed $v$, the required crossing time is:&lt;/p&gt;
+
+\[T_{\text{required}} =
+\frac{L}{v} + T_{\text{safety}}\]
+
+&lt;p&gt;The safety issue appears when the assumed design speed is too high:&lt;/p&gt;
+
+\[T_{\text{standard}} =
+\frac{L}{v_{\text{standard}}}\]
+
+&lt;p&gt;If $v_{\text{elderly}} &amp;lt; v_{\text{standard}}$, then:&lt;/p&gt;
+
+\[T_{\text{required}} &amp;gt; T_{\text{standard}}\]
+
+&lt;p&gt;That is the entire motivation of the project in one equation. Slower pedestrians need more crossing time. A vision system can estimate when that extra time is needed.&lt;/p&gt;
+
+&lt;p&gt;The next research challenge is not only measuring speed, but measuring it reliably. A pedestrian may pause, turn, walk diagonally, start late, or be occluded by a vehicle. A simple two-point speed estimate can be noisy. A stronger version would estimate speed over a track:&lt;/p&gt;
+
+\[v_k =
+\frac{1}{n-1}
+\sum_{i=1}^{n-1}
+\frac{\|P_{t_{i+1}} - P_{t_i}\|_2}
+{t_{i+1}-t_i}\]
+
+&lt;p&gt;Then the system can smooth speed over time:&lt;/p&gt;
+
+\[\bar{v}_t =
+\beta v_t + (1-\beta)\bar{v}_{t-1}\]
+
+&lt;p&gt;This kind of smoothing prevents one noisy frame from causing unstable signal decisions.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-makes-this-project-strong&quot;&gt;What Makes This Project Strong&lt;/h2&gt;
+
+&lt;p&gt;The strongest part of this project is that it does not jump directly to signal control. It builds the perception foundation first.&lt;/p&gt;
+
+&lt;p&gt;A weaker version of the project would try to detect pedestrians everywhere in the frame and estimate speed immediately. But without a crosswalk mask, the system would have too much ambiguity. People on sidewalks, people waiting near the curb, cyclists, reflections, and vehicles could all interfere with the logic.&lt;/p&gt;
+
+&lt;p&gt;This project begins with the spatial prior:&lt;/p&gt;
+
+&lt;p&gt;Where is the crosswalk?&lt;/p&gt;
+
+&lt;p&gt;Once that is known, later modules can ask better questions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Is a person inside the crosswalk?&lt;/li&gt;
+  &lt;li&gt;How long have they been crossing?&lt;/li&gt;
+  &lt;li&gt;Are they moving slower than expected?&lt;/li&gt;
+  &lt;li&gt;Are they likely to remain in the crosswalk when the signal changes?&lt;/li&gt;
+  &lt;li&gt;How much extra green time is needed?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is good system design. Perception, tracking, speed estimation, and control are separated into stages.&lt;/p&gt;
+
+&lt;h2 id=&quot;limitations&quot;&gt;Limitations&lt;/h2&gt;
+
+&lt;p&gt;The Phase 1 result is strong, but it should be interpreted carefully.&lt;/p&gt;
+
+&lt;p&gt;First, the final model is evaluated on the available CCTV validation set. More cities, weather conditions, camera heights, road geometries, and nighttime scenes would be needed before claiming broad deployment readiness.&lt;/p&gt;
+
+&lt;p&gt;Second, pseudo-labeling works best when the first model is already good enough. If the first fine-tuned model produces systematically wrong masks, pseudo-labeling can amplify errors.&lt;/p&gt;
+
+&lt;p&gt;Third, segmentation accuracy does not guarantee tracking accuracy. Phase 2 still needs robust pedestrian detection and identity tracking under occlusion, crowding, shadows, vehicles, and low-light conditions.&lt;/p&gt;
+
+&lt;p&gt;Fourth, signal timing is a control problem, not only a vision problem. It must consider traffic rules, pedestrian signals, vehicle flow, fairness, and safety margins.&lt;/p&gt;
+
+&lt;p&gt;These limitations do not weaken the project. They define the next research steps.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-would-improve-next&quot;&gt;What I Would Improve Next&lt;/h2&gt;
+
+&lt;p&gt;If I were extending this project, I would keep the staged design and add a few evaluation layers.&lt;/p&gt;
+
+&lt;p&gt;First, I would create a held-out CCTV benchmark split by condition: day, night, rain, heavy traffic, low traffic, bus occlusion, wide intersection, narrow intersection, and unusual camera angle. A single validation number is useful, but condition-specific metrics tell us where the model is fragile.&lt;/p&gt;
+
+&lt;p&gt;Second, I would add temporal stability metrics. Since CCTV is video, the mask should not flicker frame by frame. Even if per-frame IoU is high, unstable edges can hurt downstream tracking. A simple temporal consistency score could compare consecutive predictions:&lt;/p&gt;
+
+\[\text{TC}_t =
+\text{IoU}(\hat{Y}_t, \hat{Y}_{t-1})\]
+
+&lt;p&gt;High temporal consistency would mean the crosswalk region remains stable unless the scene truly changes.&lt;/p&gt;
+
+&lt;p&gt;Third, I would add uncertainty maps. If the model is uncertain near the boundary or under occlusion, later stages should know that. A tracker can behave differently when the crosswalk ROI is high-confidence versus partially uncertain.&lt;/p&gt;
+
+&lt;p&gt;Fourth, I would connect the segmentation output to a small tracking prototype. Even a simple YOLO + DeepSORT baseline inside the predicted ROI would validate that Phase 1 provides the right representation for Phase 2.&lt;/p&gt;
+
+&lt;p&gt;Fifth, I would document failure cases as carefully as successes. The best projects show where the model breaks. Night reflections, bus occlusion, unusual crosswalk paint, construction zones, and wet roads are not edge cases for deployment; they are normal urban conditions.&lt;/p&gt;
+
+&lt;h2 id=&quot;lessons&quot;&gt;Lessons&lt;/h2&gt;
+
+&lt;p&gt;There are a few lessons I would take from this work.&lt;/p&gt;
+
+&lt;p&gt;The first lesson is that domain shift is real. A model that works in FPV does not automatically work in CCTV.&lt;/p&gt;
+
+&lt;p&gt;The second lesson is that small labeled datasets can still be powerful if used strategically. The 241 CCTV labels were enough to bootstrap a useful target-domain model.&lt;/p&gt;
+
+&lt;p&gt;The third lesson is that pseudo-labeling is most useful when filtered. The important contribution is not generating 5,926 masks. It is selecting the 1,000 masks that are confident and geometrically plausible.&lt;/p&gt;
+
+&lt;p&gt;The fourth lesson is that real-time performance should be measured early. A safety system cannot wait until the end to discover that it is too slow.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The crosswalk CCTV project is a strong example of applied computer vision research because it connects model design to a real public-safety workflow.&lt;/p&gt;
+
+&lt;p&gt;The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labeled CCTV set, expands it with confidence-filtered pseudo-labels, and reaches &lt;strong&gt;98.5% IoU at 77 FPS&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;That makes Phase 1 ready to support the next stage: pedestrian tracking and speed estimation inside the detected crosswalk region.&lt;/p&gt;
+
+&lt;p&gt;You can read the code, inspect the notebooks, and fork the project here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/crosswalk-cctv&quot;&gt;GitHub: rashiedomar/crosswalk-cctv&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="SEGMENTATION" /><category term="CCTV" /><category term="SEMI-SUPERVISED LEARNING" /><summary type="html">A technical writeup on building a CCTV crosswalk segmentation system for adaptive pedestrian signal timing using transfer learning, semi-supervised pseudo-labeling, and real-time computer vision.</summary></entry><entry><title type="html">Debugging Vision Agents</title><link href="https://rashiedomar.github.io/blog/vision-agent-debugger/" rel="alternate" type="text/html" title="Debugging Vision Agents" /><published>2026-06-01T00:00:00+09:00</published><updated>2026-06-01T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/vision-agent-debugger</id><content type="html" xml:base="https://rashiedomar.github.io/blog/vision-agent-debugger/">&lt;p&gt;Vision-language models are becoming very good at describing images, answering visual questions, reading charts, counting objects, and supporting multimodal workflows. But when a model gives an answer, the most important engineering question often comes after the answer:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why did it say that?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If a Vision AI agent says there are three damaged buildings in a satellite image, did it actually focus on the damaged buildings? If it says the red car is on the left, did it inspect the car or guess from the prompt? If two models disagree, is one missing a visual detail, or are they using different assumptions about the task?&lt;/p&gt;
+
+&lt;p&gt;That is the motivation behind &lt;a href=&quot;https://github.com/rashiedomar/vision-agent-debugger&quot;&gt;Vision Agent Debugger&lt;/a&gt;: a small but useful tool for making Vision AI behavior easier to inspect. The project combines a React frontend, a FastAPI backend, CLIP-based heatmap generation, multi-model comparison, reasoning-step extraction, error detection, and cost tracking.&lt;/p&gt;
+
+&lt;p&gt;It is not a complete interpretability research framework. It is something more practical: a debugging surface for people who build with vision models and want to see more than a final text response.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Most Vision LLM interfaces hide the process. You upload an image, write a prompt, wait for a model, and receive an answer. That is fine for demos, but it is weak for development.&lt;/p&gt;
+
+&lt;p&gt;For real projects, especially remote sensing, public data dashboards, field monitoring, damage assessment, surveillance review, medical imaging support, and industrial inspection, we need to ask sharper questions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Did the model attend to the correct region?&lt;/li&gt;
+  &lt;li&gt;Did the prompt cause the model to focus on the wrong visual concept?&lt;/li&gt;
+  &lt;li&gt;Did two models disagree on the object, count, location, or conclusion?&lt;/li&gt;
+  &lt;li&gt;Did the model fail because of perception, reasoning, or API/configuration issues?&lt;/li&gt;
+  &lt;li&gt;How much did the analysis cost?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Debugging a vision agent means separating the final answer from the evidence path. The answer is only one artifact. A useful debugger should also expose visual focus, reasoning traces, model disagreement, and failure states.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-the-project-builds&quot;&gt;What the Project Builds&lt;/h2&gt;
+
+&lt;p&gt;Vision Agent Debugger gives a user three core workflows:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Upload an image and prompt.&lt;/li&gt;
+  &lt;li&gt;Generate a visual heatmap for the image-prompt pair.&lt;/li&gt;
+  &lt;li&gt;Compare responses from multiple vision models side by side.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The backend exposes several endpoints:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/api/generate-heatmap&lt;/code&gt;: creates a heatmap from an image and prompt.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/api/analyze-image&lt;/code&gt;: runs selected models and returns responses, reasoning steps, errors, and cost.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/api/compare-models&lt;/code&gt;: compares Gemini, Claude, and GPT-4V-style responses.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/api/debug-agent&lt;/code&gt;: combines heatmap generation with model comparison.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The frontend wraps those outputs into a debugging interface: upload panel, prompt box, heatmap overlay, model comparison cards, reasoning step views, error warnings, and total cost display.&lt;/p&gt;
+
+&lt;p&gt;The stack is intentionally simple:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;React, Vite, Tailwind CSS, and Canvas-style visual overlay patterns on the frontend.&lt;/li&gt;
+  &lt;li&gt;FastAPI on the backend.&lt;/li&gt;
+  &lt;li&gt;CLIP for image-text representation.&lt;/li&gt;
+  &lt;li&gt;Gemini, Claude, and OpenAI-compatible vision calls for multi-model analysis.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is a good architecture for a prototype because each part has a clear job. The frontend does interaction and presentation. The backend does model orchestration. CLIP creates a visual explanation signal. The model analyzer standardizes responses into a comparable format.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-small-example&quot;&gt;A Small Example&lt;/h2&gt;
+
+&lt;p&gt;The repository includes a test image with multiple cars in different colors. A prompt might ask something like:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Which cars are visible in the image?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;or:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Count the red cars.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The original image is simple, but that is useful for debugging because the expected answer is visually obvious.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/vision-agent-debugger/test.png&quot; alt=&quot;Original car image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The heatmap output gives a spatial debugging layer. In the current prototype, it is a smooth visual approximation of where the system is emphasizing the image-prompt relationship.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/vision-agent-debugger/test_heatmap.jpg&quot; alt=&quot;Generated heatmap example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This kind of image is not a final scientific explanation by itself. But as a developer tool, it is useful because it makes the debugging conversation more concrete. Instead of only asking “was the answer correct?”, we can ask “does the visual evidence look aligned with the task?”&lt;/p&gt;
+
+&lt;h2 id=&quot;the-math-behind-the-heatmap&quot;&gt;The Math Behind the Heatmap&lt;/h2&gt;
+
+&lt;p&gt;A vision-language debugger needs some way to connect text to image regions. CLIP gives us a useful starting point because it maps images and text into a shared embedding space.&lt;/p&gt;
+
+&lt;p&gt;Let an image be $I$, and let the prompt be $t$. CLIP has an image encoder $f_I$ and a text encoder $f_T$:&lt;/p&gt;
+
+\[z_I = f_I(I), \qquad z_T = f_T(t)\]
+
+&lt;p&gt;Both embeddings are usually normalized:&lt;/p&gt;
+
+\[\hat{z}_I = \frac{z_I}{\|z_I\|_2}, \qquad
+\hat{z}_T = \frac{z_T}{\|z_T\|_2}\]
+
+&lt;p&gt;The image-text similarity can be measured using cosine similarity:&lt;/p&gt;
+
+\[s(I,t) = \hat{z}_I^\top \hat{z}_T\]
+
+&lt;p&gt;That gives one global score. But a heatmap needs spatial scores. For a Vision Transformer such as CLIP ViT-B/32, the image is divided into patches. With a 224 by 224 image and a patch size of 32, we get a 7 by 7 grid:&lt;/p&gt;
+
+\[N = 7 \times 7 = 49\]
+
+&lt;p&gt;Ideally, each patch has an embedding $p_i$. A prompt-aware patch score can be written as:&lt;/p&gt;
+
+\[a_i = \frac{\exp(\tau \cdot \hat{p}_i^\top \hat{z}_T)}
+{\sum_{j=1}^{N} \exp(\tau \cdot \hat{p}_j^\top \hat{z}_T)}\]
+
+&lt;p&gt;Here, $a_i$ is the attention-like weight for patch $i$, and $\tau$ is a temperature parameter that controls how sharp the distribution becomes.&lt;/p&gt;
+
+&lt;p&gt;After computing patch scores, we can reshape them into a 7 by 7 map:&lt;/p&gt;
+
+\[A = \text{reshape}(a_1,\ldots,a_{49})\]
+
+&lt;p&gt;Then we normalize the map:&lt;/p&gt;
+
+\[M = \frac{A - \min(A)}{\max(A) - \min(A) + \epsilon}\]
+
+&lt;p&gt;Finally, we resize $M$ to the original image size, convert it into a color map, and overlay it on the image:&lt;/p&gt;
+
+\[O = (1-\alpha)I + \alpha C(M)\]
+
+&lt;p&gt;where $C(M)$ is the colored heatmap and $\alpha$ is the overlay opacity.&lt;/p&gt;
+
+&lt;p&gt;That is the clean mathematical version. The current repository implementation is an early engineering approximation: it uses CLIP embeddings and generates a smoothed spatial map rather than extracting full transformer patch attention end to end. That is okay for a prototype, but it is important to say clearly. A production research version should replace the approximation with patch-level CLIP similarity, attention rollout, Grad-CAM-style gradients, or segmentation-aware region scoring.&lt;/p&gt;
+
+&lt;p&gt;The important idea is still the same: the debugger turns a hidden image-text relationship into a visible spatial artifact.&lt;/p&gt;
+
+&lt;h2 id=&quot;model-comparison-as-a-debugging-tool&quot;&gt;Model Comparison as a Debugging Tool&lt;/h2&gt;
+
+&lt;p&gt;Heatmaps help with visual focus, but they do not solve the whole problem. Vision agents also fail through reasoning, phrasing, counting, ambiguity, or hallucination.&lt;/p&gt;
+
+&lt;p&gt;That is why the project includes multi-model comparison.&lt;/p&gt;
+
+&lt;p&gt;For each model $m$, the debugger stores a response object:&lt;/p&gt;
+
+\[R_m = (y_m, S_m, e_m, c_m)\]
+
+&lt;p&gt;where:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$y_m$ is the model answer.&lt;/li&gt;
+  &lt;li&gt;$S_m$ is the extracted reasoning-step list.&lt;/li&gt;
+  &lt;li&gt;$e_m$ is the error state.&lt;/li&gt;
+  &lt;li&gt;$c_m$ is the estimated cost.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Once all models return, the tool can compare them:&lt;/p&gt;
+
+\[\mathcal{R} = \{R_{\text{Gemini}}, R_{\text{Claude}}, R_{\text{GPT}}\}\]
+
+&lt;p&gt;The current implementation checks API failures and simple contradiction patterns. For example, if one model says an object is visible and another says no object is present, that disagreement becomes a warning.&lt;/p&gt;
+
+&lt;p&gt;This is simple, but the workflow is powerful. A disagreement is often the most useful signal during debugging. If three models agree, the answer may still be wrong, but confidence rises. If one model disagrees strongly, the user knows where to inspect.&lt;/p&gt;
+
+&lt;p&gt;Future versions could make this much stronger by using semantic entailment:&lt;/p&gt;
+
+\[d_{ij} = 1 - \cos(g(y_i), g(y_j))\]
+
+&lt;p&gt;where $g(\cdot)$ is a sentence embedding model. Large disagreement scores could trigger deeper review, especially for high-stakes visual tasks.&lt;/p&gt;
+
+&lt;h2 id=&quot;reasoning-steps&quot;&gt;Reasoning Steps&lt;/h2&gt;
+
+&lt;p&gt;The debugger also extracts reasoning steps from model responses. It looks for numbered lists, bullet points, or sentence structure, then turns the output into a sequence:&lt;/p&gt;
+
+\[S_m = [s_1, s_2, \ldots, s_k]\]
+
+&lt;p&gt;This does not reveal the model’s true internal reasoning. It reveals the explanation the model produced. That distinction matters. But even explanation traces are useful when debugging prompts and workflows.&lt;/p&gt;
+
+&lt;p&gt;For example, suppose a model answers a counting task incorrectly. The extracted steps may show whether it:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;described the image generally,&lt;/li&gt;
+  &lt;li&gt;identified the correct object type,&lt;/li&gt;
+  &lt;li&gt;confused color or position,&lt;/li&gt;
+  &lt;li&gt;skipped occluded instances,&lt;/li&gt;
+  &lt;li&gt;or made a counting error at the end.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That helps the developer decide what to fix. The prompt might need more constraints. The image might need cropping. The model might need a better visual grounding step before reasoning.&lt;/p&gt;
+
+&lt;h2 id=&quot;error-detection&quot;&gt;Error Detection&lt;/h2&gt;
+
+&lt;p&gt;The project’s error detector handles two practical cases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;API errors, such as missing keys or failed model calls.&lt;/li&gt;
+  &lt;li&gt;Contradictions between model responses.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This may sound small, but it is a useful engineering layer. In multimodal apps, the failure mode is often not “the model is bad.” Sometimes the API key is missing. Sometimes one provider returns an error. Sometimes the frontend shows an incomplete response. Sometimes cost or token limits change behavior.&lt;/p&gt;
+
+&lt;p&gt;By making errors visible, the tool turns silent failure into an inspectable state.&lt;/p&gt;
+
+&lt;h2 id=&quot;cost-tracking&quot;&gt;Cost Tracking&lt;/h2&gt;
+
+&lt;p&gt;Cost is part of debugging too. If a system calls three large vision models every time a user uploads an image, the workflow may become expensive quickly.&lt;/p&gt;
+
+&lt;p&gt;The debugger estimates cost per model and total cost:&lt;/p&gt;
+
+\[C_{\text{total}} = \sum_{m \in \mathcal{M}} c_m\]
+
+&lt;p&gt;This makes it easier to compare accuracy, latency, and cost together. A cheap model may be enough for broad image descriptions. A stronger model may be worth the price for detailed visual reasoning. A debugger should help the developer see those tradeoffs directly.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-like-about-this-project&quot;&gt;What I Like About This Project&lt;/h2&gt;
+
+&lt;p&gt;The strongest part of Vision Agent Debugger is not that each component is perfect. It is that the project has the right shape.&lt;/p&gt;
+
+&lt;p&gt;A good Vision AI debugging tool should combine four views:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;what the image contains,&lt;/li&gt;
+  &lt;li&gt;where the model may be looking,&lt;/li&gt;
+  &lt;li&gt;what the model says,&lt;/li&gt;
+  &lt;li&gt;and how different models disagree.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This repo already has those pieces. It is easy to imagine extending it into a stronger research or production tool.&lt;/p&gt;
+
+&lt;p&gt;For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Replace the current heatmap approximation with patch-level CLIP similarity.&lt;/li&gt;
+  &lt;li&gt;Add bounding-box or segmentation overlays.&lt;/li&gt;
+  &lt;li&gt;Add prompt version tracking.&lt;/li&gt;
+  &lt;li&gt;Add semantic disagreement scoring across model outputs.&lt;/li&gt;
+  &lt;li&gt;Add task-specific metrics for counting, detection, chart reading, or remote sensing.&lt;/li&gt;
+  &lt;li&gt;Save debug sessions so users can compare failures over time.&lt;/li&gt;
+  &lt;li&gt;Add side-by-side original, heatmap, model answer, and ground-truth annotation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For remote sensing, the same idea becomes even more interesting. A user could upload a flood image, satellite crop, or urban change pair and ask: did the model focus on the flooded area, the changed buildings, the roads, or the irrelevant background?&lt;/p&gt;
+
+&lt;p&gt;That is where debugging becomes research infrastructure.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Vision agents should not be treated as magic boxes. If they are going to help with real visual decisions, we need tools that expose where they looked, what they answered, how they explained themselves, where they failed, and how much the process cost.&lt;/p&gt;
+
+&lt;p&gt;Vision Agent Debugger is a practical first step in that direction. It combines CLIP heatmaps, model comparison, reasoning traces, error detection, and cost tracking into one workflow. It is honest as a prototype and useful as a foundation.&lt;/p&gt;
+
+&lt;p&gt;The next step is to make the visual explanations more faithful and the disagreement detection more semantic. But even now, the project points in the right direction: Vision AI systems become more useful when their behavior can be inspected.&lt;/p&gt;
+
+&lt;p&gt;You can read the code, run the app, and fork the project here:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/vision-agent-debugger&quot;&gt;GitHub: rashiedomar/vision-agent-debugger&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="VISION AI" /><category term="AI AGENTS" /><category term="EXPLAINABILITY" /><summary type="html">A practical look at building a debugger for Vision AI agents using heatmaps, model comparison, reasoning traces, error detection, and cost tracking.</summary></entry></feed>

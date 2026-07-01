@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="360" viewBox="0 0 920 360" role="img" aria-labelledby="title desc">
+  <title id="title">FINCPA compliance data lineage</title>
+  <desc id="desc">A compact diagram showing how the FINCPA pipeline turns official law text into clauses, obligations, rules, SIR fields, runtime examples, and audit outputs.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .box { fill: #f7f7f7; stroke: #d6d6d6; stroke-width: 1.2; rx: 8; }
+      .box-strong { fill: #f2f6fb; stroke: #b9cbe3; stroke-width: 1.2; rx: 8; }
+      .title { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #333333; }
+      .label { font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #333333; }
+      .small { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #555555; }
+      .count { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f5fa8; }
+      .arrow { stroke: #8f8f8f; stroke-width: 1.6; marker-end: url(#arrowhead); fill: none; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#8f8f8f"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="920" height="360"/>
+  <text x="34" y="38" class="title">FINCPA: from legal text to auditable compliance data</text>
+  <text x="34" y="60" class="small">Official source first, deterministic compilation, then runtime review and advisory packaging.</text>
+
+  <rect x="34" y="94" width="130" height="88" class="box"/>
+  <text x="54" y="122" class="label">Official PDF</text>
+  <text x="54" y="146" class="small">Chapter 4 scope</text>
+  <text x="54" y="164" class="small">Articles 13-28</text>
+
+  <path d="M164 138 H214" class="arrow"/>
+  <rect x="220" y="94" width="130" height="88" class="box-strong"/>
+  <text x="250" y="122" class="count">60</text>
+  <text x="250" y="146" class="label">clauses</text>
+  <text x="250" y="164" class="small">parsed records</text>
+
+  <path d="M350 138 H400" class="arrow"/>
+  <rect x="406" y="94" width="130" height="88" class="box"/>
+  <text x="436" y="122" class="count">109</text>
+  <text x="436" y="146" class="label">obligations</text>
+  <text x="436" y="164" class="small">Layer 2 units</text>
+
+  <path d="M536 138 H586" class="arrow"/>
+  <rect x="592" y="94" width="130" height="88" class="box"/>
+  <text x="622" y="122" class="count">109</text>
+  <text x="622" y="146" class="label">candidates</text>
+  <text x="622" y="164" class="small">rule/SIR links</text>
+
+  <path d="M722 138 H772" class="arrow"/>
+  <rect x="778" y="94" width="108" height="88" class="box-strong"/>
+  <text x="806" y="122" class="count">76</text>
+  <text x="806" y="146" class="label">rules</text>
+  <text x="806" y="164" class="small">MVP pack</text>
+
+  <path d="M832 182 V220" class="arrow"/>
+  <rect x="716" y="226" width="170" height="88" class="box"/>
+  <text x="746" y="254" class="count">29</text>
+  <text x="746" y="278" class="label">SIR fields</text>
+  <text x="746" y="296" class="small">runtime input schema</text>
+
+  <path d="M716 270 H644" class="arrow"/>
+  <rect x="464" y="226" width="170" height="88" class="box-strong"/>
+  <text x="494" y="254" class="count">7</text>
+  <text x="494" y="278" class="label">runtime cases</text>
+  <text x="494" y="296" class="small">decision examples</text>
+
+  <path d="M464 270 H392" class="arrow"/>
+  <rect x="218" y="226" width="164" height="88" class="box"/>
+  <text x="242" y="254" class="label">Evidence package</text>
+  <text x="242" y="278" class="small">citations, failures,</text>
+  <text x="242" y="296" class="small">review packet</text>
+
+  <path d="M218 270 H164" class="arrow"/>
+  <rect x="34" y="226" width="120" height="88" class="box"/>
+  <text x="54" y="254" class="label">Human</text>
+  <text x="54" y="278" class="small">approval</text>
+  <text x="54" y="296" class="small">and audit log</text>
+</svg>

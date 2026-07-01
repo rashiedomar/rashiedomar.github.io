@@ -1,0 +1,1061 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>From CCTV to Safer Crosswalk Timing - Abdirashid Omar</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Abdirashid Omar">
+<meta property="og:title" content="From CCTV to Safer Crosswalk Timing">
+
+
+  <link rel="canonical" href="https://rashiedomar.github.io/blog/crosswalk-cctv/">
+  <meta property="og:url" content="https://rashiedomar.github.io/blog/crosswalk-cctv/">
+
+
+
+  <meta property="og:description" content="A technical writeup on building a CCTV crosswalk segmentation system for adaptive pedestrian signal timing using transfer learning, semi-supervised pseudo-labeling, and real-time computer vision.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-06-02T00:00:00+09:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Abdirashid Omar",
+      "url" : "https://rashiedomar.github.io",
+      "sameAs" : ["https://www.linkedin.com/in/abdulrashiid-o-matan/","https://github.com/rashiedomar","https://instagram.com/rashied.omarr"]
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://rashiedomar.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Abdirashid Omar Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://rashiedomar.github.io/images/apple-touch-icon-57x57.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="60x60" href="https://rashiedomar.github.io/images/apple-touch-icon-60x60.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="72x72" href="https://rashiedomar.github.io/images/apple-touch-icon-72x72.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="76x76" href="https://rashiedomar.github.io/images/apple-touch-icon-76x76.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="114x114" href="https://rashiedomar.github.io/images/apple-touch-icon-114x114.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="120x120" href="https://rashiedomar.github.io/images/apple-touch-icon-120x120.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="144x144" href="https://rashiedomar.github.io/images/apple-touch-icon-144x144.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="152x152" href="https://rashiedomar.github.io/images/apple-touch-icon-152x152.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="180x180" href="https://rashiedomar.github.io/images/apple-touch-icon-180x180.png?v=omar20260628">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-32x32.png?v=omar20260628" sizes="32x32">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/android-chrome-192x192.png?v=omar20260628" sizes="192x192">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-96x96.png?v=omar20260628" sizes="96x96">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-16x16.png?v=omar20260628" sizes="16x16">
+<link rel="manifest" href="https://rashiedomar.github.io/images/manifest.json?v=omar20260628">
+<link rel="mask-icon" href="https://rashiedomar.github.io/images/safari-pinned-tab.svg?v=omar20260628" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=omar20260628">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://rashiedomar.github.io/images/mstile-144x144.png?v=omar20260628">
+<meta name="msapplication-config" content="https://rashiedomar.github.io/images/browserconfig.xml?v=omar20260628">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://rashiedomar.github.io/">Abdirashid Omar</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/data-stories/">Data Stories</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/year-archive/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://rashiedomar.github.io/images/profile.jpg" class="author__avatar" alt="Abdirashid Omar">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Abdirashid Omar</h3>
+    <p class="author__bio">Vision AI Researcher<br>Data Analyst</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Seoul, South Korea</li>
+      
+      
+      
+      
+        <li><a href="mailto:Rashiidmatan@gmail.com"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/abdulrashiid-o-matan"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+        <li><a href="https://instagram.com/rashied.omarr"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+      
+      
+      
+      
+        <li><a href="https://github.com/rashiedomar"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="From CCTV to Safer Crosswalk Timing">
+    <meta itemprop="description" content="A technical writeup on building a CCTV crosswalk segmentation system for adaptive pedestrian signal timing using transfer learning, semi-supervised pseudo-labeling, and real-time computer vision.">
+    <meta itemprop="datePublished" content="June 02, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">From CCTV to Safer Crosswalk Timing
+</h1>
+          <!-- 
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  0 min.
+	
+</p>
+           -->
+        <!--  -->
+
+        
+        
+        
+        <p class="page__meta" style="font-size:1em;display: inline;">
+    <time datetime="2026-06-02T00:00:00+09:00">June 02, 2026</time>
+    
+
+
+
+
+  
+  
+  
+
+    <span class="page__taxonomy" itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#cctv" class="page__taxonomy-item" rel="tag">CCTV</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#computer-vision" class="page__taxonomy-item" rel="tag">COMPUTER VISION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#segmentation" class="page__taxonomy-item" rel="tag">SEGMENTATION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#semi-supervised-learning" class="page__taxonomy-item" rel="tag">SEMI-SUPERVISED LEARNING</a>
+    
+    </span>
+
+    <br>
+    <span style="font-size:70%;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  23 min.
+	
+</span>
+    <!--  -->
+    <!-- 
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#cctv" class="page__taxonomy-item" rel="tag">CCTV</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#computer-vision" class="page__taxonomy-item" rel="tag">COMPUTER VISION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#segmentation" class="page__taxonomy-item" rel="tag">SEGMENTATION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#semi-supervised-learning" class="page__taxonomy-item" rel="tag">SEMI-SUPERVISED LEARNING</a>
+    
+    </span>
+  </p>
+
+
+
+ -->
+    <!-- 
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02">June 2, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-02">June 2, 2026</time></p>
+ -->
+  </p>
+  
+  <!-- 
+    <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02T00:00:00+09:00">June 02, 2026</time></p>
+   -->
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        
+<p>Traffic signals are often designed around a simplified assumption: pedestrians cross at a standard walking speed. But that assumption is not equally safe for everyone.</p>
+
+<p>In South Korea, elderly pedestrians can walk much slower than the timing used in many standard crossing calculations. The project in <a href="https://github.com/rashiedomar/crosswalk-cctv">rashiedomar/crosswalk-cctv</a> starts from that public-safety problem and turns it into a computer vision system: detect the crosswalk region from overhead CCTV, use that region as the area of interest, and eventually estimate pedestrian crossing speed so signal timing can adapt to slower walkers.</p>
+
+<p>The full research roadmap has four phases:</p>
+
+<ol>
+  <li>Crosswalk segmentation from CCTV.</li>
+  <li>Pedestrian detection, tracking, and speed estimation.</li>
+  <li>Adaptive timing control and safety validation.</li>
+  <li>Edge deployment on Jetson-style hardware.</li>
+</ol>
+
+<p>This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The result is strong: <strong>98.5% IoU on CCTV validation images</strong>, using only <strong>241 manually labeled CCTV images</strong> plus <strong>1,000 high-confidence pseudo-labels</strong> selected from <strong>5,926 unlabeled AI-Hub CCTV images</strong>.</p>
+
+<p>That number matters, but the more interesting story is how the project got there.</p>
+
+<h2 id="why-crosswalk-segmentation-comes-first">Why Crosswalk Segmentation Comes First</h2>
+
+<p>Adaptive signal timing needs a reliable definition of <em>where crossing happens</em>. Before estimating pedestrian speed, the system must know the crosswalk region:</p>
+
+<ul>
+  <li>where pedestrians enter,</li>
+  <li>where they leave,</li>
+  <li>which pixels belong to the legal crossing zone,</li>
+  <li>and which moving objects should be ignored because they are outside the crosswalk.</li>
+</ul>
+
+<p>If the crosswalk mask is wrong, every downstream step becomes fragile. A pedestrian tracker may detect people, but without a reliable region of interest it cannot tell whether a person is actually crossing, waiting, passing near the curb, or walking on the sidewalk.</p>
+
+<p>So Phase 1 is a segmentation problem:</p>
+
+<p>Given an image $X \in \mathbb{R}^{H \times W \times 3}$, predict a binary mask:</p>
+
+\[\hat{Y} \in [0,1]^{H \times W}\]
+
+<p>where each pixel $\hat{Y}_{ij}$ estimates whether pixel $(i,j)$ belongs to the crosswalk.</p>
+
+<p>The target mask is:</p>
+
+\[Y_{ij} =
+\begin{cases}
+1, &amp; \text{if pixel } (i,j) \text{ is crosswalk} \\
+0, &amp; \text{otherwise}
+\end{cases}\]
+
+<p>Once the mask is reliable, the later pedestrian-speed pipeline can restrict analysis to the crosswalk area:</p>
+
+\[\text{ROI}(X) = X \odot \hat{Y}\]
+
+<p>where $\odot$ means element-wise masking.</p>
+
+<p>That sounds simple, but the camera viewpoint changes everything.</p>
+
+<h2 id="the-domain-gap">The Domain Gap</h2>
+
+<p>The first model was trained on first-person-view crosswalk images. In that domain, crosswalks are usually seen from a driver or street-level perspective. The stripes are large, close, and often occupy a predictable region of the image.</p>
+
+<p>The target domain is overhead CCTV. In CCTV footage, crosswalks are smaller, farther away, angled, partially occluded by cars or buses, affected by rain or night lighting, and often surrounded by road markings that look similar.</p>
+
+<p>The FPV model performed well on its own domain, reaching about <strong>93.05% IoU</strong> on the FPV test set. But when tested directly on CCTV, the confidence collapsed.</p>
+
+<p><img src="/images/blog/crosswalk-cctv/domain-gap-visualization.png" alt="FPV to CCTV domain gap" /></p>
+
+<p>This is the classic domain adaptation problem. The model did not only learn “crosswalkness.” It also learned the appearance distribution of the training domain:</p>
+
+\[P_{\text{train}}(X, Y) \neq P_{\text{test}}(X, Y)\]
+
+<p>In the source domain:</p>
+
+\[(X_s, Y_s) \sim P_s\]
+
+<p>In the target CCTV domain:</p>
+
+\[(X_t, Y_t) \sim P_t\]
+
+<p>The task is the same, but the data distribution changes:</p>
+
+\[P_s(X) \neq P_t(X)\]
+
+<p>That mismatch is enough to make a high-performing source model fail. The project therefore uses the FPV model as a starting point, not as the final detector.</p>
+
+<h2 id="stage-1-fpv-baseline">Stage 1: FPV Baseline</h2>
+
+<p>The first stage trained a U-Net model with a ResNet34 encoder on <strong>3,300 FPV crosswalk images</strong>. U-Net is a natural starting point because it combines encoder features with decoder upsampling and skip connections.</p>
+
+<p>For segmentation, the model learns a function:</p>
+
+\[f_\theta(X) = \hat{Y}\]
+
+<p>where $\theta$ are the model parameters.</p>
+
+<p>The basic evaluation metric is Intersection over Union:</p>
+
+\[\text{IoU}(Y,\hat{Y}) =
+\frac{|Y \cap \hat{Y}|}
+{|Y \cup \hat{Y}|}\]
+
+<p>For binary masks, this can be written as:</p>
+
+\[\text{IoU} =
+\frac{TP}
+{TP + FP + FN}\]
+
+<p>where $TP$ is the number of correctly predicted crosswalk pixels, $FP$ is the number of false crosswalk pixels, and $FN$ is the number of missed crosswalk pixels.</p>
+
+<p>The FPV baseline reached:</p>
+
+<ul>
+  <li>best validation IoU: <strong>92.44%</strong></li>
+  <li>test IoU: <strong>93.05%</strong></li>
+  <li>training epochs: <strong>30</strong></li>
+</ul>
+
+<p><img src="/images/blog/crosswalk-cctv/stage1-fpv-training-history.png" alt="Stage 1 FPV training history" /></p>
+
+<p>This is a strong result inside the FPV domain. But it does not solve the CCTV problem. A model can look excellent on a source domain while still being unreliable in the deployment domain.</p>
+
+<p>That is why the next stage matters.</p>
+
+<h2 id="testing-the-source-model-on-cctv">Testing the Source Model on CCTV</h2>
+
+<p>When the FPV-trained model was tested on overhead CCTV frames, the model struggled. On one CCTV set of 175 frames, the mean confidence was only about <strong>0.044</strong>. Night frames were especially weak, with an average confidence close to <strong>0.0016</strong>, while day frames averaged about <strong>0.106</strong>.</p>
+
+<p>The AI-Hub CCTV evaluation showed the same pattern. Across <strong>5,926 CCTV images</strong>, mean confidence was only about <strong>0.0545</strong>, with most images below 10% confidence.</p>
+
+<p><img src="/images/blog/crosswalk-cctv/aihub-domain-gap-analysis.png" alt="AI-Hub CCTV domain gap analysis" /></p>
+
+<p>This failure is useful. It proves that the deployment domain needs its own adaptation step.</p>
+
+<p>The lesson is not “the FPV model is bad.” The lesson is that viewpoint matters. A first-person crosswalk and an overhead CCTV crosswalk are visually different objects from the perspective of the model.</p>
+
+<p>The visual comparison makes the problem even clearer. FPV examples tend to show crosswalk stripes as near-field objects with strong perspective expansion. CCTV examples compress the same structure into a distant, oblique region of the frame. The lane markings, bus lanes, reflections, headlights, and road arrows become distractors.</p>
+
+<p><img src="/images/blog/crosswalk-cctv/fpv-vs-aihub-cctv-comparison.png" alt="FPV versus AI-Hub CCTV comparison" /></p>
+
+<p>This is one reason crosswalk segmentation is a better first target than pedestrian speed estimation. If the system cannot first localize the crosswalk under viewpoint shift, any attempt to estimate speed inside the scene will mix true crossing motion with irrelevant road and sidewalk motion.</p>
+
+<h2 id="stage-2-cctv-adaptation">Stage 2: CCTV Adaptation</h2>
+
+<p>The second stage adapts the model to CCTV. The key difficulty is annotation cost. Manually labeling CCTV segmentation masks is slow, and the project starts with only <strong>241 labeled CCTV images</strong>:</p>
+
+<ul>
+  <li>201 training samples</li>
+  <li>40 validation samples</li>
+</ul>
+
+<p>The first CCTV adaptation pass fine-tuned a DeepLabV3 model with a ResNet50 backbone. DeepLabV3 is useful here because atrous convolution and multi-scale context help segmentation models capture structure across different receptive fields.</p>
+
+<p>The loss combines binary cross-entropy and Dice-style overlap:</p>
+
+\[\mathcal{L} =
+\lambda_{\text{BCE}}\mathcal{L}_{\text{BCE}}
++ \lambda_{\text{Dice}}\mathcal{L}_{\text{Dice}}\]
+
+<p>Binary cross-entropy handles pixel-wise classification:</p>
+
+\[\mathcal{L}_{\text{BCE}} =
+- \frac{1}{N} \sum_{i=1}^{N}
+\left[
+y_i \log(\hat{y}_i) +
+(1-y_i)\log(1-\hat{y}_i)
+\right]\]
+
+<p>Dice loss focuses on region overlap:</p>
+
+\[\mathcal{L}_{\text{Dice}} =
+1 -
+\frac{2\sum_i y_i\hat{y}_i + \epsilon}
+{\sum_i y_i + \sum_i \hat{y}_i + \epsilon}\]
+
+<p>The first CCTV fine-tuning pass reached:</p>
+
+<ul>
+  <li>best validation IoU: <strong>88.9%</strong></li>
+  <li>final train IoU: <strong>97.0%</strong></li>
+  <li>epochs: <strong>30</strong></li>
+</ul>
+
+<p>That is already usable, but the gap between train and validation suggests a familiar problem: the labeled dataset is small. The model can learn the 241 labeled images, but the target CCTV distribution is wider than those labels.</p>
+
+<p><img src="/images/blog/crosswalk-cctv/stage2-training-history.png" alt="Stage 2 CCTV fine-tuning history" /></p>
+
+<p>The project therefore uses semi-supervised learning.</p>
+
+<h2 id="data-preparation-matters">Data Preparation Matters</h2>
+
+<p>Before the model can learn anything useful, the project has to convert video and image sources into a consistent segmentation dataset.</p>
+
+<p>That preparation step is not glamorous, but it is where many applied computer vision projects succeed or fail. Crosswalk segmentation needs image-mask pairs that agree spatially. If a frame is resized, cropped, padded, or augmented, the mask must receive the same transformation.</p>
+
+<p>The dataset workflow in the repository is notebook-driven:</p>
+
+<ul>
+  <li>extract frames from video sources,</li>
+  <li>prepare FPV training images,</li>
+  <li>visualize FPV and CCTV differences,</li>
+  <li>train the FPV baseline,</li>
+  <li>test the FPV model on CCTV,</li>
+  <li>fine-tune and pseudo-label CCTV data.</li>
+</ul>
+
+<p>The important design decision is keeping the experiment stages separate. The project does not hide everything inside one giant script. It preserves the story of the research:</p>
+
+<ol>
+  <li>Build a source-domain baseline.</li>
+  <li>Measure how badly it transfers.</li>
+  <li>Add limited labeled target data.</li>
+  <li>Use target-domain unlabeled data.</li>
+  <li>compare iteration 1 and iteration 2.</li>
+</ol>
+
+<p>That structure makes the result easier to trust. If someone only reports the final 98.5% IoU, we do not know how much was learned from source data, how much came from manual labels, and how much came from pseudo-labels. Here, each stage has its own artifacts.</p>
+
+<h2 id="architecture-choice">Architecture Choice</h2>
+
+<p>The final adaptation uses DeepLabV3 with a ResNet50 backbone. That is a reasonable choice for CCTV crosswalk segmentation because the object has both local and global structure.</p>
+
+<p>The local structure is the stripe pattern. A model must identify repeated white bars, edges, and road-paint texture.</p>
+
+<p>The global structure is the crosswalk polygon. A crosswalk is not just a set of stripes; it is a coherent region across the road. It has orientation, width, continuity, and geometric plausibility.</p>
+
+<p>DeepLab-style models help because they can combine fine visual cues with broader context. In practice, the model needs to answer questions like:</p>
+
+<ul>
+  <li>Are these stripes part of a legal crosswalk or just lane markings?</li>
+  <li>Does the predicted region form a plausible crossing zone?</li>
+  <li>Does the mask remain stable under shadows, vehicles, and camera angle?</li>
+  <li>Can the model see the full crosswalk even when part of it is occluded?</li>
+</ul>
+
+<p>For this phase, a binary segmentation model is the right abstraction. The output is not a bounding box, because a crosswalk is not always rectangular in image coordinates. The output is not a classification label, because the exact region matters for later speed estimation. A dense mask is the useful representation.</p>
+
+<h2 id="pseudo-labeling">Pseudo-Labeling</h2>
+
+<p>Pseudo-labeling is the bridge between scarce manual labels and abundant unlabeled data.</p>
+
+<p>Let the labeled set be:</p>
+
+\[\mathcal{D}_L = \{(x_i, y_i)\}_{i=1}^{n}\]
+
+<p>and the unlabeled set be:</p>
+
+\[\mathcal{D}_U = \{u_j\}_{j=1}^{m}\]
+
+<p>After training an initial model $f_{\theta_1}$ on $\mathcal{D}_L$, we generate predicted masks for the unlabeled images:</p>
+
+\[\tilde{y}_j = f_{\theta_1}(u_j)\]
+
+<p>But we should not trust every prediction. The project filters pseudo-labels using a confidence score and geometric validation.</p>
+
+<p>The idea is:</p>
+
+\[q_j = \frac{c_j + g_j}{2}\]
+
+<p>where:</p>
+
+<ul>
+  <li>$c_j$ is prediction confidence,</li>
+  <li>$g_j$ is geometric validity,</li>
+  <li>and $q_j$ is the final pseudo-label quality score.</li>
+</ul>
+
+<p>The geometric check is important because crosswalk masks have physical structure. They should not occupy almost none of the frame, and they should not cover almost the whole frame. The project uses a reasonable crosswalk-area constraint, roughly checking whether the predicted mask occupies a plausible percentage of the image.</p>
+
+<p>In simplified form:</p>
+
+\[g_j =
+\begin{cases}
+1, &amp; r_{\min} \leq \frac{|\tilde{y}_j|}{H W} \leq r_{\max} \\
+0, &amp; \text{otherwise}
+\end{cases}\]
+
+<p>The repository describes the accepted area ratio range as about <strong>5% to 40%</strong> of the frame.</p>
+
+<p>From <strong>5,926 unlabeled CCTV images</strong>, the system selected the top <strong>1,000 high-confidence pseudo-labels</strong> using a threshold of <strong>0.7</strong>. The top pseudo-label scores were extremely high:</p>
+
+<ul>
+  <li>top score: <strong>0.988</strong></li>
+  <li>median score: <strong>0.988</strong></li>
+  <li>confidence score around <strong>0.976</strong></li>
+  <li>geometric validation: <strong>1.0</strong> for the top samples</li>
+</ul>
+
+<p><img src="/images/blog/crosswalk-cctv/pseudo-labels-samples.png" alt="Pseudo-label samples" /></p>
+
+<p>This step increases the effective training set from 241 CCTV images to 1,241 images:</p>
+
+\[\mathcal{D}_{\text{train}} =
+\mathcal{D}_L \cup
+\{(u_j, \tilde{y}_j): q_j &gt; \tau\}\]
+
+<p>The key is not just adding more data. It is adding more target-domain data: new lighting, roads, camera angles, vehicles, road widths, shadows, and crosswalk geometries.</p>
+
+<h2 id="why-confidence-alone-is-not-enough">Why Confidence Alone Is Not Enough</h2>
+
+<p>One nice detail in this project is that pseudo-label selection is not based on raw model confidence alone.</p>
+
+<p>Raw confidence can be misleading. A segmentation model can be confidently wrong, especially after domain shift. It may draw a large mask over a road area, produce a tiny blob near a bright lane marking, or hallucinate a crosswalk where none exists. If we accept those masks because the probabilities are high, pseudo-labeling becomes error amplification.</p>
+
+<p>That is why geometric validation matters. Crosswalks have expected shape and scale. They usually occupy a meaningful but limited part of the frame. They are often elongated and road-aligned. A simple geometry rule will not solve all errors, but it can reject many obviously bad pseudo-labels.</p>
+
+<p>This gives the pseudo-labeling step two checks:</p>
+
+<ol>
+  <li>Does the model believe the mask?</li>
+  <li>Does the mask look physically plausible?</li>
+</ol>
+
+<p>That is a strong pattern for applied AI. Confidence should be combined with domain knowledge whenever possible.</p>
+
+<h2 id="iteration-2-training-with-pseudo-labels">Iteration 2: Training with Pseudo-Labels</h2>
+
+<p>The second iteration retrains on the combined dataset:</p>
+
+<ul>
+  <li>241 manually labeled CCTV images</li>
+  <li>1,000 pseudo-labeled CCTV images</li>
+  <li>1,241 total target-domain examples</li>
+</ul>
+
+<p>The learning rate is reduced to stabilize adaptation. The model has already learned the rough CCTV crosswalk concept, so the next stage is refinement and generalization.</p>
+
+<p>The result is the main achievement of Phase 1:</p>
+
+<ul>
+  <li>Iteration 1 validation IoU: <strong>88.9%</strong></li>
+  <li>Iteration 2 validation IoU: <strong>98.5%</strong></li>
+  <li>improvement: <strong>+9.6 percentage points</strong></li>
+  <li>inference time: <strong>12.98 ms</strong></li>
+  <li>throughput: <strong>77.03 FPS</strong></li>
+</ul>
+
+<p><img src="/images/blog/crosswalk-cctv/final-results.png" alt="Final model performance" /></p>
+
+<p>The final visualization shows why the result is convincing. The predicted mask aligns closely with the manual ground-truth crosswalk region, even under overhead perspective and real CCTV conditions.</p>
+
+<p><img src="/images/blog/crosswalk-cctv/predictions-visualization.png" alt="CCTV prediction visualization" /></p>
+
+<p>This is exactly what a Phase 1 module should provide: a stable, fast crosswalk mask that later components can use as the spatial foundation for pedestrian tracking.</p>
+
+<h2 id="reading-the-result-carefully">Reading the Result Carefully</h2>
+
+<p>The final result figure is impressive, but it is worth reading it like a researcher instead of only like a scoreboard.</p>
+
+<p>The top row shows an original CCTV image, a manual ground-truth mask, and a model prediction. The prediction nearly overlaps the target crosswalk region, and the figure reports an IoU around 0.99 for that example.</p>
+
+<p>The bottom plots tell the training story. Iteration 1 improves quickly but plateaus below the final result. After pseudo-labeling is added, iteration 2 starts from a much stronger place and pushes validation IoU close to the training IoU. This means the additional target-domain data did not only help the model memorize. It helped it generalize better across the validation samples.</p>
+
+<p>The result is also practical because the prediction is spatially clean. A noisy mask with many disconnected blobs would be hard to use for tracking. A clean crosswalk polygon can be post-processed into a stable region of interest.</p>
+
+<h2 id="why-the-result-works">Why the Result Works</h2>
+
+<p>The performance jump is not magic. It comes from three design choices working together.</p>
+
+<p>First, transfer learning gives the model a useful starting point. The FPV source task still teaches stripes, road texture, crosswalk shape, and segmentation boundaries. Even if the viewpoint is wrong, the learned representation is better than random initialization.</p>
+
+<p>Second, small labeled CCTV fine-tuning anchors the model to the target viewpoint. The 241 manual masks teach the overhead camera geometry.</p>
+
+<p>Third, pseudo-labeling expands the target domain. The extra 1,000 pseudo-labels expose the model to many more CCTV conditions without requiring full manual annotation.</p>
+
+<p>The training process can be summarized as:</p>
+
+\[\theta_s =
+\arg\min_{\theta}
+\sum_{(x,y)\in\mathcal{D}_s}
+\mathcal{L}(f_\theta(x), y)\]
+
+<p>for the source FPV model, then:</p>
+
+\[\theta_1 =
+\arg\min_{\theta}
+\sum_{(x,y)\in\mathcal{D}_L}
+\mathcal{L}(f_\theta(x), y)\]
+
+<p>for the first CCTV adaptation, and finally:</p>
+
+\[\theta_2 =
+\arg\min_{\theta}
+\left[
+\sum_{(x,y)\in\mathcal{D}_L}
+\mathcal{L}(f_\theta(x), y)
++
+\sum_{(u,\tilde{y})\in\mathcal{D}_P}
+w(u)\mathcal{L}(f_\theta(u), \tilde{y})
+\right]\]
+
+<p>where $\mathcal{D}_P$ is the pseudo-labeled set and $w(u)$ can be interpreted as a confidence weight. Even when the implementation uses selected pseudo-labels rather than explicit continuous weights, the idea is the same: high-confidence pseudo-labels are allowed to influence training.</p>
+
+<p>This is data-efficient domain adaptation.</p>
+
+<h2 id="real-time-requirement">Real-Time Requirement</h2>
+
+<p>A research model is not enough for an adaptive signal system. The system must run fast enough to support live CCTV.</p>
+
+<p>At 512 by 512 resolution, the final model runs at about <strong>77 FPS</strong>, corresponding to roughly <strong>12.98 ms per frame</strong>. That exceeds a 30 FPS real-time target:</p>
+
+\[\text{FPS} = \frac{1000}{t_{\text{ms}}}\]
+
+<p>With $t_{\text{ms}} = 12.98$:</p>
+
+\[\text{FPS} \approx \frac{1000}{12.98} \approx 77.0\]
+
+<p>That speed matters because Phase 2 will add more computation: pedestrian detection, tracking, trajectory smoothing, and speed estimation. If segmentation already consumes the full time budget, the later system will fail. A fast segmentation module leaves room for the rest of the pipeline.</p>
+
+<p>In deployment terms, this means the segmentation model can run as a front-end perception module. It does not need to recompute a brand-new crosswalk mask at every frame if the camera is fixed. A practical system could compute or update the mask periodically, stabilize it across time, and then use it as a fixed region for tracking. That would save compute for pedestrian detection and trajectory estimation.</p>
+
+<p>For fixed CCTV, the crosswalk itself is mostly static. The hard part is not that the crosswalk moves; it is that lighting, shadows, weather, vehicles, and occlusions change. So the segmentation module can be used in two ways:</p>
+
+<ul>
+  <li>as a one-time or periodic crosswalk locator,</li>
+  <li>and as a robustness check when the scene changes significantly.</li>
+</ul>
+
+<p>This is important for edge deployment. On a Jetson-like device, every millisecond matters.</p>
+
+<h2 id="toward-speed-estimation">Toward Speed Estimation</h2>
+
+<p>Once the crosswalk mask is stable, Phase 2 can estimate walking speed.</p>
+
+<p>For a tracked pedestrian, suppose their position in image coordinates at time $t$ is:</p>
+
+\[p_t = (x_t, y_t)\]
+
+<p>A tracker such as DeepSORT can maintain an identity across frames:</p>
+
+\[\mathcal{T}_k =
+\{p_{t_1}, p_{t_2}, \ldots, p_{t_n}\}\]
+
+<p>To estimate physical speed, image movement must be converted into meters. With a calibration function $H$ or a pixel-to-meter scale, positions can be projected into ground-plane coordinates:</p>
+
+\[P_t = H(p_t)\]
+
+<p>Then walking speed can be estimated as:</p>
+
+\[v =
+\frac{\|P_{t_b} - P_{t_a}\|_2}
+{t_b - t_a}\]
+
+<p>The signal timing problem is then straightforward. If the crosswalk length is $L$ and a pedestrian walks at speed $v$, the required crossing time is:</p>
+
+\[T_{\text{required}} =
+\frac{L}{v} + T_{\text{safety}}\]
+
+<p>The safety issue appears when the assumed design speed is too high:</p>
+
+\[T_{\text{standard}} =
+\frac{L}{v_{\text{standard}}}\]
+
+<p>If $v_{\text{elderly}} &lt; v_{\text{standard}}$, then:</p>
+
+\[T_{\text{required}} &gt; T_{\text{standard}}\]
+
+<p>That is the entire motivation of the project in one equation. Slower pedestrians need more crossing time. A vision system can estimate when that extra time is needed.</p>
+
+<p>The next research challenge is not only measuring speed, but measuring it reliably. A pedestrian may pause, turn, walk diagonally, start late, or be occluded by a vehicle. A simple two-point speed estimate can be noisy. A stronger version would estimate speed over a track:</p>
+
+\[v_k =
+\frac{1}{n-1}
+\sum_{i=1}^{n-1}
+\frac{\|P_{t_{i+1}} - P_{t_i}\|_2}
+{t_{i+1}-t_i}\]
+
+<p>Then the system can smooth speed over time:</p>
+
+\[\bar{v}_t =
+\beta v_t + (1-\beta)\bar{v}_{t-1}\]
+
+<p>This kind of smoothing prevents one noisy frame from causing unstable signal decisions.</p>
+
+<h2 id="what-makes-this-project-strong">What Makes This Project Strong</h2>
+
+<p>The strongest part of this project is that it does not jump directly to signal control. It builds the perception foundation first.</p>
+
+<p>A weaker version of the project would try to detect pedestrians everywhere in the frame and estimate speed immediately. But without a crosswalk mask, the system would have too much ambiguity. People on sidewalks, people waiting near the curb, cyclists, reflections, and vehicles could all interfere with the logic.</p>
+
+<p>This project begins with the spatial prior:</p>
+
+<p>Where is the crosswalk?</p>
+
+<p>Once that is known, later modules can ask better questions:</p>
+
+<ul>
+  <li>Is a person inside the crosswalk?</li>
+  <li>How long have they been crossing?</li>
+  <li>Are they moving slower than expected?</li>
+  <li>Are they likely to remain in the crosswalk when the signal changes?</li>
+  <li>How much extra green time is needed?</li>
+</ul>
+
+<p>This is good system design. Perception, tracking, speed estimation, and control are separated into stages.</p>
+
+<h2 id="limitations">Limitations</h2>
+
+<p>The Phase 1 result is strong, but it should be interpreted carefully.</p>
+
+<p>First, the final model is evaluated on the available CCTV validation set. More cities, weather conditions, camera heights, road geometries, and nighttime scenes would be needed before claiming broad deployment readiness.</p>
+
+<p>Second, pseudo-labeling works best when the first model is already good enough. If the first fine-tuned model produces systematically wrong masks, pseudo-labeling can amplify errors.</p>
+
+<p>Third, segmentation accuracy does not guarantee tracking accuracy. Phase 2 still needs robust pedestrian detection and identity tracking under occlusion, crowding, shadows, vehicles, and low-light conditions.</p>
+
+<p>Fourth, signal timing is a control problem, not only a vision problem. It must consider traffic rules, pedestrian signals, vehicle flow, fairness, and safety margins.</p>
+
+<p>These limitations do not weaken the project. They define the next research steps.</p>
+
+<h2 id="what-i-would-improve-next">What I Would Improve Next</h2>
+
+<p>If I were extending this project, I would keep the staged design and add a few evaluation layers.</p>
+
+<p>First, I would create a held-out CCTV benchmark split by condition: day, night, rain, heavy traffic, low traffic, bus occlusion, wide intersection, narrow intersection, and unusual camera angle. A single validation number is useful, but condition-specific metrics tell us where the model is fragile.</p>
+
+<p>Second, I would add temporal stability metrics. Since CCTV is video, the mask should not flicker frame by frame. Even if per-frame IoU is high, unstable edges can hurt downstream tracking. A simple temporal consistency score could compare consecutive predictions:</p>
+
+\[\text{TC}_t =
+\text{IoU}(\hat{Y}_t, \hat{Y}_{t-1})\]
+
+<p>High temporal consistency would mean the crosswalk region remains stable unless the scene truly changes.</p>
+
+<p>Third, I would add uncertainty maps. If the model is uncertain near the boundary or under occlusion, later stages should know that. A tracker can behave differently when the crosswalk ROI is high-confidence versus partially uncertain.</p>
+
+<p>Fourth, I would connect the segmentation output to a small tracking prototype. Even a simple YOLO + DeepSORT baseline inside the predicted ROI would validate that Phase 1 provides the right representation for Phase 2.</p>
+
+<p>Fifth, I would document failure cases as carefully as successes. The best projects show where the model breaks. Night reflections, bus occlusion, unusual crosswalk paint, construction zones, and wet roads are not edge cases for deployment; they are normal urban conditions.</p>
+
+<h2 id="lessons">Lessons</h2>
+
+<p>There are a few lessons I would take from this work.</p>
+
+<p>The first lesson is that domain shift is real. A model that works in FPV does not automatically work in CCTV.</p>
+
+<p>The second lesson is that small labeled datasets can still be powerful if used strategically. The 241 CCTV labels were enough to bootstrap a useful target-domain model.</p>
+
+<p>The third lesson is that pseudo-labeling is most useful when filtered. The important contribution is not generating 5,926 masks. It is selecting the 1,000 masks that are confident and geometrically plausible.</p>
+
+<p>The fourth lesson is that real-time performance should be measured early. A safety system cannot wait until the end to discover that it is too slow.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The crosswalk CCTV project is a strong example of applied computer vision research because it connects model design to a real public-safety workflow.</p>
+
+<p>The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labeled CCTV set, expands it with confidence-filtered pseudo-labels, and reaches <strong>98.5% IoU at 77 FPS</strong>.</p>
+
+<p>That makes Phase 1 ready to support the next stage: pedestrian tracking and speed estimation inside the detected crosswalk region.</p>
+
+<p>You can read the code, inspect the notebooks, and fork the project here:</p>
+
+<p><a href="https://github.com/rashiedomar/crosswalk-cctv">GitHub: rashiedomar/crosswalk-cctv</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#cctv" class="page__taxonomy-item" rel="tag">CCTV</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#computer-vision" class="page__taxonomy-item" rel="tag">COMPUTER VISION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#segmentation" class="page__taxonomy-item" rel="tag">SEGMENTATION</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#semi-supervised-learning" class="page__taxonomy-item" rel="tag">SEMI-SUPERVISED LEARNING</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02">June 2, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-02">June 2, 2026</time></p>
+
+        
+          
+          <p><i class="fas fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  23 min.
+	
+</p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://rashiedomar.github.io/blog/crosswalk-cctv/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://rashiedomar.github.io/blog/crosswalk-cctv/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://rashiedomar.github.io/blog/crosswalk-cctv/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      <!-- 
+
+
+  <nav class="pagination">
+    
+      <a href="https://rashiedomar.github.io/blog/vision-agent-debugger/" class="pagination--pager" title="Debugging Vision Agents
+">Previous</a>
+    
+    
+      <a href="https://rashiedomar.github.io/blog/artstylenet/" class="pagination--pager" title="ArtStyleNet: Finding Similar Artworks with Deep Features
+">Next</a>
+    
+  </nav>
+ -->
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/rashiedomar"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://rashiedomar.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2026 Abdirashid Omar. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://rashiedomar.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

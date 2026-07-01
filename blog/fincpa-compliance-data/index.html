@@ -1,0 +1,759 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Building FINCPA: Turning Financial Law into Compliance Data - Abdirashid Omar</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Abdirashid Omar">
+<meta property="og:title" content="Building FINCPA: Turning Financial Law into Compliance Data">
+
+
+  <link rel="canonical" href="https://rashiedomar.github.io/blog/fincpa-compliance-data/">
+  <meta property="og:url" content="https://rashiedomar.github.io/blog/fincpa-compliance-data/">
+
+
+
+  <meta property="og:description" content="A technical note on building a hackathon compliance AI prototype by compiling financial law into structured rules, SIR fields, deterministic checks, and audit-ready outputs.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-06-04T00:00:00+09:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Abdirashid Omar",
+      "url" : "https://rashiedomar.github.io",
+      "sameAs" : ["https://www.linkedin.com/in/abdulrashiid-o-matan/","https://github.com/rashiedomar","https://instagram.com/rashied.omarr"]
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://rashiedomar.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Abdirashid Omar Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://rashiedomar.github.io/images/apple-touch-icon-57x57.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="60x60" href="https://rashiedomar.github.io/images/apple-touch-icon-60x60.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="72x72" href="https://rashiedomar.github.io/images/apple-touch-icon-72x72.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="76x76" href="https://rashiedomar.github.io/images/apple-touch-icon-76x76.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="114x114" href="https://rashiedomar.github.io/images/apple-touch-icon-114x114.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="120x120" href="https://rashiedomar.github.io/images/apple-touch-icon-120x120.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="144x144" href="https://rashiedomar.github.io/images/apple-touch-icon-144x144.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="152x152" href="https://rashiedomar.github.io/images/apple-touch-icon-152x152.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="180x180" href="https://rashiedomar.github.io/images/apple-touch-icon-180x180.png?v=omar20260628">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-32x32.png?v=omar20260628" sizes="32x32">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/android-chrome-192x192.png?v=omar20260628" sizes="192x192">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-96x96.png?v=omar20260628" sizes="96x96">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-16x16.png?v=omar20260628" sizes="16x16">
+<link rel="manifest" href="https://rashiedomar.github.io/images/manifest.json?v=omar20260628">
+<link rel="mask-icon" href="https://rashiedomar.github.io/images/safari-pinned-tab.svg?v=omar20260628" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=omar20260628">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://rashiedomar.github.io/images/mstile-144x144.png?v=omar20260628">
+<meta name="msapplication-config" content="https://rashiedomar.github.io/images/browserconfig.xml?v=omar20260628">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://rashiedomar.github.io/">Abdirashid Omar</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/data-stories/">Data Stories</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/year-archive/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://rashiedomar.github.io/images/profile.jpg" class="author__avatar" alt="Abdirashid Omar">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Abdirashid Omar</h3>
+    <p class="author__bio">Vision AI Researcher<br>Data Analyst</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Seoul, South Korea</li>
+      
+      
+      
+      
+        <li><a href="mailto:Rashiidmatan@gmail.com"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/abdulrashiid-o-matan"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+        <li><a href="https://instagram.com/rashied.omarr"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+      
+      
+      
+      
+        <li><a href="https://github.com/rashiedomar"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building FINCPA: Turning Financial Law into Compliance Data">
+    <meta itemprop="description" content="A technical note on building a hackathon compliance AI prototype by compiling financial law into structured rules, SIR fields, deterministic checks, and audit-ready outputs.">
+    <meta itemprop="datePublished" content="June 04, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Building FINCPA: Turning Financial Law into Compliance Data
+</h1>
+          <!-- 
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  0 min.
+	
+</p>
+           -->
+        <!--  -->
+
+        
+        
+        
+        <p class="page__meta" style="font-size:1em;display: inline;">
+    <time datetime="2026-06-04T00:00:00+09:00">June 04, 2026</time>
+    
+
+
+
+
+  
+  
+  
+
+    <span class="page__taxonomy" itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#compliance-ai" class="page__taxonomy-item" rel="tag">COMPLIANCE AI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#dashboard" class="page__taxonomy-item" rel="tag">DASHBOARD</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#data-pipeline" class="page__taxonomy-item" rel="tag">DATA PIPELINE</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#hackathon" class="page__taxonomy-item" rel="tag">HACKATHON</a>
+    
+    </span>
+
+    <br>
+    <span style="font-size:70%;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 min.
+	
+</span>
+    <!--  -->
+    <!-- 
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#compliance-ai" class="page__taxonomy-item" rel="tag">COMPLIANCE AI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#dashboard" class="page__taxonomy-item" rel="tag">DASHBOARD</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#data-pipeline" class="page__taxonomy-item" rel="tag">DATA PIPELINE</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#hackathon" class="page__taxonomy-item" rel="tag">HACKATHON</a>
+    
+    </span>
+  </p>
+
+
+
+ -->
+    <!-- 
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-04">June 4, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-04">June 4, 2026</time></p>
+ -->
+  </p>
+  
+  <!-- 
+    <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-04T00:00:00+09:00">June 04, 2026</time></p>
+   -->
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        
+<p><a href="https://github.com/rashiedomar/FinTech">FINCPA</a> was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:</p>
+
+<p><strong>Can we help review financial advertising without letting a language model become the legal judge?</strong></p>
+
+<p>That question matters because financial compliance is not only a text-generation problem. If an AI system says “this ad looks fine,” a reviewer needs to know why. Which rule was checked? Which legal clause supports it? Which disclosure was missing? Which field in the ad caused the finding? Could the decision be reproduced tomorrow?</p>
+
+<p>The architecture we proposed answers those questions with a compiler-style workflow. The law is converted into structured compliance data first. The runtime input is converted into a structured representation second. A deterministic engine compares the two. Only after that does the LLM help with explanation and conservative rewrite suggestions.</p>
+
+<p><img src="/images/blog/fincpa-compliance-data/safeguard-ai-workflow.png" alt="SafeGuard AI end-to-end workflow" /></p>
+
+<h2 id="the-main-design-choice">The Main Design Choice</h2>
+
+<p>A weaker design would be:</p>
+
+<blockquote>
+  <p>user ad → LLM → compliance decision</p>
+</blockquote>
+
+<p>That is easy to demo, but hard to trust. It makes the model responsible for interpreting law, applying rules, and explaining itself in one step.</p>
+
+<p>FINCPA uses a different flow:</p>
+
+<blockquote>
+  <p>law → structured rules<br />
+ad → structured facts<br />
+rules + facts → deterministic finding<br />
+finding + evidence → LLM explanation<br />
+reviewer → final approval</p>
+</blockquote>
+
+<p>This separation is the whole project. The LLM is useful, but it is not the first judge. The system first asks: what can we prove from structured legal data and structured input fields?</p>
+
+<h2 id="scope-one-legal-chapter-first">Scope: One Legal Chapter First</h2>
+
+<p>The prototype focuses on Chapter 4 of the Financial Consumer Protection Act, especially customer-facing conduct and financial-product advertising. Instead of trying to cover every regulation in Korea, the project builds one defensible legal core:</p>
+
+<ul>
+  <li>one official law PDF,</li>
+  <li>one chapter scope,</li>
+  <li>clause-level parsing,</li>
+  <li>obligation decomposition,</li>
+  <li>rule candidate compilation,</li>
+  <li>MVP rule freeze,</li>
+  <li>runtime review examples.</li>
+</ul>
+
+<p>That may sound narrow, but narrow is good for a hackathon prototype. A smaller scope lets the team show traceability. Every rule can point back to source text.</p>
+
+<h2 id="building-the-legal-dataset">Building the Legal Dataset</h2>
+
+<p>The first layer is deterministic parsing. The source PDF is trimmed to the Chapter 4 range, then segmented into article and paragraph-level records. The current parse produces <strong>60 clause records</strong> across the Chapter 4 scope.</p>
+
+<p>In abstract form, we can think of the source law as a sequence of clauses:</p>
+
+\[C = \{c_1, c_2, \ldots, c_n\}\]
+
+<p>where each clause record contains metadata such as article reference, paragraph marker, source text, normalized text, and source path.</p>
+
+<p>For FINCPA:</p>
+
+\[n = 60\]
+
+<p>The important point is that this layer does not ask an LLM to make a compliance judgment. It only creates clean legal units.</p>
+
+<h2 id="from-clauses-to-obligations">From Clauses to Obligations</h2>
+
+<p>Legal clauses are often dense. One paragraph can contain several operational requirements, exceptions, or prohibited behaviors. So the next step decomposes clauses into smaller obligation units.</p>
+
+<p>We can describe that as a mapping:</p>
+
+\[g(c_i) = \{o_{i1}, o_{i2}, \ldots, o_{im}\}\]
+
+<p>where each $o_{ij}$ is an obligation or rule-relevant unit derived from clause $c_i$.</p>
+
+<p>In the current FINCPA pipeline:</p>
+
+\[|O| = 109\]
+
+<p>This is where the legal text starts becoming useful for computation. Instead of treating the law as paragraphs, the system treats it as operational units: required disclosure, prohibited expression, required process, required record, or required response.</p>
+
+<h2 id="compiling-candidate-rules">Compiling Candidate Rules</h2>
+
+<p>Once obligations exist, the system can compile rule candidates. Each candidate connects a legal obligation to things the runtime system can actually inspect.</p>
+
+<p>A useful rule row needs at least:</p>
+
+<ul>
+  <li>legal basis,</li>
+  <li>product scope,</li>
+  <li>channel scope,</li>
+  <li>rule family,</li>
+  <li>logic type,</li>
+  <li>detection target,</li>
+  <li>candidate SIR fields,</li>
+  <li>evaluation hint.</li>
+</ul>
+
+<p>At this point the project has <strong>109 Layer 3 rule/SIR candidates</strong>.</p>
+
+<p>But candidates are not enough. A product demo needs a frozen MVP. So Layer 4 applies a deterministic selection rule:</p>
+
+\[R_{mvp} = \{r_k \in R_{candidate} \mid ready\_for\_v1(r_k)=yes\}\]
+
+<p>That produces:</p>
+
+\[|R_{mvp}| = 76\]
+
+<p>and a frozen SIR schema with:</p>
+
+\[|F_{sir}| = 29\]
+
+<p>This is the moment the project becomes a real data system. The rule pack is no longer just notes about the law. It is a machine-readable compliance artifact.</p>
+
+<h2 id="what-is-sir">What Is SIR?</h2>
+
+<p>SIR means Structured Intermediate Representation. It is the normalized form of the user input.</p>
+
+<p>A financial ad is messy text:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fast personal loan. 3% guaranteed. Apply in seconds.
+</code></pre></div></div>
+
+<p>The runtime needs something more explicit:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"product_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"loan"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"seller_identity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"present"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"loan_conditions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"present"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"loan_rate_basis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_evidenced"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"loan_interest_timing"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_evidenced"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"prohibited_claim_signal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"present"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>SIR is the bridge between human language and legal rules. It lets the engine ask precise questions:</p>
+
+<ul>
+  <li>Is the product type known?</li>
+  <li>Is the seller identified?</li>
+  <li>Are required cost disclosures present?</li>
+  <li>Is a prohibited certainty phrase detected?</li>
+  <li>Is the required warning missing?</li>
+</ul>
+
+<h2 id="deterministic-review">Deterministic Review</h2>
+
+<p>Each rule can be evaluated against the SIR fields. A simple required-presence rule can be written as:</p>
+
+\[fail(r_k, x) =
+\begin{cases}
+1, &amp; \text{if required field } f_k \text{ is not evidenced in } x \\
+0, &amp; \text{otherwise}
+\end{cases}\]
+
+<p>For prohibited-presence rules:</p>
+
+\[fail(r_k, x) =
+\begin{cases}
+1, &amp; \text{if prohibited signal } p_k \text{ is present in } x \\
+0, &amp; \text{otherwise}
+\end{cases}\]
+
+<p>The final decision can be simplified as:</p>
+
+\[d(x) =
+\begin{cases}
+\text{non-compliant}, &amp; \sum_k fail(r_k, x) &gt; 0 \\
+\text{review}, &amp; \sum_k uncertain(r_k, x) &gt; 0 \\
+\text{compliant}, &amp; \text{otherwise}
+\end{cases}\]
+
+<p>The actual system keeps more detail than this, including applicable rule counts, missing SIR fields, triggered citations, failed rule IDs, escalation flags, and reviewer packets.</p>
+
+<h2 id="example-guaranteed-investment-return">Example: Guaranteed Investment Return</h2>
+
+<p>One runtime example tests an investment ad with a guaranteed-return signal. The engine marks the case as non-compliant and escalates it. It triggers rules connected to advertising obligations, including missing investment-warning evidence and a prohibited claim signal.</p>
+
+<p>The useful part is not only the label. The useful part is the evidence trail:</p>
+
+<ul>
+  <li>final decision: <code class="language-plaintext highlighter-rouge">non_compliant</code></li>
+  <li>escalation: <code class="language-plaintext highlighter-rouge">true</code></li>
+  <li>applicable rules: <code class="language-plaintext highlighter-rouge">3</code></li>
+  <li>failed rules: <code class="language-plaintext highlighter-rouge">2</code></li>
+  <li>missing SIR field: <code class="language-plaintext highlighter-rouge">investment_warning</code></li>
+  <li>triggered citations: Financial Consumer Protection Act Article 22 paragraph 3 and 4</li>
+</ul>
+
+<p>This is what makes the system reviewable. A compliance officer does not have to accept a black-box sentence. They can inspect which field was missing, which rule failed, and which legal citation was attached.</p>
+
+<h2 id="why-dashboards-matter">Why Dashboards Matter</h2>
+
+<p>The repository includes two dashboard views.</p>
+
+<p>The first dashboard is for the legal compilation pipeline. It shows how a clause moves through parsing, Layer 1 metadata, Layer 2 obligation decomposition, Layer 3 rule/SIR candidate design, and the Layer 4 freeze.</p>
+
+<p>The second dashboard is for runtime review. It shows a new input moving through:</p>
+
+<ol>
+  <li>prompt/input,</li>
+  <li>runtime schema,</li>
+  <li>SIR extraction,</li>
+  <li>active rules,</li>
+  <li>triggered law,</li>
+  <li>final result.</li>
+</ol>
+
+<p>This was important for the hackathon because the project has many JSON and JSONL artifacts. A dashboard makes the pipeline explainable to judges, teammates, and future reviewers.</p>
+
+<h2 id="where-the-llm-fits">Where the LLM Fits</h2>
+
+<p>The LLM is still useful. It can turn a technical review result into language a human can act on:</p>
+
+<ul>
+  <li>reviewer summary,</li>
+  <li>plain-language rationale,</li>
+  <li>remediation actions,</li>
+  <li>conservative rewrite suggestion.</li>
+</ul>
+
+<p>But the LLM receives the structured finding after the deterministic engine has already created it. That makes the system safer:</p>
+
+\[LLM\_input = \{original\_text, SIR, failed\_rules, citations, evidence\}\]
+
+<p>The model explains the decision. It does not invent the legal basis.</p>
+
+<h2 id="limitations">Limitations</h2>
+
+<p>FINCPA is a prototype, not a production compliance system. The current scope focuses on Chapter 4 and does not yet include the full stack of presidential decrees, supervisory regulations, enforcement cases, and product-specific advertising guidance.</p>
+
+<p>The SIR extractor is also an MVP. Real deployment would need better entity extraction, stronger Korean financial-language coverage, more robust OCR/document input, reviewer feedback loops, and ongoing legal updates.</p>
+
+<p>Still, the prototype shows the right shape: legal data should be traceable, rules should be auditable, and LLMs should be placed where they help without becoming the hidden judge.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>FINCPA is a data engineering story disguised as a compliance AI project.</p>
+
+<p>The core work is not just building a dashboard or calling an API. The core work is turning law into structured data, turning ads into structured facts, comparing them deterministically, and packaging the result so a human reviewer can make the final decision with evidence.</p>
+
+<p>That is the lesson I like most from this project: in high-stakes domains, good AI starts with good structure.</p>
+
+<p>You can explore the code, dashboards, and artifacts here:</p>
+
+<p><a href="https://github.com/rashiedomar/FinTech">GitHub: rashiedomar/FinTech</a><br />
+<a href="https://rashiedomar.github.io/FinTech/dashboard/ch4_fincpa/">Legal compilation dashboard</a><br />
+<a href="https://rashiedomar.github.io/FinTech/dashboard/ch4_runtime_flow/">Runtime flow dashboard</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#compliance-ai" class="page__taxonomy-item" rel="tag">COMPLIANCE AI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#dashboard" class="page__taxonomy-item" rel="tag">DASHBOARD</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#data-pipeline" class="page__taxonomy-item" rel="tag">DATA PIPELINE</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#hackathon" class="page__taxonomy-item" rel="tag">HACKATHON</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-04">June 4, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-04">June 4, 2026</time></p>
+
+        
+          
+          <p><i class="fas fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 min.
+	
+</p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://rashiedomar.github.io/blog/fincpa-compliance-data/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://rashiedomar.github.io/blog/fincpa-compliance-data/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://rashiedomar.github.io/blog/fincpa-compliance-data/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      <!-- 
+
+
+  <nav class="pagination">
+    
+      <a href="https://rashiedomar.github.io/blog/artstylenet/" class="pagination--pager" title="ArtStyleNet: Finding Similar Artworks with Deep Features
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+ -->
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/rashiedomar"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://rashiedomar.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2026 Abdirashid Omar. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://rashiedomar.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

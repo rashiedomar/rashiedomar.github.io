@@ -1,0 +1,746 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Debugging Vision Agents - Abdirashid Omar</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Abdirashid Omar">
+<meta property="og:title" content="Debugging Vision Agents">
+
+
+  <link rel="canonical" href="https://rashiedomar.github.io/blog/vision-agent-debugger/">
+  <meta property="og:url" content="https://rashiedomar.github.io/blog/vision-agent-debugger/">
+
+
+
+  <meta property="og:description" content="A practical look at building a debugger for Vision AI agents using heatmaps, model comparison, reasoning traces, error detection, and cost tracking.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-06-01T00:00:00+09:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Abdirashid Omar",
+      "url" : "https://rashiedomar.github.io",
+      "sameAs" : ["https://www.linkedin.com/in/abdulrashiid-o-matan/","https://github.com/rashiedomar","https://instagram.com/rashied.omarr"]
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://rashiedomar.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Abdirashid Omar Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://rashiedomar.github.io/images/apple-touch-icon-57x57.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="60x60" href="https://rashiedomar.github.io/images/apple-touch-icon-60x60.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="72x72" href="https://rashiedomar.github.io/images/apple-touch-icon-72x72.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="76x76" href="https://rashiedomar.github.io/images/apple-touch-icon-76x76.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="114x114" href="https://rashiedomar.github.io/images/apple-touch-icon-114x114.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="120x120" href="https://rashiedomar.github.io/images/apple-touch-icon-120x120.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="144x144" href="https://rashiedomar.github.io/images/apple-touch-icon-144x144.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="152x152" href="https://rashiedomar.github.io/images/apple-touch-icon-152x152.png?v=omar20260628">
+<link rel="apple-touch-icon" sizes="180x180" href="https://rashiedomar.github.io/images/apple-touch-icon-180x180.png?v=omar20260628">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-32x32.png?v=omar20260628" sizes="32x32">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/android-chrome-192x192.png?v=omar20260628" sizes="192x192">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-96x96.png?v=omar20260628" sizes="96x96">
+<link rel="icon" type="image/png" href="https://rashiedomar.github.io/images/favicon-16x16.png?v=omar20260628" sizes="16x16">
+<link rel="manifest" href="https://rashiedomar.github.io/images/manifest.json?v=omar20260628">
+<link rel="mask-icon" href="https://rashiedomar.github.io/images/safari-pinned-tab.svg?v=omar20260628" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=omar20260628">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://rashiedomar.github.io/images/mstile-144x144.png?v=omar20260628">
+<meta name="msapplication-config" content="https://rashiedomar.github.io/images/browserconfig.xml?v=omar20260628">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://rashiedomar.github.io/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://rashiedomar.github.io/">Abdirashid Omar</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/data-stories/">Data Stories</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/year-archive/">Blog</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://rashiedomar.github.io/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://rashiedomar.github.io/images/profile.jpg" class="author__avatar" alt="Abdirashid Omar">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Abdirashid Omar</h3>
+    <p class="author__bio">Vision AI Researcher<br>Data Analyst</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Seoul, South Korea</li>
+      
+      
+      
+      
+        <li><a href="mailto:Rashiidmatan@gmail.com"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/abdulrashiid-o-matan"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+      
+      
+      
+        <li><a href="https://instagram.com/rashied.omarr"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+      
+      
+      
+      
+        <li><a href="https://github.com/rashiedomar"><i class="fab fa-fw fa-github" aria-hidden="true"></i> Github</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Debugging Vision Agents">
+    <meta itemprop="description" content="A practical look at building a debugger for Vision AI agents using heatmaps, model comparison, reasoning traces, error detection, and cost tracking.">
+    <meta itemprop="datePublished" content="June 01, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Debugging Vision Agents
+</h1>
+          <!-- 
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  0 min.
+	
+</p>
+           -->
+        <!--  -->
+
+        
+        
+        
+        <p class="page__meta" style="font-size:1em;display: inline;">
+    <time datetime="2026-06-01T00:00:00+09:00">June 01, 2026</time>
+    
+
+
+
+
+  
+  
+  
+
+    <span class="page__taxonomy" itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#ai-agents" class="page__taxonomy-item" rel="tag">AI AGENTS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#explainability" class="page__taxonomy-item" rel="tag">EXPLAINABILITY</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#vision-ai" class="page__taxonomy-item" rel="tag">VISION AI</a>
+    
+    </span>
+
+    <br>
+    <span style="font-size:70%;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 min.
+	
+</span>
+    <!--  -->
+    <!-- 
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#ai-agents" class="page__taxonomy-item" rel="tag">AI AGENTS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#explainability" class="page__taxonomy-item" rel="tag">EXPLAINABILITY</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#vision-ai" class="page__taxonomy-item" rel="tag">VISION AI</a>
+    
+    </span>
+  </p>
+
+
+
+ -->
+    <!-- 
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-01">June 1, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-01">June 1, 2026</time></p>
+ -->
+  </p>
+  
+  <!-- 
+    <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-01T00:00:00+09:00">June 01, 2026</time></p>
+   -->
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        
+<p>Vision-language models are becoming very good at describing images, answering visual questions, reading charts, counting objects, and supporting multimodal workflows. But when a model gives an answer, the most important engineering question often comes after the answer:</p>
+
+<p><strong>Why did it say that?</strong></p>
+
+<p>If a Vision AI agent says there are three damaged buildings in a satellite image, did it actually focus on the damaged buildings? If it says the red car is on the left, did it inspect the car or guess from the prompt? If two models disagree, is one missing a visual detail, or are they using different assumptions about the task?</p>
+
+<p>That is the motivation behind <a href="https://github.com/rashiedomar/vision-agent-debugger">Vision Agent Debugger</a>: a small but useful tool for making Vision AI behavior easier to inspect. The project combines a React frontend, a FastAPI backend, CLIP-based heatmap generation, multi-model comparison, reasoning-step extraction, error detection, and cost tracking.</p>
+
+<p>It is not a complete interpretability research framework. It is something more practical: a debugging surface for people who build with vision models and want to see more than a final text response.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Most Vision LLM interfaces hide the process. You upload an image, write a prompt, wait for a model, and receive an answer. That is fine for demos, but it is weak for development.</p>
+
+<p>For real projects, especially remote sensing, public data dashboards, field monitoring, damage assessment, surveillance review, medical imaging support, and industrial inspection, we need to ask sharper questions:</p>
+
+<ul>
+  <li>Did the model attend to the correct region?</li>
+  <li>Did the prompt cause the model to focus on the wrong visual concept?</li>
+  <li>Did two models disagree on the object, count, location, or conclusion?</li>
+  <li>Did the model fail because of perception, reasoning, or API/configuration issues?</li>
+  <li>How much did the analysis cost?</li>
+</ul>
+
+<p>Debugging a vision agent means separating the final answer from the evidence path. The answer is only one artifact. A useful debugger should also expose visual focus, reasoning traces, model disagreement, and failure states.</p>
+
+<h2 id="what-the-project-builds">What the Project Builds</h2>
+
+<p>Vision Agent Debugger gives a user three core workflows:</p>
+
+<ol>
+  <li>Upload an image and prompt.</li>
+  <li>Generate a visual heatmap for the image-prompt pair.</li>
+  <li>Compare responses from multiple vision models side by side.</li>
+</ol>
+
+<p>The backend exposes several endpoints:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/api/generate-heatmap</code>: creates a heatmap from an image and prompt.</li>
+  <li><code class="language-plaintext highlighter-rouge">/api/analyze-image</code>: runs selected models and returns responses, reasoning steps, errors, and cost.</li>
+  <li><code class="language-plaintext highlighter-rouge">/api/compare-models</code>: compares Gemini, Claude, and GPT-4V-style responses.</li>
+  <li><code class="language-plaintext highlighter-rouge">/api/debug-agent</code>: combines heatmap generation with model comparison.</li>
+</ul>
+
+<p>The frontend wraps those outputs into a debugging interface: upload panel, prompt box, heatmap overlay, model comparison cards, reasoning step views, error warnings, and total cost display.</p>
+
+<p>The stack is intentionally simple:</p>
+
+<ul>
+  <li>React, Vite, Tailwind CSS, and Canvas-style visual overlay patterns on the frontend.</li>
+  <li>FastAPI on the backend.</li>
+  <li>CLIP for image-text representation.</li>
+  <li>Gemini, Claude, and OpenAI-compatible vision calls for multi-model analysis.</li>
+</ul>
+
+<p>This is a good architecture for a prototype because each part has a clear job. The frontend does interaction and presentation. The backend does model orchestration. CLIP creates a visual explanation signal. The model analyzer standardizes responses into a comparable format.</p>
+
+<h2 id="a-small-example">A Small Example</h2>
+
+<p>The repository includes a test image with multiple cars in different colors. A prompt might ask something like:</p>
+
+<blockquote>
+  <p>Which cars are visible in the image?</p>
+</blockquote>
+
+<p>or:</p>
+
+<blockquote>
+  <p>Count the red cars.</p>
+</blockquote>
+
+<p>The original image is simple, but that is useful for debugging because the expected answer is visually obvious.</p>
+
+<p><img src="/images/blog/vision-agent-debugger/test.png" alt="Original car image" /></p>
+
+<p>The heatmap output gives a spatial debugging layer. In the current prototype, it is a smooth visual approximation of where the system is emphasizing the image-prompt relationship.</p>
+
+<p><img src="/images/blog/vision-agent-debugger/test_heatmap.jpg" alt="Generated heatmap example" /></p>
+
+<p>This kind of image is not a final scientific explanation by itself. But as a developer tool, it is useful because it makes the debugging conversation more concrete. Instead of only asking “was the answer correct?”, we can ask “does the visual evidence look aligned with the task?”</p>
+
+<h2 id="the-math-behind-the-heatmap">The Math Behind the Heatmap</h2>
+
+<p>A vision-language debugger needs some way to connect text to image regions. CLIP gives us a useful starting point because it maps images and text into a shared embedding space.</p>
+
+<p>Let an image be $I$, and let the prompt be $t$. CLIP has an image encoder $f_I$ and a text encoder $f_T$:</p>
+
+\[z_I = f_I(I), \qquad z_T = f_T(t)\]
+
+<p>Both embeddings are usually normalized:</p>
+
+\[\hat{z}_I = \frac{z_I}{\|z_I\|_2}, \qquad
+\hat{z}_T = \frac{z_T}{\|z_T\|_2}\]
+
+<p>The image-text similarity can be measured using cosine similarity:</p>
+
+\[s(I,t) = \hat{z}_I^\top \hat{z}_T\]
+
+<p>That gives one global score. But a heatmap needs spatial scores. For a Vision Transformer such as CLIP ViT-B/32, the image is divided into patches. With a 224 by 224 image and a patch size of 32, we get a 7 by 7 grid:</p>
+
+\[N = 7 \times 7 = 49\]
+
+<p>Ideally, each patch has an embedding $p_i$. A prompt-aware patch score can be written as:</p>
+
+\[a_i = \frac{\exp(\tau \cdot \hat{p}_i^\top \hat{z}_T)}
+{\sum_{j=1}^{N} \exp(\tau \cdot \hat{p}_j^\top \hat{z}_T)}\]
+
+<p>Here, $a_i$ is the attention-like weight for patch $i$, and $\tau$ is a temperature parameter that controls how sharp the distribution becomes.</p>
+
+<p>After computing patch scores, we can reshape them into a 7 by 7 map:</p>
+
+\[A = \text{reshape}(a_1,\ldots,a_{49})\]
+
+<p>Then we normalize the map:</p>
+
+\[M = \frac{A - \min(A)}{\max(A) - \min(A) + \epsilon}\]
+
+<p>Finally, we resize $M$ to the original image size, convert it into a color map, and overlay it on the image:</p>
+
+\[O = (1-\alpha)I + \alpha C(M)\]
+
+<p>where $C(M)$ is the colored heatmap and $\alpha$ is the overlay opacity.</p>
+
+<p>That is the clean mathematical version. The current repository implementation is an early engineering approximation: it uses CLIP embeddings and generates a smoothed spatial map rather than extracting full transformer patch attention end to end. That is okay for a prototype, but it is important to say clearly. A production research version should replace the approximation with patch-level CLIP similarity, attention rollout, Grad-CAM-style gradients, or segmentation-aware region scoring.</p>
+
+<p>The important idea is still the same: the debugger turns a hidden image-text relationship into a visible spatial artifact.</p>
+
+<h2 id="model-comparison-as-a-debugging-tool">Model Comparison as a Debugging Tool</h2>
+
+<p>Heatmaps help with visual focus, but they do not solve the whole problem. Vision agents also fail through reasoning, phrasing, counting, ambiguity, or hallucination.</p>
+
+<p>That is why the project includes multi-model comparison.</p>
+
+<p>For each model $m$, the debugger stores a response object:</p>
+
+\[R_m = (y_m, S_m, e_m, c_m)\]
+
+<p>where:</p>
+
+<ul>
+  <li>$y_m$ is the model answer.</li>
+  <li>$S_m$ is the extracted reasoning-step list.</li>
+  <li>$e_m$ is the error state.</li>
+  <li>$c_m$ is the estimated cost.</li>
+</ul>
+
+<p>Once all models return, the tool can compare them:</p>
+
+\[\mathcal{R} = \{R_{\text{Gemini}}, R_{\text{Claude}}, R_{\text{GPT}}\}\]
+
+<p>The current implementation checks API failures and simple contradiction patterns. For example, if one model says an object is visible and another says no object is present, that disagreement becomes a warning.</p>
+
+<p>This is simple, but the workflow is powerful. A disagreement is often the most useful signal during debugging. If three models agree, the answer may still be wrong, but confidence rises. If one model disagrees strongly, the user knows where to inspect.</p>
+
+<p>Future versions could make this much stronger by using semantic entailment:</p>
+
+\[d_{ij} = 1 - \cos(g(y_i), g(y_j))\]
+
+<p>where $g(\cdot)$ is a sentence embedding model. Large disagreement scores could trigger deeper review, especially for high-stakes visual tasks.</p>
+
+<h2 id="reasoning-steps">Reasoning Steps</h2>
+
+<p>The debugger also extracts reasoning steps from model responses. It looks for numbered lists, bullet points, or sentence structure, then turns the output into a sequence:</p>
+
+\[S_m = [s_1, s_2, \ldots, s_k]\]
+
+<p>This does not reveal the model’s true internal reasoning. It reveals the explanation the model produced. That distinction matters. But even explanation traces are useful when debugging prompts and workflows.</p>
+
+<p>For example, suppose a model answers a counting task incorrectly. The extracted steps may show whether it:</p>
+
+<ul>
+  <li>described the image generally,</li>
+  <li>identified the correct object type,</li>
+  <li>confused color or position,</li>
+  <li>skipped occluded instances,</li>
+  <li>or made a counting error at the end.</li>
+</ul>
+
+<p>That helps the developer decide what to fix. The prompt might need more constraints. The image might need cropping. The model might need a better visual grounding step before reasoning.</p>
+
+<h2 id="error-detection">Error Detection</h2>
+
+<p>The project’s error detector handles two practical cases:</p>
+
+<ul>
+  <li>API errors, such as missing keys or failed model calls.</li>
+  <li>Contradictions between model responses.</li>
+</ul>
+
+<p>This may sound small, but it is a useful engineering layer. In multimodal apps, the failure mode is often not “the model is bad.” Sometimes the API key is missing. Sometimes one provider returns an error. Sometimes the frontend shows an incomplete response. Sometimes cost or token limits change behavior.</p>
+
+<p>By making errors visible, the tool turns silent failure into an inspectable state.</p>
+
+<h2 id="cost-tracking">Cost Tracking</h2>
+
+<p>Cost is part of debugging too. If a system calls three large vision models every time a user uploads an image, the workflow may become expensive quickly.</p>
+
+<p>The debugger estimates cost per model and total cost:</p>
+
+\[C_{\text{total}} = \sum_{m \in \mathcal{M}} c_m\]
+
+<p>This makes it easier to compare accuracy, latency, and cost together. A cheap model may be enough for broad image descriptions. A stronger model may be worth the price for detailed visual reasoning. A debugger should help the developer see those tradeoffs directly.</p>
+
+<h2 id="what-i-like-about-this-project">What I Like About This Project</h2>
+
+<p>The strongest part of Vision Agent Debugger is not that each component is perfect. It is that the project has the right shape.</p>
+
+<p>A good Vision AI debugging tool should combine four views:</p>
+
+<ul>
+  <li>what the image contains,</li>
+  <li>where the model may be looking,</li>
+  <li>what the model says,</li>
+  <li>and how different models disagree.</li>
+</ul>
+
+<p>This repo already has those pieces. It is easy to imagine extending it into a stronger research or production tool.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>Replace the current heatmap approximation with patch-level CLIP similarity.</li>
+  <li>Add bounding-box or segmentation overlays.</li>
+  <li>Add prompt version tracking.</li>
+  <li>Add semantic disagreement scoring across model outputs.</li>
+  <li>Add task-specific metrics for counting, detection, chart reading, or remote sensing.</li>
+  <li>Save debug sessions so users can compare failures over time.</li>
+  <li>Add side-by-side original, heatmap, model answer, and ground-truth annotation.</li>
+</ul>
+
+<p>For remote sensing, the same idea becomes even more interesting. A user could upload a flood image, satellite crop, or urban change pair and ask: did the model focus on the flooded area, the changed buildings, the roads, or the irrelevant background?</p>
+
+<p>That is where debugging becomes research infrastructure.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Vision agents should not be treated as magic boxes. If they are going to help with real visual decisions, we need tools that expose where they looked, what they answered, how they explained themselves, where they failed, and how much the process cost.</p>
+
+<p>Vision Agent Debugger is a practical first step in that direction. It combines CLIP heatmaps, model comparison, reasoning traces, error detection, and cost tracking into one workflow. It is honest as a prototype and useful as a foundation.</p>
+
+<p>The next step is to make the visual explanations more faithful and the disagreement detection more semantic. But even now, the project points in the right direction: Vision AI systems become more useful when their behavior can be inspected.</p>
+
+<p>You can read the code, run the app, and fork the project here:</p>
+
+<p><a href="https://github.com/rashiedomar/vision-agent-debugger">GitHub: rashiedomar/vision-agent-debugger</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#ai-agents" class="page__taxonomy-item" rel="tag">AI AGENTS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#explainability" class="page__taxonomy-item" rel="tag">EXPLAINABILITY</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://rashiedomar.github.io/tags/#vision-ai" class="page__taxonomy-item" rel="tag">VISION AI</a>
+    
+    </span>
+  </p>
+
+
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-01">June 1, 2026</time></p>
+
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2026-06-01">June 1, 2026</time></p>
+
+        
+          
+          <p><i class="fas fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 min.
+	
+</p>
+        
+      </footer>
+
+      
+
+<section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://rashiedomar.github.io/blog/vision-agent-debugger/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://rashiedomar.github.io/blog/vision-agent-debugger/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://rashiedomar.github.io/blog/vision-agent-debugger/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      <!-- 
+
+
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="https://rashiedomar.github.io/blog/crosswalk-cctv/" class="pagination--pager" title="From CCTV to Safer Crosswalk Timing
+">Next</a>
+    
+  </nav>
+ -->
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/rashiedomar"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="https://rashiedomar.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2026 Abdirashid Omar. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://rashiedomar.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

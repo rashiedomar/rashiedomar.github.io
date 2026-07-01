@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480">
+<rect width="100%" height="100%" fill="#fbfbfb"/>
+<text x="32" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#333">Seoul Building-Age Layer by Era</text>
+<text x="32" y="63" font-family="Arial, sans-serif" font-size="13" fill="#777">Deduplicated mapped features grouped by approval-era band.</text>
+<text x="32" y="108" font-family="Arial, sans-serif" font-size="14" fill="#444">Before 1960</text>
+<rect x="170" y="91" width="630" height="22" fill="#eee"/>
+<rect x="170" y="91" width="41.7" height="22" fill="#b86d31"/>
+<text x="816" y="108" font-family="Arial, sans-serif" font-size="13" fill="#555">13,197 (1.8%)</text>
+<text x="32" y="152" font-family="Arial, sans-serif" font-size="14" fill="#444">1960s</text>
+<rect x="170" y="135" width="630" height="22" fill="#eee"/>
+<rect x="170" y="135" width="119.1" height="22" fill="#cf8435"/>
+<text x="816" y="152" font-family="Arial, sans-serif" font-size="13" fill="#555">37,658 (5.0%)</text>
+<text x="32" y="196" font-family="Arial, sans-serif" font-size="14" fill="#444">1970s</text>
+<rect x="170" y="179" width="630" height="22" fill="#eee"/>
+<rect x="170" y="179" width="285.3" height="22" fill="#dba04a"/>
+<text x="816" y="196" font-family="Arial, sans-serif" font-size="13" fill="#555">90,216 (12.1%)</text>
+<text x="32" y="240" font-family="Arial, sans-serif" font-size="14" fill="#444">1980s</text>
+<rect x="170" y="223" width="630" height="22" fill="#eee"/>
+<rect x="170" y="223" width="413.6" height="22" fill="#e6c56e"/>
+<text x="816" y="240" font-family="Arial, sans-serif" font-size="13" fill="#555">130,772 (17.5%)</text>
+<text x="32" y="284" font-family="Arial, sans-serif" font-size="14" fill="#444">1990s</text>
+<rect x="170" y="267" width="630" height="22" fill="#eee"/>
+<rect x="170" y="267" width="630.0" height="22" fill="#7fc8ca"/>
+<text x="816" y="284" font-family="Arial, sans-serif" font-size="13" fill="#555">199,215 (26.7%)</text>
+<text x="32" y="328" font-family="Arial, sans-serif" font-size="14" fill="#444">2000s</text>
+<rect x="170" y="311" width="630" height="22" fill="#eee"/>
+<rect x="170" y="311" width="288.9" height="22" fill="#4f8fd7"/>
+<text x="816" y="328" font-family="Arial, sans-serif" font-size="13" fill="#555">91,350 (12.2%)</text>
+<text x="32" y="372" font-family="Arial, sans-serif" font-size="14" fill="#444">2010-2016</text>
+<rect x="170" y="355" width="630" height="22" fill="#eee"/>
+<rect x="170" y="355" width="106.8" height="22" fill="#294b97"/>
+<text x="816" y="372" font-family="Arial, sans-serif" font-size="13" fill="#555">33,771 (4.5%)</text>
+<text x="32" y="416" font-family="Arial, sans-serif" font-size="14" fill="#444">Unknown</text>
+<rect x="170" y="399" width="630" height="22" fill="#eee"/>
+<rect x="170" y="399" width="477.3" height="22" fill="#8a8fa5"/>
+<text x="816" y="416" font-family="Arial, sans-serif" font-size="13" fill="#555">150,916 (20.2%)</text>
+<text x="32" y="462" font-family="Arial, sans-serif" font-size="12" fill="#888">Generated from age_layer_summary.json. Total mapped features: 747,095.</text>
+</svg>
