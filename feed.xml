@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://rashiedomar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rashiedomar.github.io/" rel="alternate" type="text/html" /><updated>2026-07-01T14:53:55+09:00</updated><id>https://rashiedomar.github.io/feed.xml</id><title type="html">Abdirashid Omar</title><subtitle>Vision AI Researcher and Data Analyst</subtitle><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><entry><title type="html">Building FINCPA: Turning Financial Law into Compliance Data</title><link href="https://rashiedomar.github.io/blog/fincpa-compliance-data/" rel="alternate" type="text/html" title="Building FINCPA: Turning Financial Law into Compliance Data" /><published>2026-06-04T00:00:00+09:00</published><updated>2026-06-04T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/fincpa-compliance-data</id><content type="html" xml:base="https://rashiedomar.github.io/blog/fincpa-compliance-data/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;FINCPA&lt;/a&gt; was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="https://rashiedomar.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rashiedomar.github.io/" rel="alternate" type="text/html" /><updated>2026-09-24T17:03:56+03:00</updated><id>https://rashiedomar.github.io/feed.xml</id><title type="html">Abdirashid Omar</title><subtitle>Computer Vision, Earth Observation and GeoAI Researcher</subtitle><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><entry><title type="html">Graduating from Kookmin University: Building a Research Path in Vision AI and GeoAI</title><link href="https://rashiedomar.github.io/blog/kookmin-graduation/" rel="alternate" type="text/html" title="Graduating from Kookmin University: Building a Research Path in Vision AI and GeoAI" /><published>2026-09-24T00:00:00+03:00</published><updated>2026-09-24T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/kookmin-graduation</id><content type="html" xml:base="https://rashiedomar.github.io/blog/kookmin-graduation/">&lt;p&gt;In June 2026, I completed my &lt;strong&gt;M.S. in Data Science / Big Data at Kookmin University&lt;/strong&gt;. This closes an important chapter that began when I came to South Korea through the &lt;strong&gt;Global Korea Scholarship (GKS)&lt;/strong&gt; and gradually developed a research direction connecting computer vision, Earth observation, remote sensing, and GeoAI.&lt;/p&gt;
+
+&lt;p&gt;The degree gave me more than a qualification. It taught me how to turn a broad idea into a research question, audit difficult datasets, design reproducible experiments, interpret results carefully, and communicate a contribution through code and scientific writing.&lt;/p&gt;
+
+&lt;h2 id=&quot;finding-my-research-direction&quot;&gt;Finding My Research Direction&lt;/h2&gt;
+
+&lt;p&gt;My graduate research centred on change detection from bi-temporal remote-sensing imagery. I worked with Siamese CNNs, attention mechanisms, transformer-based baselines, semantic segmentation, ablation studies, threshold selection, and multi-benchmark evaluation.&lt;/p&gt;
+
+&lt;p&gt;That work led to &lt;a href=&quot;https://doi.org/10.1109/ACCESS.2026.3702659&quot;&gt;CoSA: Correlation-Guided Change Attention with Learnable Residual Gating for Remote Sensing Change Detection&lt;/a&gt;, published in &lt;em&gt;IEEE Access&lt;/em&gt;, and &lt;a href=&quot;https://arxiv.org/abs/2606.29781&quot;&gt;UrbanCDNet&lt;/a&gt;, a preprint focused on appearance-robust and boundary-aware urban building change detection.&lt;/p&gt;
+
+&lt;p&gt;The same research mindset also shaped a computer-vision project on &lt;a href=&quot;https://arxiv.org/abs/2609.08914&quot;&gt;data-efficient crosswalk segmentation from overhead CCTV&lt;/a&gt;. Using 241 manually annotated CCTV images and 5,926 unlabelled frames, the work achieved &lt;strong&gt;88.91% IoU on held-out, manually labelled validation data&lt;/strong&gt; while maintaining real-time inference.&lt;/p&gt;
+
+&lt;p&gt;Beyond these core projects, collaboration expanded my perspective. Work on African rainfall-anomaly retrieval connected representation learning with environmental data and strengthened my interest in climate and environmental AI for African contexts.&lt;/p&gt;
+
+&lt;h2 id=&quot;research-beyond-benchmarks&quot;&gt;Research Beyond Benchmarks&lt;/h2&gt;
+
+&lt;p&gt;During the degree, I became increasingly interested in the space between a model and the real decision it is supposed to support. Projects such as flood-impact mapping in Beledweyne, urban morphology analysis in Seoul, and live urban-data dashboards helped me think about geospatial workflows as complete systems: data acquisition, cleaning, modelling, spatial analysis, validation, visualisation, and communication.&lt;/p&gt;
+
+&lt;p&gt;This is the direction I want to keep developing. I am especially interested in research where satellite, aerial, street-level, and environmental data can be combined to understand how cities and landscapes change over time.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-comes-next&quot;&gt;What Comes Next&lt;/h2&gt;
+
+&lt;p&gt;I am now based in Somalia and preparing for the next stage: PhD research in &lt;strong&gt;computer vision, Earth observation, GeoAI, multi-temporal analysis, and urban or environmental AI&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The questions that motivate me are broad but connected:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How can change-detection systems remain reliable across seasons, sensors, and geographic regions?&lt;/li&gt;
+  &lt;li&gt;How can limited annotations be used more effectively through domain adaptation, pseudo-labeling, and self-supervised learning?&lt;/li&gt;
+  &lt;li&gt;How can uncertainty and failure cases be communicated clearly in geospatial decision-support systems?&lt;/li&gt;
+  &lt;li&gt;How can advanced spatial AI methods be made useful for African environmental and urban contexts?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Graduation is a milestone, but it does not feel like the end of the work. It feels like the point where the research direction became clear.&lt;/p&gt;
+
+&lt;p&gt;I am grateful to the people who supported this journey—my collaborators, teachers, colleagues, friends, and family—and to the GKS programme and Kookmin University for making this chapter possible.&lt;/p&gt;
+
+&lt;p&gt;The next goal is to keep building careful, reproducible research that connects strong computer-vision methods with real spatial and environmental problems.&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="GRADUATION" /><category term="RESEARCH" /><category term="GEOAI" /><category term="EARTH OBSERVATION" /><category term="GKS" /><summary type="html">A reflection on completing my M.S. in Data Science / Big Data at Kookmin University, the research journey behind it, and the next step toward PhD work in computer vision, Earth observation, and GeoAI.</summary></entry><entry><title type="html">Building FINCPA: Turning Financial Law into Compliance Data</title><link href="https://rashiedomar.github.io/blog/fincpa-compliance-data/" rel="alternate" type="text/html" title="Building FINCPA: Turning Financial Law into Compliance Data" /><published>2026-06-04T00:00:00+03:00</published><updated>2026-06-04T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/fincpa-compliance-data</id><content type="html" xml:base="https://rashiedomar.github.io/blog/fincpa-compliance-data/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;FINCPA&lt;/a&gt; was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Can we help review financial advertising without letting a language model become the legal judge?&lt;/strong&gt;&lt;/p&gt;
 
@@ -244,7 +281,7 @@ reviewer → final approval&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;GitHub: rashiedomar/FinTech&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&quot;https://rashiedomar.github.io/FinTech/dashboard/ch4_fincpa/&quot;&gt;Legal compilation dashboard&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;https://rashiedomar.github.io/FinTech/dashboard/ch4_runtime_flow/&quot;&gt;Runtime flow dashboard&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="DATA PIPELINE" /><category term="COMPLIANCE AI" /><category term="HACKATHON" /><category term="DASHBOARD" /><summary type="html">A technical note on building a hackathon compliance AI prototype by compiling financial law into structured rules, SIR fields, deterministic checks, and audit-ready outputs.</summary></entry><entry><title type="html">ArtStyleNet: Finding Similar Artworks with Deep Features</title><link href="https://rashiedomar.github.io/blog/artstylenet/" rel="alternate" type="text/html" title="ArtStyleNet: Finding Similar Artworks with Deep Features" /><published>2026-06-03T00:00:00+09:00</published><updated>2026-06-03T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/artstylenet</id><content type="html" xml:base="https://rashiedomar.github.io/blog/artstylenet/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;ArtStyleNet&lt;/a&gt; is a small computer vision project about a subjective question:&lt;/p&gt;
+&lt;a href=&quot;https://rashiedomar.github.io/FinTech/dashboard/ch4_runtime_flow/&quot;&gt;Runtime flow dashboard&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="DATA PIPELINE" /><category term="COMPLIANCE AI" /><category term="HACKATHON" /><category term="DASHBOARD" /><summary type="html">A technical note on building a hackathon compliance AI prototype by compiling financial law into structured rules, SIR fields, deterministic checks, and audit-ready outputs.</summary></entry><entry><title type="html">ArtStyleNet: Finding Similar Artworks with Deep Features</title><link href="https://rashiedomar.github.io/blog/artstylenet/" rel="alternate" type="text/html" title="ArtStyleNet: Finding Similar Artworks with Deep Features" /><published>2026-06-03T00:00:00+03:00</published><updated>2026-06-03T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/artstylenet</id><content type="html" xml:base="https://rashiedomar.github.io/blog/artstylenet/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;ArtStyleNet&lt;/a&gt; is a small computer vision project about a subjective question:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Can a model find paintings that feel stylistically similar?&lt;/strong&gt;&lt;/p&gt;
 
@@ -333,7 +370,7 @@ reviewer → final approval&lt;/p&gt;
 
 &lt;p&gt;You can read the code and fork the project here:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;GitHub: rashiedomar/ArtStyleNET&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="DEEP LEARNING" /><category term="VISUALIZATION" /><summary type="html">A short project writeup on using ResNet features, PCA, and topic-style clustering to explore artistic style similarity across paintings.</summary></entry><entry><title type="html">From CCTV to Safer Crosswalk Timing</title><link href="https://rashiedomar.github.io/blog/crosswalk-cctv/" rel="alternate" type="text/html" title="From CCTV to Safer Crosswalk Timing" /><published>2026-06-02T00:00:00+09:00</published><updated>2026-06-02T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/crosswalk-cctv</id><content type="html" xml:base="https://rashiedomar.github.io/blog/crosswalk-cctv/">&lt;p&gt;Traffic signals are often designed around a simplified assumption: pedestrians cross at a standard walking speed. But that assumption is not equally safe for everyone.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/ArtStyleNET&quot;&gt;GitHub: rashiedomar/ArtStyleNET&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="DEEP LEARNING" /><category term="VISUALIZATION" /><summary type="html">A short project writeup on using ResNet features, PCA, and topic-style clustering to explore artistic style similarity across paintings.</summary></entry><entry><title type="html">From CCTV to Safer Crosswalk Timing</title><link href="https://rashiedomar.github.io/blog/crosswalk-cctv/" rel="alternate" type="text/html" title="From CCTV to Safer Crosswalk Timing" /><published>2026-06-02T00:00:00+03:00</published><updated>2026-06-02T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/crosswalk-cctv</id><content type="html" xml:base="https://rashiedomar.github.io/blog/crosswalk-cctv/">&lt;p&gt;Traffic signals are often designed around a simplified assumption: pedestrians cross at a standard walking speed. But that assumption is not equally safe for everyone.&lt;/p&gt;
 
 &lt;p&gt;In South Korea, elderly pedestrians can walk much slower than the timing used in many standard crossing calculations. The project in &lt;a href=&quot;https://github.com/rashiedomar/crosswalk-cctv&quot;&gt;rashiedomar/crosswalk-cctv&lt;/a&gt; starts from that public-safety problem and turns it into a computer vision system: detect the crosswalk region from overhead CCTV, use that region as the area of interest, and eventually estimate pedestrian crossing speed so signal timing can adapt to slower walkers.&lt;/p&gt;
 
@@ -346,7 +383,7 @@ reviewer → final approval&lt;/p&gt;
   &lt;li&gt;Edge deployment on Jetson-style hardware.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The result is strong: &lt;strong&gt;98.5% IoU on CCTV validation images&lt;/strong&gt;, using only &lt;strong&gt;241 manually labeled CCTV images&lt;/strong&gt; plus &lt;strong&gt;1,000 high-confidence pseudo-labels&lt;/strong&gt; selected from &lt;strong&gt;5,926 unlabeled AI-Hub CCTV images&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The defensible target-domain result is &lt;strong&gt;88.91% IoU on 40 held-out, manually labelled CCTV validation images&lt;/strong&gt;. The system used &lt;strong&gt;241 manually annotated CCTV images&lt;/strong&gt; and selected &lt;strong&gt;1,000 high-confidence pseudo-labels&lt;/strong&gt; from &lt;strong&gt;5,926 unlabelled AI-Hub CCTV frames&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;That number matters, but the more interesting story is how the project got there.&lt;/p&gt;
 
@@ -545,7 +582,7 @@ y_i \log(\hat{y}_i) +
   &lt;li&gt;compare iteration 1 and iteration 2.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;That structure makes the result easier to trust. If someone only reports the final 98.5% IoU, we do not know how much was learned from source data, how much came from manual labels, and how much came from pseudo-labels. Here, each stage has its own artifacts.&lt;/p&gt;
+&lt;p&gt;That structure makes the result easier to audit. It also matters for interpreting the metrics: &lt;strong&gt;88.91% IoU&lt;/strong&gt; is measured against held-out human annotations, while the &lt;strong&gt;98.52%&lt;/strong&gt; value produced during the second-stage experiment reflects internal pseudo-label agreement. The latter is useful as a self-training diagnostic, but it is not human-ground-truth validation accuracy.&lt;/p&gt;
 
 &lt;h2 id=&quot;architecture-choice&quot;&gt;Architecture Choice&lt;/h2&gt;
 
@@ -656,19 +693,21 @@ y_i \log(\hat{y}_i) +
 
 &lt;p&gt;The learning rate is reduced to stabilize adaptation. The model has already learned the rough CCTV crosswalk concept, so the next stage is refinement and generalization.&lt;/p&gt;
 
-&lt;p&gt;The result is the main achievement of Phase 1:&lt;/p&gt;
+&lt;p&gt;The verified results should be read as follows:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Iteration 1 validation IoU: &lt;strong&gt;88.9%&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Iteration 2 validation IoU: &lt;strong&gt;98.5%&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;improvement: &lt;strong&gt;+9.6 percentage points&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;held-out human-labelled validation IoU: &lt;strong&gt;88.91%&lt;/strong&gt; on 40 CCTV images&lt;/li&gt;
+  &lt;li&gt;manually annotated CCTV dataset: &lt;strong&gt;241 images&lt;/strong&gt; in total&lt;/li&gt;
+  &lt;li&gt;selected pseudo-labels: &lt;strong&gt;1,000&lt;/strong&gt; from 5,926 unlabelled frames&lt;/li&gt;
+  &lt;li&gt;mean certainty of the selected pseudo-labels: &lt;strong&gt;0.976&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;internal second-stage pseudo-label agreement: &lt;strong&gt;98.52%&lt;/strong&gt;&lt;/li&gt;
   &lt;li&gt;inference time: &lt;strong&gt;12.98 ms&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;throughput: &lt;strong&gt;77.03 FPS&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;throughput: &lt;strong&gt;77.03 FPS&lt;/strong&gt; on an RTX A6000&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/final-results.png&quot; alt=&quot;Final model performance&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The final visualization shows why the result is convincing. The predicted mask aligns closely with the manual ground-truth crosswalk region, even under overhead perspective and real CCTV conditions.&lt;/p&gt;
+&lt;p&gt;The prediction visualizations show that the model can produce spatially coherent crosswalk masks under overhead perspective and real CCTV conditions. They should be interpreted alongside the held-out manual-validation result rather than as a replacement for it.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/blog/crosswalk-cctv/predictions-visualization.png&quot; alt=&quot;CCTV prediction visualization&quot; /&gt;&lt;/p&gt;
 
@@ -680,7 +719,7 @@ y_i \log(\hat{y}_i) +
 
 &lt;p&gt;The top row shows an original CCTV image, a manual ground-truth mask, and a model prediction. The prediction nearly overlaps the target crosswalk region, and the figure reports an IoU around 0.99 for that example.&lt;/p&gt;
 
-&lt;p&gt;The bottom plots tell the training story. Iteration 1 improves quickly but plateaus below the final result. After pseudo-labeling is added, iteration 2 starts from a much stronger place and pushes validation IoU close to the training IoU. This means the additional target-domain data did not only help the model memorize. It helped it generalize better across the validation samples.&lt;/p&gt;
+&lt;p&gt;The bottom plots tell the training story. Iteration 1 improves quickly, and the pseudo-label stage provides an additional self-training signal. However, the second-stage agreement curve is not a new human-labelled test result. The correct headline performance remains 88.91% IoU on the held-out manual validation set.&lt;/p&gt;
 
 &lt;p&gt;The result is also practical because the prediction is spatially clean. A noisy mask with many disconnected blobs would be hard to use for tracking. A clean crosswalk polygon can be post-processed into a stable region of interest.&lt;/p&gt;
 
@@ -874,13 +913,13 @@ w(u)\mathcal{L}(f_\theta(u), \tilde{y})
 
 &lt;p&gt;The crosswalk CCTV project is a strong example of applied computer vision research because it connects model design to a real public-safety workflow.&lt;/p&gt;
 
-&lt;p&gt;The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labeled CCTV set, expands it with confidence-filtered pseudo-labels, and reaches &lt;strong&gt;98.5% IoU at 77 FPS&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labelled CCTV set, expands it with confidence- and geometry-filtered pseudo-labels, and reaches &lt;strong&gt;88.91% IoU on held-out human annotations&lt;/strong&gt; with approximately &lt;strong&gt;77 FPS&lt;/strong&gt; inference on an RTX A6000.&lt;/p&gt;
 
 &lt;p&gt;That makes Phase 1 ready to support the next stage: pedestrian tracking and speed estimation inside the detected crosswalk region.&lt;/p&gt;
 
 &lt;p&gt;You can read the code, inspect the notebooks, and fork the project here:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/crosswalk-cctv&quot;&gt;GitHub: rashiedomar/crosswalk-cctv&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="SEGMENTATION" /><category term="CCTV" /><category term="SEMI-SUPERVISED LEARNING" /><summary type="html">A technical writeup on building a CCTV crosswalk segmentation system for adaptive pedestrian signal timing using transfer learning, semi-supervised pseudo-labeling, and real-time computer vision.</summary></entry><entry><title type="html">Debugging Vision Agents</title><link href="https://rashiedomar.github.io/blog/vision-agent-debugger/" rel="alternate" type="text/html" title="Debugging Vision Agents" /><published>2026-06-01T00:00:00+09:00</published><updated>2026-06-01T00:00:00+09:00</updated><id>https://rashiedomar.github.io/blog/vision-agent-debugger</id><content type="html" xml:base="https://rashiedomar.github.io/blog/vision-agent-debugger/">&lt;p&gt;Vision-language models are becoming very good at describing images, answering visual questions, reading charts, counting objects, and supporting multimodal workflows. But when a model gives an answer, the most important engineering question often comes after the answer:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/crosswalk-cctv&quot;&gt;GitHub: rashiedomar/crosswalk-cctv&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="COMPUTER VISION" /><category term="SEGMENTATION" /><category term="CCTV" /><category term="SEMI-SUPERVISED LEARNING" /><summary type="html">A technical writeup on building a CCTV crosswalk segmentation system for adaptive pedestrian signal timing using transfer learning, semi-supervised pseudo-labeling, and real-time computer vision.</summary></entry><entry><title type="html">Debugging Vision Agents</title><link href="https://rashiedomar.github.io/blog/vision-agent-debugger/" rel="alternate" type="text/html" title="Debugging Vision Agents" /><published>2026-06-01T00:00:00+03:00</published><updated>2026-06-01T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/vision-agent-debugger</id><content type="html" xml:base="https://rashiedomar.github.io/blog/vision-agent-debugger/">&lt;p&gt;Vision-language models are becoming very good at describing images, answering visual questions, reading charts, counting objects, and supporting multimodal workflows. But when a model gives an answer, the most important engineering question often comes after the answer:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Why did it say that?&lt;/strong&gt;&lt;/p&gt;
 
@@ -1125,4 +1164,4 @@ w(u)\mathcal{L}(f_\theta(u), \tilde{y})
 
 &lt;p&gt;You can read the code, run the app, and fork the project here:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/vision-agent-debugger&quot;&gt;GitHub: rashiedomar/vision-agent-debugger&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>Rashiidmatan@gmail.com</email></author><category term="VISION AI" /><category term="AI AGENTS" /><category term="EXPLAINABILITY" /><summary type="html">A practical look at building a debugger for Vision AI agents using heatmaps, model comparison, reasoning traces, error detection, and cost tracking.</summary></entry></feed>
+&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/vision-agent-debugger&quot;&gt;GitHub: rashiedomar/vision-agent-debugger&lt;/a&gt;&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="VISION AI" /><category term="AI AGENTS" /><category term="EXPLAINABILITY" /><summary type="html">A practical look at building a debugger for Vision AI agents using heatmaps, model comparison, reasoning traces, error detection, and cost tracking.</summary></entry></feed>

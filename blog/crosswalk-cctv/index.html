@@ -52,7 +52,7 @@
 
 
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2026-06-02T00:00:00+09:00">
+  <meta property="article:published_time" content="2026-06-02T00:00:00+03:00">
 
 
 
@@ -194,19 +194,19 @@
 
   <div class="author__content">
     <h3 class="author__name">Abdirashid Omar</h3>
-    <p class="author__bio">Vision AI Researcher<br>Data Analyst</p>
+    <p class="author__bio">Computer Vision<br>Earth Observation & GeoAI</p>
   </div>
 
   <div class="author__urls-wrapper">
     <button class="btn btn--inverse">Follow</button>
     <ul class="author__urls social-icons">
       
-        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Seoul, South Korea</li>
+        <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i> Somalia</li>
       
       
       
       
-        <li><a href="mailto:Rashiidmatan@gmail.com"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
+        <li><a href="mailto:rashiidmatan@gmail.com"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i> Email</a></li>
       
       
        
@@ -239,6 +239,8 @@
       
       
       
+      
+        <li><a href="https://orcid.org/0009-0003-3664-7818"><i class="ai ai-orcid-square ai-fw"></i> ORCID</a></li>
       
       
       
@@ -276,7 +278,7 @@
         
         
         <p class="page__meta" style="font-size:1em;display: inline;">
-    <time datetime="2026-06-02T00:00:00+09:00">June 02, 2026</time>
+    <time datetime="2026-06-02T00:00:00+03:00">June 02, 2026</time>
     
 
 
@@ -363,7 +365,7 @@
   </p>
   
   <!-- 
-    <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02T00:00:00+09:00">June 02, 2026</time></p>
+    <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02T00:00:00+03:00">June 02, 2026</time></p>
    -->
         
              
@@ -388,7 +390,7 @@
   <li>Edge deployment on Jetson-style hardware.</li>
 </ol>
 
-<p>This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The result is strong: <strong>98.5% IoU on CCTV validation images</strong>, using only <strong>241 manually labeled CCTV images</strong> plus <strong>1,000 high-confidence pseudo-labels</strong> selected from <strong>5,926 unlabeled AI-Hub CCTV images</strong>.</p>
+<p>This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The defensible target-domain result is <strong>88.91% IoU on 40 held-out, manually labelled CCTV validation images</strong>. The system used <strong>241 manually annotated CCTV images</strong> and selected <strong>1,000 high-confidence pseudo-labels</strong> from <strong>5,926 unlabelled AI-Hub CCTV frames</strong>.</p>
 
 <p>That number matters, but the more interesting story is how the project got there.</p>
 
@@ -587,7 +589,7 @@ y_i \log(\hat{y}_i) +
   <li>compare iteration 1 and iteration 2.</li>
 </ol>
 
-<p>That structure makes the result easier to trust. If someone only reports the final 98.5% IoU, we do not know how much was learned from source data, how much came from manual labels, and how much came from pseudo-labels. Here, each stage has its own artifacts.</p>
+<p>That structure makes the result easier to audit. It also matters for interpreting the metrics: <strong>88.91% IoU</strong> is measured against held-out human annotations, while the <strong>98.52%</strong> value produced during the second-stage experiment reflects internal pseudo-label agreement. The latter is useful as a self-training diagnostic, but it is not human-ground-truth validation accuracy.</p>
 
 <h2 id="architecture-choice">Architecture Choice</h2>
 
@@ -698,19 +700,21 @@ y_i \log(\hat{y}_i) +
 
 <p>The learning rate is reduced to stabilize adaptation. The model has already learned the rough CCTV crosswalk concept, so the next stage is refinement and generalization.</p>
 
-<p>The result is the main achievement of Phase 1:</p>
+<p>The verified results should be read as follows:</p>
 
 <ul>
-  <li>Iteration 1 validation IoU: <strong>88.9%</strong></li>
-  <li>Iteration 2 validation IoU: <strong>98.5%</strong></li>
-  <li>improvement: <strong>+9.6 percentage points</strong></li>
+  <li>held-out human-labelled validation IoU: <strong>88.91%</strong> on 40 CCTV images</li>
+  <li>manually annotated CCTV dataset: <strong>241 images</strong> in total</li>
+  <li>selected pseudo-labels: <strong>1,000</strong> from 5,926 unlabelled frames</li>
+  <li>mean certainty of the selected pseudo-labels: <strong>0.976</strong></li>
+  <li>internal second-stage pseudo-label agreement: <strong>98.52%</strong></li>
   <li>inference time: <strong>12.98 ms</strong></li>
-  <li>throughput: <strong>77.03 FPS</strong></li>
+  <li>throughput: <strong>77.03 FPS</strong> on an RTX A6000</li>
 </ul>
 
 <p><img src="/images/blog/crosswalk-cctv/final-results.png" alt="Final model performance" /></p>
 
-<p>The final visualization shows why the result is convincing. The predicted mask aligns closely with the manual ground-truth crosswalk region, even under overhead perspective and real CCTV conditions.</p>
+<p>The prediction visualizations show that the model can produce spatially coherent crosswalk masks under overhead perspective and real CCTV conditions. They should be interpreted alongside the held-out manual-validation result rather than as a replacement for it.</p>
 
 <p><img src="/images/blog/crosswalk-cctv/predictions-visualization.png" alt="CCTV prediction visualization" /></p>
 
@@ -722,7 +726,7 @@ y_i \log(\hat{y}_i) +
 
 <p>The top row shows an original CCTV image, a manual ground-truth mask, and a model prediction. The prediction nearly overlaps the target crosswalk region, and the figure reports an IoU around 0.99 for that example.</p>
 
-<p>The bottom plots tell the training story. Iteration 1 improves quickly but plateaus below the final result. After pseudo-labeling is added, iteration 2 starts from a much stronger place and pushes validation IoU close to the training IoU. This means the additional target-domain data did not only help the model memorize. It helped it generalize better across the validation samples.</p>
+<p>The bottom plots tell the training story. Iteration 1 improves quickly, and the pseudo-label stage provides an additional self-training signal. However, the second-stage agreement curve is not a new human-labelled test result. The correct headline performance remains 88.91% IoU on the held-out manual validation set.</p>
 
 <p>The result is also practical because the prediction is spatially clean. A noisy mask with many disconnected blobs would be hard to use for tracking. A clean crosswalk polygon can be post-processed into a stable region of interest.</p>
 
@@ -916,7 +920,7 @@ w(u)\mathcal{L}(f_\theta(u), \tilde{y})
 
 <p>The crosswalk CCTV project is a strong example of applied computer vision research because it connects model design to a real public-safety workflow.</p>
 
-<p>The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labeled CCTV set, expands it with confidence-filtered pseudo-labels, and reaches <strong>98.5% IoU at 77 FPS</strong>.</p>
+<p>The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labelled CCTV set, expands it with confidence- and geometry-filtered pseudo-labels, and reaches <strong>88.91% IoU on held-out human annotations</strong> with approximately <strong>77 FPS</strong> inference on an RTX A6000.</p>
 
 <p>That makes Phase 1 ready to support the next stage: pedestrian tracking and speed estimation inside the detected crosswalk region.</p>
 
