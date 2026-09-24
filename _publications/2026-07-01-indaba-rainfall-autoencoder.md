@@ -2,6 +2,7 @@
 title: "Compact Autoencoder Representations for Historical Retrieval of African Rainfall Anomalies"
 authors: "Abdulhakin Mohamud Ismail, Abdirashid Omar, Abdikadir Uggas"
 collection: publications
+order: 3
 permalink: /publication/indaba-rainfall-autoencoder
 tldr: "A Deep Learning Indaba poster studying compact autoencoder representations for retrieving historically similar African rainfall-anomaly patterns from monthly CHIRPS rainfall fields."
 date: 2026-07-01

@@ -9,7 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-Updated June 2026.
+Updated September 2026.
 
 <p>Download versions: <a href="/files/Abdirashid-Omar-Vision-AI-CV.pdf">Vision AI CV</a> &#124; <a href="/files/Abdirashid-Omar-Data-Analyst-CV.pdf">Data Analyst CV</a></p>
 
@@ -31,9 +31,10 @@ Education 🎓
       <b style="font-size: 130%;">Kookmin University</b>
       <span style="float:right; font-size:80%; color:#7a7a7a;">2023 – 2026</span>
     </p>
-    M.S. Data Science / Big Data
+    M.S. Data Science / Big Data — completed
     <div style="color:#7a7a7a">
-      Graduate School of Data Science, Seoul, South Korea
+      Graduate School of Data Science, Seoul, South Korea · GPA 4.06/4.50 (95.6/100)<br>
+      Research focus: deep learning, remote-sensing change detection, computer vision, and GeoAI
     </div>
   </div>
 </div>
@@ -124,10 +125,10 @@ Awards & Honors 🏆
   </div>
   <div style="flex:4;">
     <p style="margin:0px">
-      <b style="font-size: 130%;">GKS Scholarship Graduate Student</b>
+      <b style="font-size: 130%;">Global Korea Scholarship (GKS) Recipient</b>
       <span style="float:right; font-size:80%; color:#7a7a7a;">2023 – 2026</span>
     </p>
-    Graduate scholarship support for M.S. study in Data Science / Big Data at Kookmin University.
+    Competitive graduate scholarship supporting M.S. study in Data Science / Big Data at Kookmin University.
   </div>
 </div>
 <hr style="height:1em; margin:0em; visibility:hidden;" />

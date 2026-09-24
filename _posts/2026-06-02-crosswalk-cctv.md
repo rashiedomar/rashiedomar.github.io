@@ -26,7 +26,7 @@ The full research roadmap has four phases:
 3. Adaptive timing control and safety validation.
 4. Edge deployment on Jetson-style hardware.
 
-This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The result is strong: **98.5% IoU on CCTV validation images**, using only **241 manually labeled CCTV images** plus **1,000 high-confidence pseudo-labels** selected from **5,926 unlabeled AI-Hub CCTV images**.
+This article focuses on Phase 1, which is already complete: building a robust crosswalk segmentation model that transfers from first-person-view data to overhead CCTV. The defensible target-domain result is **88.91% IoU on 40 held-out, manually labelled CCTV validation images**. The system used **241 manually annotated CCTV images** and selected **1,000 high-confidence pseudo-labels** from **5,926 unlabelled AI-Hub CCTV frames**.
 
 That number matters, but the more interesting story is how the project got there.
 
@@ -239,7 +239,7 @@ The important design decision is keeping the experiment stages separate. The pro
 4. Use target-domain unlabeled data.
 5. compare iteration 1 and iteration 2.
 
-That structure makes the result easier to trust. If someone only reports the final 98.5% IoU, we do not know how much was learned from source data, how much came from manual labels, and how much came from pseudo-labels. Here, each stage has its own artifacts.
+That structure makes the result easier to audit. It also matters for interpreting the metrics: **88.91% IoU** is measured against held-out human annotations, while the **98.52%** value produced during the second-stage experiment reflects internal pseudo-label agreement. The latter is useful as a self-training diagnostic, but it is not human-ground-truth validation accuracy.
 
 ## Architecture Choice
 
@@ -352,17 +352,19 @@ The second iteration retrains on the combined dataset:
 
 The learning rate is reduced to stabilize adaptation. The model has already learned the rough CCTV crosswalk concept, so the next stage is refinement and generalization.
 
-The result is the main achievement of Phase 1:
+The verified results should be read as follows:
 
-- Iteration 1 validation IoU: **88.9%**
-- Iteration 2 validation IoU: **98.5%**
-- improvement: **+9.6 percentage points**
+- held-out human-labelled validation IoU: **88.91%** on 40 CCTV images
+- manually annotated CCTV dataset: **241 images** in total
+- selected pseudo-labels: **1,000** from 5,926 unlabelled frames
+- mean certainty of the selected pseudo-labels: **0.976**
+- internal second-stage pseudo-label agreement: **98.52%**
 - inference time: **12.98 ms**
-- throughput: **77.03 FPS**
+- throughput: **77.03 FPS** on an RTX A6000
 
 ![Final model performance](/images/blog/crosswalk-cctv/final-results.png)
 
-The final visualization shows why the result is convincing. The predicted mask aligns closely with the manual ground-truth crosswalk region, even under overhead perspective and real CCTV conditions.
+The prediction visualizations show that the model can produce spatially coherent crosswalk masks under overhead perspective and real CCTV conditions. They should be interpreted alongside the held-out manual-validation result rather than as a replacement for it.
 
 ![CCTV prediction visualization](/images/blog/crosswalk-cctv/predictions-visualization.png)
 
@@ -374,7 +376,7 @@ The final result figure is impressive, but it is worth reading it like a researc
 
 The top row shows an original CCTV image, a manual ground-truth mask, and a model prediction. The prediction nearly overlaps the target crosswalk region, and the figure reports an IoU around 0.99 for that example.
 
-The bottom plots tell the training story. Iteration 1 improves quickly but plateaus below the final result. After pseudo-labeling is added, iteration 2 starts from a much stronger place and pushes validation IoU close to the training IoU. This means the additional target-domain data did not only help the model memorize. It helped it generalize better across the validation samples.
+The bottom plots tell the training story. Iteration 1 improves quickly, and the pseudo-label stage provides an additional self-training signal. However, the second-stage agreement curve is not a new human-labelled test result. The correct headline performance remains 88.91% IoU on the held-out manual validation set.
 
 The result is also practical because the prediction is spatially clean. A noisy mask with many disconnected blobs would be hard to use for tracking. A clean crosswalk polygon can be post-processed into a stable region of interest.
 
@@ -594,7 +596,7 @@ The fourth lesson is that real-time performance should be measured early. A safe
 
 The crosswalk CCTV project is a strong example of applied computer vision research because it connects model design to a real public-safety workflow.
 
-The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labeled CCTV set, expands it with confidence-filtered pseudo-labels, and reaches **98.5% IoU at 77 FPS**.
+The system starts with a concrete social problem: elderly pedestrians may need more crossing time than standard signal assumptions provide. It then builds a technical foundation: crosswalk segmentation from CCTV. It handles the domain gap from FPV to overhead camera views, uses a small manually labelled CCTV set, expands it with confidence- and geometry-filtered pseudo-labels, and reaches **88.91% IoU on held-out human annotations** with approximately **77 FPS** inference on an RTX A6000.
 
 That makes Phase 1 ready to support the next stage: pedestrian tracking and speed estimation inside the detected crosswalk region.
 

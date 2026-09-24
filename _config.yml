@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Abdirashid Omar"
 title_separator          : "-"
 name                     : &name "Abdirashid Omar"
-description              : &description "Vision AI Researcher and Data Analyst"
+description              : &description "Computer Vision, Earth Observation and GeoAI Researcher"
 url                      : https://rashiedomar.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : rashiedomar/rashiedomar.github.io
@@ -86,12 +86,12 @@ analytics:
 author:
   name             : *name
   avatar           : "profile.jpg"
-  bio              : "Vision AI Researcher<br>Data Analyst"
-  location         : "Seoul, South Korea"
+  bio              : "Computer Vision<br>Earth Observation & GeoAI"
+  location         : "Somalia"
   employer         :
   pubmed           : #"https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   googlescholar    :
-  email            : Rashiidmatan@gmail.com
+  email            : rashiidmatan@gmail.com
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
@@ -107,7 +107,7 @@ author:
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
   linkedin         : abdulrashiid-o-matan
-  orcid            : #"http://orcid.org/yourorcidurl"
+  orcid            : "https://orcid.org/0009-0003-3664-7818"
   pinterest        :
   soundcloud       :
   stackoverflow    :
@@ -234,7 +234,7 @@ sass:
 permalink: /:categories/:title/
 # paginate: 10 # amount of posts to show
 # paginate_path: /page:num/
-timezone: Asia/Seoul # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: Africa/Mogadishu # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
 # Plugins

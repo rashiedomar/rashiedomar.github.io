@@ -11,13 +11,13 @@ redirect_from:
 
 Hello!
 
-I'm Abdirashid Omar, a Vision AI researcher and data science graduate student at Kookmin University in Seoul, South Korea. My work sits at the intersection of computer vision, remote sensing, geospatial analytics, and data-driven public impact.
+I'm Abdirashid Omar, a computer vision, Earth observation, and GeoAI researcher based in Somalia. I completed an M.S. in Data Science / Big Data at Kookmin University in 2026 through the Global Korea Scholarship. My work sits at the intersection of computer vision, remote sensing, geospatial analytics, and data-driven public impact.
 
 I build reproducible AI and data systems that turn satellite imagery, public datasets, text data, and urban signals into models, maps, dashboards, and decision-support insights. My projects include bi-temporal change detection, flood impact mapping, public urban data dashboards, text analytics, and low-resource NLP dataset preparation.
 
-My research background focuses on deep learning for remote sensing and computer vision, while my applied work focuses on clean data pipelines, geospatial analysis, dashboard design, and visual storytelling.
+My research focuses on deep learning for remote sensing and computer vision, including bi-temporal change detection, semantic segmentation, domain adaptation, and reproducible evaluation. My applied work includes geospatial analysis, data pipelines, interactive dashboards, and visual storytelling.
 
-I am currently completing my M.S. in Data Science / Big Data and preparing for roles in Vision AI, remote sensing AI, geospatial analytics, and data analysis.
+I am now preparing for PhD research across Earth observation, GeoAI, computer vision, urban and environmental AI, and spatial data science. I wrote more about the transition in [Graduating from Kookmin University: Building a Research Path in Vision AI and GeoAI](/blog/kookmin-graduation/).
 
 # Featured work
 
