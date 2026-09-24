@@ -131,6 +131,7 @@ exclude:
   - "*.sublime-workspace"
   - "*.docx"
   - "*[[]데이콘[]]*.pdf"
+  - "MILHO FIELD WORK - OMAR.pdf"
   - .asset-cache
   - .bundle
   - .jekyll-assets-cache
