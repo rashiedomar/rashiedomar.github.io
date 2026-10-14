@@ -2,7 +2,7 @@
 title: "Graduating from Kookmin University: Building a Research Path in Vision AI and GeoAI"
 date: 2026-09-24
 permalink: /blog/kookmin-graduation/
-excerpt: "A reflection on completing my M.S. in Data Science / Big Data at Kookmin University, the research journey behind it, and the next step toward PhD work in computer vision, Earth observation, and GeoAI."
+excerpt: "A reflection on completing my MBA (Data Science) at Kookmin University, the research journey behind it, and the next step toward PhD work in computer vision, Earth observation, and GeoAI."
 tags:
   - GRADUATION
   - RESEARCH
@@ -16,7 +16,7 @@ related: false
 
 {% include base_path %}
 
-In June 2026, I completed my **M.S. in Data Science / Big Data at Kookmin University**. This closes an important chapter that began when I came to South Korea through the **Global Korea Scholarship (GKS)** and gradually developed a research direction connecting computer vision, Earth observation, remote sensing, and GeoAI.
+In June 2026, I completed my **MBA (Data Science) at Kookmin University**. This closes an important chapter that began when I came to South Korea through the **Global Korea Scholarship (GKS)** and gradually developed a research direction connecting computer vision, Earth observation, remote sensing, and GeoAI.
 
 The degree gave me more than a qualification. It taught me how to turn a broad idea into a research question, audit difficult datasets, design reproducible experiments, interpret results carefully, and communicate a contribution through code and scientific writing.
 
