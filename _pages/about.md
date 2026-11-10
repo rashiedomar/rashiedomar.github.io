@@ -11,7 +11,7 @@ redirect_from:
 
 Hello!
 
-I'm Abdirashid Omar, a computer vision researcher from Somalia. I completed a research master's in Data Science at Kookmin University in 2026 (formally an MBA in Data Science), supported by the Global Korea Scholarship.
+I'm Abdirashid Omar, a computer vision researcher from Somalia. I completed a research master's in Data Science at Kookmin University in 2026, supported by the Global Korea Scholarship.
 
 My research asks how visual models can tell real change apart from changes in how a scene was observed. Most of my work applies deep learning to Earth observation: change detection in aerial and satellite imagery, including CoSA (IEEE Access, 2026) and UrbanCDNet, and flood mapping with Sentinel-1 and Sentinel-2. I have also worked on scenes with people, including multi-camera person re-identification and pose estimation, and I now work with 3D data from repeated drone surveys of mining sites.
 
