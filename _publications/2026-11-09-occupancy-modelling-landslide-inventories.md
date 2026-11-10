@@ -8,6 +8,8 @@ tldr: "An occupancy-detection approach that separates where landslides occur fro
 date: 2026-11-09
 venue: "arXiv preprint, 2026"
 preprint: ""
+header:
+  teaser: "publications/occupancy-landslide-inventories.png"
 links:
   - label: "arXiv"
     url: "https://arxiv.org/abs/2611.12437"
