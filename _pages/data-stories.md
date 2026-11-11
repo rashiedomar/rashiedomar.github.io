@@ -44,6 +44,24 @@ A curated collection of my selected work across Vision AI, geospatial analysis, 
     </div>
   </article>
 
+  <!-- Story 1: interactive 3D landslide inventory story. -->
+  <article class="data-story-item" id="occupancy-landslide-inventories">
+    <div class="data-story-item__thumb">
+      <a href="/images/data-stories/occupancy-landslide-inventories.png" target="_blank" rel="noopener">
+        <img src="/images/data-stories/occupancy-landslide-inventories.png" alt="3D visualization of landslide inventories in Hokkaido">
+      </a>
+    </div>
+    <div class="data-story-item__body">
+      <b class="archive__item-subtitle">Seen &amp; Unseen — Hokkaido 2018</b>
+      <p class="archive__item-publication">Interactive 3D story showing earthquake-triggered landslides, terrain, and the difference between observed and simulated inventories.</p>
+      <p class="data-story-tags"><span class="page__taxonomy-item">Remote Sensing</span><span class="page__taxonomy-item">Geospatial</span><span class="page__taxonomy-item">Landslide Modelling</span></p>
+      <p class="data-story-links">
+        <a href="/images/data-stories/occupancy-landslide-inventories.png" target="_blank" rel="noopener"><i class="fas fa-fw fa-image zoom" aria-hidden="true"></i>Preview</a>
+        <a href="https://rashiedomar.github.io/occupancy-landslide-inventories/" target="_blank" rel="noopener"><i class="fas fa-fw fa-link zoom" aria-hidden="true"></i>Open Data Story</a>
+      </p>
+    </div>
+  </article>
+
   <!-- Story 1: replace thumbnail, summary, links, and tags here when final content is ready. -->
   <article class="data-story-item" id="seoul-live-city-lens">
     <div class="data-story-item__thumb">
