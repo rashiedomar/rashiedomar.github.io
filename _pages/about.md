@@ -15,6 +15,8 @@ My research centres on one question: how can a model separate what really happen
 
 My work includes change detection with CoSA (IEEE Access, 2026) and UrbanCDNet, flood mapping with Sentinel-1 and Sentinel-2, and a study of reporting bias in landslide maps with Abdikadir Ugaas (arXiv, 2026). I have also worked on multi-camera person re-identification and pose estimation.
 
+I am a co-founder of [Ogaal Labs](https://ogaallabs.com/), a Somali AI research and innovation lab that builds Somali-language datasets and AI tools for education, health and agriculture, and trains young graduates in machine learning.
+
 I hold a research master's in Data Science from Kookmin University (2026), supported by the Global Korea Scholarship, and now work in the mining sector, applying these methods in industry.
 
 # Featured work
