@@ -86,7 +86,7 @@ analytics:
 author:
   name             : *name
   avatar           : "profile.jpg"
-  bio              : "Computer Vision · Remote Sensing"
+  bio              : "Computer Vision<br>Deep learning<br>Remote Sensing"
   location         : "Somalia"
   employer         :
   pubmed           : #"https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
