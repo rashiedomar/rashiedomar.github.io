@@ -9,11 +9,13 @@ redirect_from:
   - /about.html
 ---
 
-Hello!
+I'm a computer vision researcher from Somalia, working on deep learning for Earth observation.
 
-I'm Abdirashid Omar, a computer vision researcher from Somalia. I completed a research master's in Data Science at Kookmin University in 2026, supported by the Global Korea Scholarship.
+My research centres on one question: how can a model separate what really happened on the ground from how it was observed? In satellite and aerial imagery, that means telling real change apart from differences in how a scene was captured. In disaster data, it means telling where landslides occurred apart from where someone happened to record them.
 
-My research asks how visual models can tell real change apart from changes in how a scene was observed. Most of my work applies deep learning to Earth observation: change detection in aerial and satellite imagery, including CoSA (IEEE Access, 2026) and UrbanCDNet, and flood mapping with Sentinel-1 and Sentinel-2. I have also worked on scenes with people, including multi-camera person re-identification and pose estimation, and I now work in mining, applying the skills and methods I have developed through my research.
+My work includes change detection with CoSA (IEEE Access, 2026) and UrbanCDNet, flood mapping with Sentinel-1 and Sentinel-2, and a study of reporting bias in landslide maps with Abdikadir Ugaas (arXiv, 2026). I have also worked on multi-camera person re-identification and pose estimation.
+
+I hold a research master's in Data Science from Kookmin University (2026), supported by the Global Korea Scholarship, and now work in the mining sector, applying these methods in industry.
 
 # Featured work
 
