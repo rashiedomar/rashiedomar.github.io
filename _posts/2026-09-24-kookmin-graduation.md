@@ -2,7 +2,7 @@
 title: "Graduating from Kookmin University: Building a Research Path in Vision AI and GeoAI"
 date: 2026-09-24
 permalink: /blog/kookmin-graduation/
-excerpt: "A reflection on completing my MBA (Data Science) at Kookmin University, the research journey behind it, and the next step toward PhD work in computer vision, Earth observation, and GeoAI."
+excerpt: "A reflection on completing my MBA (Data Science) at Kookmin University and the research journey behind it."
 tags:
   - GRADUATION
   - RESEARCH
@@ -36,19 +36,3 @@ During the degree, I became increasingly interested in the space between a model
 
 This is the direction I want to keep developing. I am especially interested in research where satellite, aerial, street-level, and environmental data can be combined to understand how cities and landscapes change over time.
 
-## What Comes Next
-
-I am now based in Somalia and preparing for the next stage: PhD research in **computer vision, Earth observation, GeoAI, multi-temporal analysis, and urban or environmental AI**.
-
-The questions that motivate me are broad but connected:
-
-- How can change-detection systems remain reliable across seasons, sensors, and geographic regions?
-- How can limited annotations be used more effectively through domain adaptation, pseudo-labeling, and self-supervised learning?
-- How can uncertainty and failure cases be communicated clearly in geospatial decision-support systems?
-- How can advanced spatial AI methods be made useful for African environmental and urban contexts?
-
-Graduation is a milestone, but it does not feel like the end of the work. It feels like the point where the research direction became clear.
-
-I am grateful to the people who supported this journey—my collaborators, teachers, colleagues, friends, and family—and to the GKS programme and Kookmin University for making this chapter possible.
-
-The next goal is to keep building careful, reproducible research that connects strong computer-vision methods with real spatial and environmental problems.
