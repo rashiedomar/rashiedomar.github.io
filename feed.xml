@@ -17,25 +17,7 @@
 &lt;p&gt;During the degree, I became increasingly interested in the space between a model and the real decision it is supposed to support. Projects such as flood-impact mapping in Beledweyne, urban morphology analysis in Seoul, and live urban-data dashboards helped me think about geospatial workflows as complete systems: data acquisition, cleaning, modelling, spatial analysis, validation, visualisation, and communication.&lt;/p&gt;
 
 &lt;p&gt;This is the direction I want to keep developing. I am especially interested in research where satellite, aerial, street-level, and environmental data can be combined to understand how cities and landscapes change over time.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-comes-next&quot;&gt;What Comes Next&lt;/h2&gt;
-
-&lt;p&gt;I am now based in Somalia and preparing for the next stage: PhD research in &lt;strong&gt;computer vision, Earth observation, GeoAI, multi-temporal analysis, and urban or environmental AI&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The questions that motivate me are broad but connected:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;How can change-detection systems remain reliable across seasons, sensors, and geographic regions?&lt;/li&gt;
-  &lt;li&gt;How can limited annotations be used more effectively through domain adaptation, pseudo-labeling, and self-supervised learning?&lt;/li&gt;
-  &lt;li&gt;How can uncertainty and failure cases be communicated clearly in geospatial decision-support systems?&lt;/li&gt;
-  &lt;li&gt;How can advanced spatial AI methods be made useful for African environmental and urban contexts?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Graduation is a milestone, but it does not feel like the end of the work. It feels like the point where the research direction became clear.&lt;/p&gt;
-
-&lt;p&gt;I am grateful to the people who supported this journey—my collaborators, teachers, colleagues, friends, and family—and to the GKS programme and Kookmin University for making this chapter possible.&lt;/p&gt;
-
-&lt;p&gt;The next goal is to keep building careful, reproducible research that connects strong computer-vision methods with real spatial and environmental problems.&lt;/p&gt;</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="GRADUATION" /><category term="RESEARCH" /><category term="GEOAI" /><category term="EARTH OBSERVATION" /><category term="GKS" /><summary type="html">A reflection on completing my MBA (Data Science) at Kookmin University, the research journey behind it, and the next step toward PhD work in computer vision, Earth observation, and GeoAI.</summary></entry><entry><title type="html">Building FINCPA: Turning Financial Law into Compliance Data</title><link href="https://rashiedomar.github.io/blog/fincpa-compliance-data/" rel="alternate" type="text/html" title="Building FINCPA: Turning Financial Law into Compliance Data" /><published>2026-06-04T00:00:00+03:00</published><updated>2026-06-04T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/fincpa-compliance-data</id><content type="html" xml:base="https://rashiedomar.github.io/blog/fincpa-compliance-data/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;FINCPA&lt;/a&gt; was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:&lt;/p&gt;
+</content><author><name>Abdirashid Omar</name><email>rashiidmatan@gmail.com</email></author><category term="GRADUATION" /><category term="RESEARCH" /><category term="GEOAI" /><category term="EARTH OBSERVATION" /><category term="GKS" /><summary type="html">A reflection on completing my MBA (Data Science) at Kookmin University and the research journey behind it.</summary></entry><entry><title type="html">Building FINCPA: Turning Financial Law into Compliance Data</title><link href="https://rashiedomar.github.io/blog/fincpa-compliance-data/" rel="alternate" type="text/html" title="Building FINCPA: Turning Financial Law into Compliance Data" /><published>2026-06-04T00:00:00+03:00</published><updated>2026-06-04T00:00:00+03:00</updated><id>https://rashiedomar.github.io/blog/fincpa-compliance-data</id><content type="html" xml:base="https://rashiedomar.github.io/blog/fincpa-compliance-data/">&lt;p&gt;&lt;a href=&quot;https://github.com/rashiedomar/FinTech&quot;&gt;FINCPA&lt;/a&gt; was built as a hackathon prototype for the JB Financial Group Fin AI Challenge. The product idea was simple to explain but tricky to implement:&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Can we help review financial advertising without letting a language model become the legal judge?&lt;/strong&gt;&lt;/p&gt;
 
